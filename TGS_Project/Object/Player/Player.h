@@ -1,5 +1,4 @@
-#ifndef PLAYER_H_
-#define PLAYER_H_
+#pragma once
 
 class Player
 {
@@ -22,5 +21,3 @@ private:
 	int size_y_;
 	unsigned int color_;
 };
-
-#endif // PLAYER_H_
