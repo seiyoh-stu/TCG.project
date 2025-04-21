@@ -27,7 +27,7 @@ void SceneManager::Initialize()
     ChangeWindowMode(TRUE);
 
     // 画面サイズのセット
-    SetGraphMode(640, 480, 32);
+    SetGraphMode(1280, 720, 32);
 
     // DXライブラリの初期化処理
     if (DxLib_Init() == -1)
