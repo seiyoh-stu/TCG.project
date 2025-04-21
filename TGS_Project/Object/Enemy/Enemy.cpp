@@ -24,14 +24,6 @@ void Enemy::Update()
 	Movement();
 	AnimeControl();
 
-	// 右に進み続ける
-	pos_x_ -= 1.0f;
-
-	// 右の端っこに着くと、左の端っこに移動する
-	if (pos_x_ >= 100)
-	{
-		pos_x_ = 550;
-	}
 }
 
 void Enemy::Draw()
@@ -50,6 +42,13 @@ void Enemy::Movement()
 	//移動量
 	int move_x = 0;
 
+	// 右の端っこに着くと、左の端っこに移動する
+	if (pos_x_ >= 100)
+	{
+		move_x -= speed;
+	}
+
+	pos_x_ += move_x;
 } 
 
 void Enemy::AnimeControl()
