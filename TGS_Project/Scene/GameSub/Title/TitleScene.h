@@ -5,7 +5,7 @@
 class TitleScene : public SceneBase
 {
 private:
-
+	int titleImageHandle;
 
 public:
 	TitleScene();
