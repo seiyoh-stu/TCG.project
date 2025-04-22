@@ -39,7 +39,7 @@ public:
 		}
 	}
 
-	void CheckDstroyObject()
+	void CheckDestroyObject()
 	{
 		// 破棄リスト内が空でない場合、リスト内のオブジェクトを破棄する
 		if (!destroy_object.empty())
