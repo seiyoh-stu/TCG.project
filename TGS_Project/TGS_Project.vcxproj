@@ -145,11 +145,14 @@
       <CreateHotpatchableImage Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</CreateHotpatchableImage>
       <CreateHotpatchableImage Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</CreateHotpatchableImage>
     </ClCompile>
+    <ClCompile Include="Object\GameBase.cpp" />
+    <ClCompile Include="Utility\Collision.cpp" />
     <ClCompile Include="Object\Bullet\Bullet.cpp" />
     <ClCompile Include="Object\Castle\Castle.cpp" />
     <ClCompile Include="Object\Enemy\Enemy.cpp" />
-    <ClCompile Include="Object\GameObjectManager.cpp" />
+    <ClCompile Include="Object\GameBase.h" />
     <ClCompile Include="Object\Player\Player.cpp" />
+    <ClCompile Include="Utility\ProjectConfig.cpp" />
     <ClCompile Include="Utility\ResourceManager.cpp" />
     <ClCompile Include="Scene\GameMain\InGame.cpp" />
     <ClCompile Include="Scene\GameSub\Title\TitleScene.cpp" />
@@ -158,9 +161,11 @@
     <ClCompile Include="Scene\GameSub\Result\Result.cpp" />
     <ClCompile Include="Scene\GameMain\SceneManager.cpp" />
     <ClCompile Include="Utility\InputControl.cpp" />
+    <ClCompile Include="Utility\SingleTone.h" />
     <ClCompile Include="Utility\Vector2D.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Utility\Collision.h" />
     <ClInclude Include="Object\Bullet\Bullet.h" />
     <ClInclude Include="Object\Castle\Castle.h" />
     <ClInclude Include="Object\Enemy\Enemy.h" />
