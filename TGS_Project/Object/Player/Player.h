@@ -30,7 +30,7 @@ private:
 
     std::vector<Bullet> bullets_; // プレイヤーの弾のリスト
 
-    // 発射位置のオフセット（←追加した変数）
+    // 発射位置のオフセット
     int bullet_offset_x_;
     int bullet_offset_y_;
 

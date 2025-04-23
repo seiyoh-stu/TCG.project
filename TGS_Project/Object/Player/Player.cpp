@@ -13,6 +13,7 @@ Player::Player()
 
 Player::~Player()
 {
+
 }
 
 void Player::Initialize()
@@ -76,11 +77,12 @@ void Player::Shoot()
     }
 }
 
+// プレイヤーの移動処理
 void Player::Movement()
 {
     // 例：矢印キーで移動（シンプルな処理）
-    if (CheckHitKey(KEY_INPUT_D)) pos_x_ -= 5;
-    if (CheckHitKey(KEY_INPUT_A)) pos_x_ += 5;
+    if (CheckHitKey(KEY_INPUT_A)) pos_x_ -= 5;
+    if (CheckHitKey(KEY_INPUT_D)) pos_x_ += 5;
 }
 
 void Player::AnimeControl()
