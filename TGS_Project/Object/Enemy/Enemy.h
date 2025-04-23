@@ -7,17 +7,19 @@ public:
 	Enemy();
 	~Enemy();
 
-	void Initialize();
-	void Update();
-	void Draw();
-	void Finalize();
+	// GameBase の仮想メソッドをオーバーライド
+	void Initialize() override;
+	void Update(float delta_second) override;
+	void Draw(const Vector2D& screen_offset) const override;
+	void Finalize() override;
+	void OnHitCollision(GameBase* hit_object) override;
 
 private:
 	void Movement();
 	void AnimeControl();
 
-	int pos_x_;
-	int pos_y_;
+	int enemy_x;
+	int enemy_y;
 	int size_x_;
 	int size_y_;
 	unsigned int color_;

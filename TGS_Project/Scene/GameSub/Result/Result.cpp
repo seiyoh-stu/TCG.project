@@ -17,7 +17,7 @@ void Result::Initialize()
 
 }
 
-eSceneType Result::Update()
+eSceneType Result::Update(float delta_second)
 {
 	//“ü—Í‹@”\‚ÌŽæ“¾
 	InputControl* input = InputControl::GetInstance();

@@ -2,8 +2,8 @@
 #include"DxLib.h"
 
 Enemy::Enemy() :
-	pos_x_(550), // 初期位置X座標
-	pos_y_(350), // 初期位置Y座標
+	enemy_x(550), // 初期位置X座標
+	enemy_y(350), // 初期位置Y座標
 	size_x_(64),  // 四角の幅
 	size_y_(64),  // 四角の高さ
 	color_(GetColor(255, 0, 0)) // 四角の色 (赤)
@@ -21,18 +21,22 @@ void Enemy::Initialize()
 
 }
 
-void Enemy::Update()
+void Enemy::Update(float delta_second)
 {
 	Movement();
 	AnimeControl();
 
 }
 
-void Enemy::Draw()
+void Enemy::Draw(const Vector2D& screen_offset) const
 {
-	DrawBox(pos_x_, pos_y_, pos_x_ + size_x_, pos_y_ + size_y_, color_, TRUE);
+	DrawBox(enemy_x, enemy_y, enemy_x + size_x_, enemy_y + size_y_, color_, TRUE);
 }
 void Enemy::Finalize()
+{
+
+}
+void Enemy::OnHitCollision(GameBase* hit_object)
 {
 
 }
@@ -45,15 +49,20 @@ void Enemy::Movement()
 	int move_x = 0;
 
 	// 右の端っこに着くと、左の端っこに移動する
-	if (pos_x_ >= 100)
+	if (enemy_x >= 100)
 	{
 		move_x -= speed;
 	}
 
-	pos_x_ += move_x;
+	enemy_x += move_x;
 } 
 
 void Enemy::AnimeControl()
 {
 	// アニメーションに関する処理を記述 (今回は空)
+}
+
+void OnHitCollision(GameBase* hit_object)
+{
+
 }
