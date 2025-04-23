@@ -66,7 +66,7 @@ void Player::Finalize()
 void Player::Shoot()
 {
     int now = GetNowCount();
-    if (InputControl::GetInstance()->GetKey(KEY_INPUT_L) &&
+    if (InputControl::GetInstance()->GetKey(KEY_INPUT_S) &&
         now - last_shot_time_ >= kShotIntervalMs_)
     {
         Bullet b;

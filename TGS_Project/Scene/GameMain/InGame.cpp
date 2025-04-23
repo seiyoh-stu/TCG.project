@@ -6,8 +6,8 @@
 #include <memory> // std::make_unique を使用するため
 
 InGame::InGame() :
-    player_(std::make_unique<Player>()), // コンストラクタで Player のインスタンスを生成
-    enemy_(std::make_unique<Enemy>()) // コンストラクタで Enemy のインスタンスを生成
+    player(std::make_unique<Player>()), // コンストラクタで Player のインスタンスを生成
+    enemy(std::make_unique<Enemy>()) // コンストラクタで Enemy のインスタンスを生成
 {
 
 }
@@ -19,8 +19,8 @@ InGame::~InGame()
 
 void InGame::Initialize()
 {
-    player_->Initialize();
-    enemy_->Initialize();
+    player->Initialize();
+    enemy->Initialize();
 }
 
 eSceneType InGame::Update()
@@ -34,24 +34,24 @@ eSceneType InGame::Update()
         return eSceneType::eResult;
     }
 
-    player_->Update();
+    player->Update();
     
-    enemy_->Update();
+    enemy->Update();
 
     return GetNowSceneType();
 }
 void InGame::Draw() const
 {
-    DrawFormatString(10, 10, GetColor(255, 255, 255), "ゲーム中です");
-    player_->Draw();
-    enemy_->Draw();
+    DrawFormatString(10, 10, GetColor(255, 255, 255), "Bottun.Sで球発射");
+    player->Draw();
+    enemy->Draw();
 }
 
 void InGame::Finalize()
 {
-    player_->Finalize();
+    player->Finalize();
 
-    enemy_->Finalize();
+    enemy->Finalize();
 }
 
 eSceneType InGame::GetNowSceneType() const
