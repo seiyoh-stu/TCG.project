@@ -34,16 +34,9 @@ private:
     unsigned int color;
 
     std::vector<Bullet> bullets; // プレイヤーの弾のリスト
-
-<<<<<<< HEAD
-    // 発射位置のオフセット
-    int bullet_offset_x_;
-    int bullet_offset_y_;
-=======
     // 発射位置のオフセット（←追加した変数）
     int bullet_offset_x;
     int bullet_offset_y;
->>>>>>> seiyo
 
     // 発射間隔管理用
     int last_shot_time;
