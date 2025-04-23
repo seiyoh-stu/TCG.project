@@ -18,7 +18,7 @@ void TitleScene::Initialize()
 	titleImageHandle = LoadGraph("Resource/Images/TowerDiffenceImage.png");
 }
 
-eSceneType TitleScene::Update()
+eSceneType TitleScene::Update(float delta_second)
 {
 
 	// 入力制御インスタンスの取得

@@ -22,7 +22,7 @@ public:
 
     // 更新処理
     // 戻り値: 次のシーンタイプ
-    virtual eSceneType Update()
+    virtual eSceneType Update(float delta_second)
     {
         return GetNowSceneType();
     }

@@ -7,10 +7,12 @@ class Castle : public GameBase
 public:
 	Castle();
 	~Castle();
-    virtual void Initialize();
-    virtual void Update(float delta_second);
-    virtual void Draw(const Vector2D& screen_offset) const;
-    virtual void Finalize();
-    //virtual void OnHitCollision(GameBase* hit_object);
+    // GameBase の仮想メソッドをオーバーライド
+    void Initialize() override;
+    void Update(float delta_second) override;
+    void Draw(const Vector2D& screen_offset) const override;
+    void Finalize() override;
+    //void OnHitCollision(GameBase* hit_object) override;
+  
 };
 

@@ -152,7 +152,6 @@
     <ClCompile Include="Object\Enemy\Enemy.cpp" />
     <ClCompile Include="Object\GameBase.h" />
     <ClCompile Include="Object\Player\Player.cpp" />
-    <ClCompile Include="Utility\ProjectConfig.cpp" />
     <ClCompile Include="Utility\ResourceManager.cpp" />
     <ClCompile Include="Scene\GameMain\InGame.cpp" />
     <ClCompile Include="Scene\GameSub\Title\TitleScene.cpp" />
