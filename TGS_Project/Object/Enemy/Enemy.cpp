@@ -10,10 +10,12 @@ Enemy::Enemy() :
 {
 
 }
+
 Enemy::~Enemy()
 {
 
 }
+
 void Enemy::Initialize()
 {
 

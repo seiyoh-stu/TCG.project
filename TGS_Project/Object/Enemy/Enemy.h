@@ -1,7 +1,7 @@
-#ifndef ENEMY_H_
-#define ENEMY_H_
+#pragma once
+#include "../GameBase.h"
 
-class Enemy
+class Enemy : public GameBase
 {
 public:
 	Enemy();
@@ -22,6 +22,4 @@ private:
 	int size_y_;
 	unsigned int color_;
 };
-
-#endif // ENEMY_H_
 
