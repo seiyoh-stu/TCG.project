@@ -22,7 +22,7 @@ public:
 
     // 更新処理
     // 戻り値: 次のシーンタイプ
-    virtual eSceneType Update() override;
+    virtual eSceneType Update(float delta_second) override;
 
     // 描画処理
     virtual void Draw() const override;

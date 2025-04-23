@@ -17,7 +17,7 @@ void Help::Initialize()
 
 }
 
-eSceneType Help::Update()
+eSceneType Help::Update(float delta_second)
 {
 	// 入力制御インスタンスの取得
 	InputControl* input = InputControl::GetInstance();

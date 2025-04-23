@@ -6,8 +6,11 @@
 class GameBaseManager : public Singleton <GameBaseManager>
 {
 private:
+	//作成するオブジェクトのリスト
 	std::vector<GameBase*> create_object;
+	//消すオブジェクトのリスト
 	std::vector<GameBase*> destroy_object;
+	//ゲームリスト
 	std::vector<GameBase*> game_object_list;
 
 public:

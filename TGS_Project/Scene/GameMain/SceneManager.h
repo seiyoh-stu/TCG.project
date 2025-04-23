@@ -29,5 +29,7 @@ private:
     // シーン生成
     SceneBase* CreateScene(eSceneType type);
 
+    void FrameControl();
+
 
 };
