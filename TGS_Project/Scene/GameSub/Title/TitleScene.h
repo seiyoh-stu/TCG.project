@@ -5,7 +5,13 @@
 class TitleScene : public SceneBase
 {
 private:
-	int titleImageHandle;
+	int titleImageHandle; // タイトル画像のハンドル
+	int cursor_number; // カーソルの番号
+	int cursor_y; // カーソルの位置
+
+
+
+
 
 public:
 	TitleScene();

@@ -20,7 +20,6 @@ void TitleScene::Initialize()
 
 eSceneType TitleScene::Update(float delta_second)
 {
-
 	// 入力制御インスタンスの取得
 	InputControl* input = InputControl::GetInstance();
 
@@ -38,7 +37,8 @@ void TitleScene::Draw() const
 	
 	if (titleImageHandle != -1)
 	{
-		DrawGraph(0, 0, titleImageHandle, TRUE);
+		/*DrawGraph(0, 0, titleImageHandle, TRUE);*/
+		DrawExtendGraph(0, 0, 1280, 720, titleImageHandle, TRUE);
 	}
 }
 
