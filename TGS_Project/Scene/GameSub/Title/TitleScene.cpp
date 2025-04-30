@@ -66,14 +66,14 @@ void TitleScene::Draw() const
 		// カーソル描画（x=100は仮、必要に応じて調整）
 		DrawExtendGraph(1000, cursor_y, 900, cursor_y + 110, title_arrow, TRUE);
 	}
-	int pad = GetJoypadInputState(DX_INPUT_PAD1);
+	/*int pad = GetJoypadInputState(DX_INPUT_PAD1);
 
 	if (pad & PAD_INPUT_1) DrawFormatString(100, 100, GetColor(255, 255, 255), "PAD_INPUT_1");
 	if (pad & PAD_INPUT_2) DrawFormatString(100, 120, GetColor(255, 255, 255), "PAD_INPUT_2");
 	if (pad & PAD_INPUT_3) DrawFormatString(100, 140, GetColor(255, 255, 255), "PAD_INPUT_3");
 	if (pad & PAD_INPUT_4) DrawFormatString(100, 160, GetColor(255, 255, 255), "PAD_INPUT_4");
 	if (pad & PAD_INPUT_DOWN) DrawFormatString(100, 180, GetColor(255, 0, 0), "PAD_INPUT_DOWN");
-	if (pad & PAD_INPUT_UP) DrawFormatString(100, 180, GetColor(255, 0, 0), "PAD_INPUT_UP");
+	if (pad & PAD_INPUT_UP) DrawFormatString(100, 180, GetColor(255, 0, 0), "PAD_INPUT_UP");*/
 }
 
 void TitleScene::Finalize()

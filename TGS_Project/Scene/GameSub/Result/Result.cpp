@@ -25,7 +25,7 @@ eSceneType Result::Update(float delta_second)
 	//SPACEƒL[‚Å‰@ƒQ[ƒ€‰æ–Ê‚ÉˆÚ“®‚·‚é
 	if (input->GetKeyDown(KEY_INPUT_SPACE))
 	{
-		return eSceneType::eHelp;
+		return eSceneType::eEnd;
 	}
 
 	return GetNowSceneType();

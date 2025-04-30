@@ -158,8 +158,8 @@ SceneBase* SceneManager::CreateScene(eSceneType type)
     case eSceneType::eResult:
         return dynamic_cast<SceneBase*>(new Result());
 
-  /*  case eSceneType::eHelp:
-        return dynamic_cast<SceneBase*>(new Help());*/
+    case eSceneType::eHelp:
+        return dynamic_cast<SceneBase*>(new Help());
 
     case eSceneType::eEnd:
 

@@ -25,7 +25,7 @@ eSceneType Help::Update(float delta_second)
 	// SPACEキーが押されたら終了シーンへ遷移
 	if (input->GetKeyDown(KEY_INPUT_SPACE))
 	{
-		return eSceneType::eEnd;
+		return eSceneType::eTitle;
 	}
 
 	return GetNowSceneType();
