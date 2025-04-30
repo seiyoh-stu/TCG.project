@@ -6,13 +6,12 @@ class TitleScene : public SceneBase
 {
 private:
 	int titleImageHandle; // タイトル画像のハンドル
+	int title_arrow; // タイトルの矢印のハンドル
+
 	int cursor_number; // カーソルの番号
 	int cursor_y; // カーソルの位置
-
-
-
-
-
+	
+	
 public:
 	TitleScene();
 	virtual ~TitleScene();

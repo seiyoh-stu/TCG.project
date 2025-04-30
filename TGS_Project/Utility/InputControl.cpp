@@ -1,66 +1,80 @@
-#include"InputControl.h"
-#include"DxLib.h"
+#include "InputControl.h"
+#include <string.h>
 
-//静的メンバ変数定義
-InputControl* InputControl::instance = nullptr; //クラスのインスタンスのポインタ
+InputControl* InputControl::instance = nullptr;
+int InputControl::pad_now = 0;
+int InputControl::pad_old = 0;
 
-//入力制御クラスのインスタンス取得する処理
 InputControl* InputControl::GetInstance()
 {
-	//インスタンスがなければ、生成する
-	if (instance == nullptr)
-	{
-		instance = new InputControl();
-	}
-	//自分自身のポインタを返却する
-	return instance;
+    if (instance == nullptr)
+    {
+        instance = new InputControl();
+    }
+    return instance;
 }
 
-
-//入力制御クラスのインスタンス削除する
 void InputControl::DeleteInstance()
 {
-	//インスタンスが存在していれば
-	if (instance != nullptr)
-	{
-		delete instance;
-		instance = nullptr;
-	}
+    if (instance != nullptr)
+    {
+        delete instance;
+        instance = nullptr;
+    }
 }
 
 void InputControl::Update()
 {
-	//前回入力値の更新
-	memcpy(old_key, now_key, (sizeof(char) * D_KEYCODE_MAX));
-	//現在入力値の更新
-	GetHitKeyStateAll(now_key);
+    memcpy(old_key, now_key, sizeof(now_key));
+    GetHitKeyStateAll(now_key);
+
+    pad_old = pad_now;
+    pad_now = GetJoypadInputState(DX_INPUT_PAD1);
+    GetJoypadXInputState(DX_INPUT_PAD1, &now_pad); // スティック用
 }
 
-
-//キーが押されているか確認する処理
-bool InputControl::GetKey(int key_code)const
+bool InputControl::GetKey(int key_code) const
 {
-	return(CheckKeyCodeRange(key_code) && (now_key[key_code] == TRUE &&
-		old_key[key_code] == TRUE));
+    return CheckKeyRange(key_code) && now_key[key_code] != 0;
 }
 
-//キーが押された瞬間か確認する処理
-bool InputControl::GetKeyDown(int key_code)const
+bool InputControl::GetKeyDown(int key_code) const
 {
-	return(CheckKeyCodeRange(key_code) && (now_key[key_code] == TRUE &&
-		old_key[key_code] == FALSE));
+    return CheckKeyRange(key_code) && now_key[key_code] != 0 && old_key[key_code] == 0;
 }
 
-//キーを離した瞬間
-bool InputControl::GetKeyUp(int key_code)const
+bool InputControl::GetKeyUp(int key_code) const
 {
-	return(CheckKeyCodeRange(key_code) && ((now_key[key_code] == FALSE) &&
-		old_key[key_code] == TRUE));
+    return CheckKeyRange(key_code) && now_key[key_code] == 0 && old_key[key_code] != 0;
 }
 
-
-//キーコードの範囲内か確認する処理
-bool InputControl::CheckKeyCodeRange(int key_code)const
+eInputState InputControl::GetPadButtonState(int button) const
 {
-	return (0 <= key_code && key_code < D_KEYCODE_MAX);
+    bool now = (pad_now & button) != 0;
+    bool old = (pad_old & button) != 0;
+
+    if (now && !old) return eInputState::ePress;
+    if (now && old)  return eInputState::eHeld;
+    if (!now && old) return eInputState::eRelease;
+    return eInputState::eNone;
+}
+
+bool InputControl::GetButtonDown(int dxlib_pad_const) const
+{
+    return (pad_now & dxlib_pad_const) && !(pad_old & dxlib_pad_const);
+}
+
+Vector2D InputControl::GetJoyStickLeft() const
+{
+    return Vector2D(now_pad.ThumbLX, now_pad.ThumbLY);
+}
+
+Vector2D InputControl::GetJoyStickRight() const
+{
+    return Vector2D(now_pad.ThumbRX, now_pad.ThumbRY);
+}
+
+bool InputControl::CheckKeyRange(int key_code) const
+{
+    return 0 <= key_code && key_code < KEYCODE_MAX;
 }
