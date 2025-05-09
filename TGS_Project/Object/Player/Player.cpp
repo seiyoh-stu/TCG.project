@@ -27,6 +27,8 @@ void Player::Initialize()
     bullet_offset_x = size_x / 2; // 中央から発射
     bullet_offset_y = 28;           // 上端から発射
 
+    hp = 10; //初期HP設定
+
     bullets.clear();
     last_shot_time = 0;
 
@@ -76,6 +78,8 @@ void Player::OnHitCollision(GameBase* hit_object)
     {
         GameBaseManager* gbmm = GameBaseManager::GetInstance();
         gbmm->DestroyGameBase(this);
+
+        DecreaseHP(1); // HPを1減らす
     }
 }
 
@@ -105,3 +109,21 @@ void Player::AnimeControl()
 {
     // アニメーション制御（必要なら）
 }
+
+void Player::DecreaseHP(int amount)
+{
+    hp -= amount;
+
+    // HPが0以下になった時の処理（死亡判定）
+    if (hp <= 0)
+    {
+        hp = 0;
+        GameBaseManager::GetInstance()->DestroyGameBase(this); // 死亡時の処理
+    }
+}
+
+int Player::GetHP() const
+{
+    return hp;
+}
+

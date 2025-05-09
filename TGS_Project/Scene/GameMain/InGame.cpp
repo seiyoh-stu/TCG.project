@@ -78,6 +78,11 @@ void InGame::Draw() const
    GameBaseManager* gbmm = GameBaseManager::GetInstance();
    gbmm->Draw();
 
+   if (player != nullptr) 
+   {
+       DrawFormatString(10, 40, GetColor(255, 255, 0), "Player HP: %d", player->GetHP());
+   }
+
 }
 
 void InGame::Finalize()

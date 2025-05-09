@@ -23,6 +23,10 @@ public:
     // 弾の取得（当たり判定などで使用）
     const std::vector<Bullet>& GetBullets() const { return bullets; }
 
+public:
+    void DecreaseHP(int amount);  // HP減少関数
+    int GetHP() const;            // HP取得関数
+
 private:
     void Movement();
     void AnimeControl();
@@ -32,6 +36,9 @@ private:
     int size_x;
     int size_y;
     unsigned int color;
+    int hp;                      // プレイヤーのHP（初期値10）
+
+
 
     std::vector<Bullet> bullets; // プレイヤーの弾のリスト
     // 発射位置のオフセット（←追加した変数）
