@@ -1,6 +1,8 @@
 #include "Player.h"
-#include "DxLib.h"
 #include "../../Utility/InputControl.h"
+#include"../../Object/GameObjectManager.h"
+#include "DxLib.h"
+
 
 Player::Player()
     : player_x(200), player_y(500),
@@ -70,7 +72,11 @@ void Player::Finalize()
 
 void Player::OnHitCollision(GameBase* hit_object)
 {
-
+    if (hit_object->GetCollision().object_type == eEnemy)
+    {
+        GameBaseManager* gbmm = GameBaseManager::GetInstance();
+        gbmm->DestroyGameBase(this);
+    }
 }
 
 // ’e‚Ì”­Ëˆ—
