@@ -27,5 +27,6 @@ public:
     const Collision& GetCollision() const;
     unsigned char GetZLayer() const;
     bool GetMobility() const;
+    Vector2D GetBoxSize() const;
 
 };

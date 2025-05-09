@@ -1,5 +1,7 @@
 #include "Bullet.h"
 #include "DxLib.h"
+#include"../../Object/GameObjectManager.h"
+
 
 Bullet::Bullet()
     : x_(0), y_(0), speed_(5), is_active_(false)
@@ -35,7 +37,11 @@ void Bullet::Finalize()
 
 void Bullet::OnHitCollision(GameBase* hit_object)
 {
-
+    if (hit_object->GetCollision().object_type == eEnemy)
+    {
+        GameBaseManager* gbmm = GameBaseManager::GetInstance();
+        gbmm->DestroyGameBase(this);
+    }
 }
 
 bool Bullet::IsActive() const

@@ -30,7 +30,7 @@ public:
 
 	bool IsCheckHitTarget(eObjectType object_type) const;
 	bool IsCheckHitCollision(Collision target1, Collision target2);
-	bool IsCheckCollision(const Collision& c1, const Collision& c2);
 };
+bool IsCheckCollision(const Collision& c1, const Collision& c2);
 
 

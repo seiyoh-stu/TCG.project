@@ -54,7 +54,8 @@ void Player::Update(float delta_second)
 void Player::Draw(const Vector2D& screen_offset) const
 {
     // プレイヤー本体
-    DrawBox(location.x, location.y, location.x + size_x, location.y + size_y, color, TRUE);
+    //DrawBox(location.x, location.y, location.x + size_x, location.y + size_y, color, TRUE);
+    DrawBox(location.x - collision.box_size.x, location.y - collision.box_size.y, location.x + collision.box_size.x, location.y + collision.box_size.y, color, TRUE);
 
     //// 弾の描画
     //for (const auto& bullet : bullets) {

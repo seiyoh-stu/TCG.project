@@ -33,7 +33,9 @@ void Enemy::Update(float delta_second)
 
 void Enemy::Draw(const Vector2D& screen_offset) const
 {
-	DrawBox(enemy_x, enemy_y, enemy_x + size_x_, enemy_y + size_y_, color_, TRUE);
+	//DrawBox(enemy_x, enemy_y, enemy_x + size_x_, enemy_y + size_y_, color_, TRUE);
+	DrawBox(location.x - collision.box_size.x, location.y - collision.box_size.y, location.x + collision.box_size.x, location.y + collision.box_size.y, color_, TRUE);
+
 }
 void Enemy::Finalize()
 {
@@ -41,13 +43,11 @@ void Enemy::Finalize()
 }
 void Enemy::OnHitCollision(GameBase* hit_object)
 {
-	GameBaseManager* gbmm = GameBaseManager::GetInstance();
-	gbmm->DestroyGameBase(this);
-
-
-
-
-	//if (hit_object->GetCollision().object_type == eBullet);
+	if (hit_object->GetCollision().object_type == eBullet)
+	{
+		GameBaseManager* gbmm = GameBaseManager::GetInstance();
+		gbmm->DestroyGameBase(this);
+	}
 }
 //移動処理
 void Enemy::Movement()
@@ -58,12 +58,12 @@ void Enemy::Movement()
 	int move_x = 0;
 
 	// 右の端っこに着くと、左の端っこに移動する
-	if (enemy_x >= 100)
+	if (location.x >= 100)
 	{
 		move_x -= speed;
 	}
 
-	enemy_x += move_x;
+	location.x += move_x;
 } 
 
 void Enemy::AnimeControl()

@@ -95,8 +95,8 @@ bool GameBase::GetMobility() const
 	return is_mobility;
 }
 
-//bool GameBase::GetBoxSize() const
-//{
-//	return collision.b;
-//}
+Vector2D GameBase::GetBoxSize() const
+{
+	return collision.box_size;
+}
 

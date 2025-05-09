@@ -126,10 +126,10 @@ public:
 	{
 		for (int i = 0; i < game_object_list.size(); i++)
 		{
-			if (game_object_list[i]->GetMobility() == false)
-			{
-				continue;
-			}
+			//if (game_object_list[i]->GetMobility() == false)
+			//{
+			//	continue;
+			//}
 
 			for (int j = 0; j < game_object_list.size(); j++)
 			{
@@ -143,39 +143,39 @@ public:
 		}
 	}
 
-	void CheckCollision(GameBase* target, GameBase* partner)
-	{
-		bool flag = false;
+	//void CheckCollision(GameBase* target, GameBase* partner)
+	//{
+	//	bool flag = false;
 
-		if (target == nullptr || partner == nullptr)
-		{
-			return;
-		}
+	//	if (target == nullptr || partner == nullptr)
+	//	{
+	//		return;
+	//	}
 
-		// target が Enemy でなければ何もしない
-		if (dynamic_cast<Enemy*>(target) == nullptr)
-		{
-			return;
-		}
+	//	// target が Enemy でなければ何もしない
+	//	if (dynamic_cast<Enemy*>(target) == nullptr)
+	//	{
+	//		return;
+	//	}
 
-		Collision tc = target->GetCollision();
-		Collision pc = partner->GetCollision();
+	//	Collision tc = target->GetCollision();
+	//	Collision pc = partner->GetCollision();
 
 
-		if (tc.IsCheckHitTarget(pc.object_type) || pc.IsCheckHitTarget(tc.object_type))
-		{
+	//	if (tc.IsCheckHitTarget(pc.object_type) || pc.IsCheckHitTarget(tc.object_type))
+	//	{
 
-			tc.pivot = target->GetLocation();
-			pc.pivot = partner->GetLocation();
+	//		tc.pivot = target->GetLocation();
+	//		pc.pivot = partner->GetLocation();
 
-			if (tc.IsCheckHitCollision(tc, pc))
-			{
-				target->OnHitCollision(partner);
-				partner->OnHitCollision(target);
-			}
+	//		if (tc.IsCheckHitCollision(tc, pc))
+	//		{
+	//			target->OnHitCollision(partner);
+	//			partner->OnHitCollision(target);
+	//		}
 
-		}
-	}
+	//	}
+	//}
 
 	/// <summary>
 /// 当たり判定のチェック
@@ -196,7 +196,7 @@ public:
 		Collision pc = partner->GetCollision();
 
 		// 当たり判定が有効か確認する
-		if (tc.IsCheckHitTarget(pc.object_type)  pc.IsCheckHitTarget(tc.object_type))
+		if (tc.IsCheckHitTarget(pc.object_type) || pc.IsCheckHitTarget(tc.object_type))
 		{
 			// 対角線上の頂点座標を求める
 			// プレイヤーの左上の座標を求める

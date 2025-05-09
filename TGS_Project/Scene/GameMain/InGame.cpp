@@ -24,7 +24,7 @@ void InGame::Initialize()
     // 入力制御インスタンスの取得
     GameBaseManager * gbmm = GameBaseManager::GetInstance();
     player=gbmm->CreateGameBase<Player>(Vector2D(200,500));
-    gbmm->CreateGameBase<Enemy>(0);
+    gbmm->CreateGameBase<Enemy>(Vector2D(1000,500));            // 初期位置
 
     //player->Initialize();
     //enemy->Initialize();

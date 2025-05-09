@@ -37,7 +37,7 @@ bool Collision::IsCheckHitCollision(Collision target1, Collision target2)
 /// <param name="c1">プレイヤー</param>
 /// <param name="c2">敵</param>
 /// <returns>当たっていたらtrue、当たっていなかったらfalse</returns>
-bool Collision::IsCheckCollision(const Collision& c1, const Collision& c2)
+bool IsCheckCollision(const Collision& c1, const Collision& c2)
 {
     // 矩形1の左辺と矩形2の右辺の位置関係
     bool is_left_less_right = false;
