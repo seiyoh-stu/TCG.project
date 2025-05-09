@@ -1,6 +1,7 @@
 #pragma once
 #include "../Utility/SingleTone.h"
 #include "GameBase.h"
+#include "../Object/Enemy/Enemy.h"
 #include <vector>
 
 class GameBaseManager : public Singleton <GameBaseManager>
@@ -21,6 +22,12 @@ public:
 		{
 			for (GameBase* obj : create_object)
 			{
+				if (obj == nullptr)
+				{
+					// デバッグ用の警告
+					printf("create_object に nullptr が含まれています\n");
+					continue;
+				}
 				//オブジェクトのZレイヤー情報を入れる
 				int z_layer = obj->GetZLayer();
 				std::vector<GameBase*>::iterator itr = game_object_list.begin();
@@ -44,42 +51,27 @@ public:
 
 	void CheckDestroyObject()
 	{
-		// 破棄リスト内が空でない場合、リスト内のオブジェクトを破棄する
-		if (!destroy_object.empty())
+		if (destroy_object.empty())
 		{
-			for (GameBase* obj : destroy_object)
-			{
-				std::vector<GameBase*>::iterator itr = game_object_list.begin();	// オブジェクトリストの先頭
-				// リストの末尾になるまで走査する
-				for (; itr != game_object_list.end(); itr++)
-				{
-					// リスト内にあれば、削除する
-					if ((*itr) == obj)
-					{
-						game_object_list.erase(itr);
-						obj->Finalize();
-						delete obj;
-						break;
-					}
-				}
-			}
-			// 動的配列の開放
-			destroy_object.clear();
-
-			// リストが空なら処理を終了する
-			if (destroy_object.empty())
-			{
-				return;
-			}
-			// リスト内のオブジェクトを削除する
-			for (GameBase* obj : destroy_object)
-			{
-				obj->Finalize();
-				delete obj;
-			}
-			// リストの解放
-			destroy_object.clear();
+			return;
 		}
+
+		// 破棄リスト内のオブジェクトを game_object_list から削除し、解放する
+		for (GameBase* obj : destroy_object)
+		{
+			auto itr = std::find(game_object_list.begin(), game_object_list.end(), obj);
+			if (itr != game_object_list.end())
+			{
+				game_object_list.erase(itr);
+			}
+
+			// オブジェクトの後始末
+			obj->Finalize();
+			delete obj;
+		}
+
+		// 破棄リストをクリア
+		destroy_object.clear();
 	}
 	const std::vector<GameBase*>& GetObjectsList() const
 	{
@@ -160,6 +152,12 @@ public:
 			return;
 		}
 
+		// target が Enemy でなければ何もしない
+		if (dynamic_cast<Enemy*>(target) == nullptr)
+		{
+			return;
+		}
+
 		Collision tc = target->GetCollision();
 		Collision pc = partner->GetCollision();
 
@@ -179,5 +177,50 @@ public:
 		}
 	}
 
+	/// <summary>
+/// 当たり判定のチェック
+/// </summary>
+/// <param name="target">例：プレイヤー</param>
+/// <param name="partner">例：敵</param>
+	void CheckCollision(GameBase* target, GameBase* partner)
+	{
+		// 中身が入っているかをチェック
+		if (target == nullptr || partner == nullptr)
+		{
+			return;
+		}
 
+		// 当たり判定情報を作成
+		// tcとpcは、Collisionクラスのメンバ変数を利用できる
+		Collision tc = target->GetCollision();
+		Collision pc = partner->GetCollision();
+
+		// 当たり判定が有効か確認する
+		if (tc.IsCheckHitTarget(pc.object_type)  pc.IsCheckHitTarget(tc.object_type))
+		{
+			// 対角線上の頂点座標を求める
+			// プレイヤーの左上の座標を求める
+			tc.point[0] += target->GetLocation() - target->GetBoxSize();
+			// プレイヤーの右下の座標を求める
+			tc.point[1] += target->GetLocation() + target->GetBoxSize();
+			// 敵とかブロックの左上の座標を求める
+			pc.point[0] += partner->GetLocation() - partner->GetBoxSize();
+			// 敵とかブロックの右下の座標を求める
+			pc.point[1] += partner->GetLocation() + partner->GetBoxSize();
+
+			// ボックス同士の当たり判定
+			if (IsCheckCollision(tc, pc))
+			{
+				// 当たっていることを通知する
+				target->OnHitCollision(partner);
+				partner->OnHitCollision(target);
+			}
+		}
+	}
+	// ここに書いてるのがだめ
+	void Update(float delta_second);
+
+	void Draw();
+
+	void Finalize();
 };

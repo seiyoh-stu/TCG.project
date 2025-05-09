@@ -95,3 +95,8 @@ bool GameBase::GetMobility() const
 	return is_mobility;
 }
 
+//bool GameBase::GetBoxSize() const
+//{
+//	return collision.b;
+//}
+

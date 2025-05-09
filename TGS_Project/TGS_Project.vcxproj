@@ -146,6 +146,7 @@
       <CreateHotpatchableImage Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</CreateHotpatchableImage>
     </ClCompile>
     <ClCompile Include="Object\GameBase.cpp" />
+    <ClCompile Include="Object\GameObjectManager.cpp" />
     <ClCompile Include="Utility\Collision.cpp" />
     <ClCompile Include="Object\Bullet\Bullet.cpp" />
     <ClCompile Include="Object\Castle\Castle.cpp" />

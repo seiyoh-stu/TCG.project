@@ -3,12 +3,13 @@
 #include "../../Utility/Vector2D.h"
 #include"../../Object/Player/Player.h"
 #include"../../Object/Enemy/Enemy.h"
+#include"../../Object/GameObjectManager.h"
 #include"DxLib.h"
 #include <memory>
 
-InGame::InGame() :
-    player(std::make_unique<Player>()), // コンストラクタで Player のインスタンスを生成
-    enemy(std::make_unique<Enemy>()) // コンストラクタで Enemy のインスタンスを生成
+InGame::InGame() 
+    //player(std::make_unique<Player>()), // コンストラクタで Player のインスタンスを生成
+    //enemy(std::make_unique<Enemy>()) // コンストラクタで Enemy のインスタンスを生成
 {
 
 }
@@ -20,8 +21,13 @@ InGame::~InGame()
 
 void InGame::Initialize()
 {
-    player->Initialize();
-    enemy->Initialize();
+    // 入力制御インスタンスの取得
+    GameBaseManager * gbmm = GameBaseManager::GetInstance();
+    player=gbmm->CreateGameBase<Player>(Vector2D(200,500));
+    gbmm->CreateGameBase<Enemy>(0);
+
+    //player->Initialize();
+    //enemy->Initialize();
 }
 
 eSceneType InGame::Update(float delta_second)
@@ -34,10 +40,31 @@ eSceneType InGame::Update(float delta_second)
     {
         return eSceneType::eResult;
     }
+    // SPACEキーが押されたらリザルトシーンへ遷移
+    if (input->GetKeyDown(KEY_INPUT_S))
+    {
+        GameBaseManager* gbmm = GameBaseManager::GetInstance();
+        gbmm->CreateGameBase<Bullet>(player->GetLocation());
+    }
 
-    player->Update(delta_second);
-    
-    enemy->Update(delta_second);
+        // 入力制御インスタンスの取得
+    GameBaseManager* gbmm = GameBaseManager::GetInstance();
+    gbmm->Update(delta_second);
+    //player->Update(delta_second);
+    //
+    //enemy->Update(delta_second);
+
+
+    //Collision* col = new Collision();
+    //bool check_collision;
+
+    //check_collision = col->IsCheckHitCollision(player->GetCollision(), enemy->GetCollision());
+
+    //if (check_collision == true)
+    //{
+    //    player->OnHitCollision(enemy.get());
+    //    enemy->OnHitCollision(player.get());
+    //}
 
     return GetNowSceneType();
 }
@@ -45,15 +72,23 @@ void InGame::Draw() const
 {  
    Vector2D screen_offset(0, 0); // スクリーンオフセットを初期化  
    DrawFormatString(10, 10, GetColor(255, 255, 255), "Bottun.Sで球発射");  
-   player->Draw(screen_offset); // 必要な引数を渡す  
-   enemy->Draw(screen_offset);  
+   //player->Draw(screen_offset); // 必要な引数を渡す  
+   //enemy->Draw(screen_offset);  
+           // 入力制御インスタンスの取得
+   GameBaseManager* gbmm = GameBaseManager::GetInstance();
+   gbmm->Draw();
+
 }
 
 void InGame::Finalize()
 {
-    player->Finalize();
+    /*player->Finalize();
 
-    enemy->Finalize();
+    enemy->Finalize();*/
+    // 入力制御インスタンスの取得
+    GameBaseManager* gbmm = GameBaseManager::GetInstance();
+    gbmm->Finalize();
+
 }
 
 eSceneType InGame::GetNowSceneType() const

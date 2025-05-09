@@ -6,26 +6,36 @@ Bullet::Bullet()
 {
 }
 
-void Bullet::Initialize(int x, int y)
+void Bullet::Initialize()
 {
-    x_ = x;
-    y_ = y;
-    is_active_ = true;
+    collision.object_type = eBullet;
+    collision.box_size = 16;
+    collision.hit_object_type.push_back(eEnemy);
 }
 
-void Bullet::Update()
+void Bullet::Update(float delta_second)
 {
-    if (!is_active_) return;
+    //if (!is_active_) return;
 
-    x_ += speed_; // ã•ûŒü‚ÉˆÚ“®
-    if (y_ < 0) is_active_ = false;
+    location.x += speed_; // ã•ûŒü‚ÉˆÚ“®
+    if (location.y < 0) is_active_ = false;
 }
 
-void Bullet::Draw() const
+void Bullet::Draw(const Vector2D& screen_offset) const
 {
-    if (!is_active_) return;
+    //if (!is_active_) return;
 
-    DrawBox(x_ - 16, y_ - 16, x_ + 16, y_ + 16, GetColor(255, 255, 0), TRUE);
+    DrawBox(location.x - collision.box_size.x, location.y - collision.box_size.y, location.x + collision.box_size.x, location.y + collision.box_size.y, GetColor(255, 255, 0), TRUE);
+}
+
+void Bullet::Finalize()
+{
+
+}
+
+void Bullet::OnHitCollision(GameBase* hit_object)
+{
+
 }
 
 bool Bullet::IsActive() const

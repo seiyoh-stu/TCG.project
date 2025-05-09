@@ -1,9 +1,10 @@
 #include "Enemy.h"
+#include"../../Object/GameObjectManager.h"
 #include"DxLib.h"
 
 Enemy::Enemy() :
 	enemy_x(550), // 初期位置X座標
-	enemy_y(350), // 初期位置Y座標
+	enemy_y(500), // 初期位置Y座標
 	size_x_(64),  // 四角の幅
 	size_y_(64),  // 四角の高さ
 	color_(GetColor(255, 0, 0)) // 四角の色 (赤)
@@ -18,7 +19,9 @@ Enemy::~Enemy()
 
 void Enemy::Initialize()
 {
-
+	collision.object_type = eEnemy;
+	collision.box_size = 64;
+	collision.hit_object_type.push_back(eBullet);
 }
 
 void Enemy::Update(float delta_second)
@@ -38,7 +41,13 @@ void Enemy::Finalize()
 }
 void Enemy::OnHitCollision(GameBase* hit_object)
 {
+	GameBaseManager* gbmm = GameBaseManager::GetInstance();
+	gbmm->DestroyGameBase(this);
 
+
+
+
+	//if (hit_object->GetCollision().object_type == eBullet);
 }
 //移動処理
 void Enemy::Movement()

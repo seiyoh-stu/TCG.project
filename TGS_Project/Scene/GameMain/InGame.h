@@ -9,9 +9,10 @@
 class InGame : public SceneBase
 {
 private:
-    std::unique_ptr<Player> player; // Playerクラスのインスタンスをスマートポインタで管理
-    // 他のプライベートメンバ変数
-    std::unique_ptr<Enemy> enemy; // Enemyクラスのインスタンスをスマートポインタで管理
+    Player* player;
+    //std::unique_ptr<Player> player; // Playerクラスのインスタンスをスマートポインタで管理
+    //// 他のプライベートメンバ変数
+    //std::unique_ptr<Enemy> enemy; // Enemyクラスのインスタンスをスマートポインタで管理
 
 public:
     InGame();
@@ -33,9 +34,9 @@ public:
     // 現在のシーンタイプを取得
     virtual eSceneType GetNowSceneType() const override;
 
-    // Playerクラスのインスタンスへのアクセス (必要であれば)
-    Player* GetPlayer() const { return player.get(); }
+    //// Playerクラスのインスタンスへのアクセス (必要であれば)
+    //Player* GetPlayer() const { return player.get(); }
 
-    // Playerクラスのインスタンスへのアクセス (必要であれば)
-    Enemy* GetEnemy() const { return enemy.get(); }
+    //// Playerクラスのインスタンスへのアクセス (必要であれば)
+    //Enemy* GetEnemy() const { return enemy.get(); }
 };
