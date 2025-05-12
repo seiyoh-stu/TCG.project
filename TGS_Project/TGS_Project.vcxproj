@@ -145,6 +145,7 @@
       <CreateHotpatchableImage Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</CreateHotpatchableImage>
       <CreateHotpatchableImage Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</CreateHotpatchableImage>
     </ClCompile>
+    <ClCompile Include="Object\Bullet\BulletAim.cpp" />
     <ClCompile Include="Object\GameBase.cpp" />
     <ClCompile Include="Object\GameObjectManager.cpp" />
     <ClCompile Include="Utility\Collision.cpp" />
@@ -165,6 +166,7 @@
     <ClCompile Include="Utility\Vector2D.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Object\Bullet\BulletAim.h" />
     <ClInclude Include="Utility\Collision.h" />
     <ClInclude Include="Object\Bullet\Bullet.h" />
     <ClInclude Include="Object\Castle\Castle.h" />

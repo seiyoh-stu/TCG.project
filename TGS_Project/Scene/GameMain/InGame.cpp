@@ -26,6 +26,8 @@ void InGame::Initialize()
     player=gbmm->CreateGameBase<Player>(Vector2D(200,500));
     gbmm->CreateGameBase<Enemy>(Vector2D(1000,500));            // 初期位置
 
+	//バレットの照準マーク
+    bullet_aim.Initialize();
     //player->Initialize();
     //enemy->Initialize();
 }
@@ -66,6 +68,8 @@ eSceneType InGame::Update(float delta_second)
     //    enemy->OnHitCollision(player.get());
     //}
 
+    bullet_aim.Update(delta_second);
+
     return GetNowSceneType();
 }
 void InGame::Draw() const  
@@ -82,6 +86,7 @@ void InGame::Draw() const
    {
        DrawFormatString(10, 40, GetColor(255, 255, 0), "Player HP: %d", player->GetHP());
    }
+   bullet_aim.Draw(screen_offset);
 
 }
 
@@ -93,6 +98,8 @@ void InGame::Finalize()
     // 入力制御インスタンスの取得
     GameBaseManager* gbmm = GameBaseManager::GetInstance();
     gbmm->Finalize();
+
+    bullet_aim.Finalize();
 
 }
 
