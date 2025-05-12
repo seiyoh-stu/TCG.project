@@ -69,11 +69,22 @@ Vector2D InputControl::GetJoyStickLeft() const
     return Vector2D(now_pad.ThumbLX, now_pad.ThumbLY);
 }
 
+//Vector2D InputControl::GetJoyStickRight() const
+//{
+//    return Vector2D(now_pad.ThumbRX, now_pad.ThumbRY);
+//}
 Vector2D InputControl::GetJoyStickRight() const
 {
-    return Vector2D(now_pad.ThumbRX, now_pad.ThumbRY);
-}
+    float x = static_cast<float>(now_pad.ThumbRX);
+    float y = static_cast<float>(now_pad.ThumbRY);
 
+    // デッドゾーン処理（小さい傾きは0扱い）
+    if (fabsf(x) < DEADZONE) x = 0;
+    if (fabsf(y) < DEADZONE) y = 0;
+
+    // 正規化（-1.0～1.0）
+    return Vector2D(x / 32768.0f, y / 32768.0f);
+}
 bool InputControl::CheckKeyRange(int key_code) const
 {
     return 0 <= key_code && key_code < KEYCODE_MAX;
