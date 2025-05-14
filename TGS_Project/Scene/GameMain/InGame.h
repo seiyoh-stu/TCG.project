@@ -3,6 +3,9 @@
 #include "SceneBase.h"
 #include "../../Object/Player/Player.h"
 #include "../../Object/Enemy/Enemy.h"
+#include "../../Object/Enemy/Enemy2.h"
+#include "../../Object/Enemy/Enemy3.h"
+#include "../../Object/Enemy/Enemy4.h"
 #include"../../Object/Bullet/BulletAim.h"
 #include "../../Utility/Vector2D.h"
 #include <memory> // std::unique_ptr を使用するため
@@ -15,6 +18,19 @@ private:
     //// 他のプライベートメンバ変数
     //std::unique_ptr<Enemy> enemy; // Enemyクラスのインスタンスをスマートポインタで管理
 	BulletAim bullet_aim;// Aim マークのインスタンス
+
+    float enemy_spawn_timer = 0.0f;
+    float enemy_spawn_interval = 3.0f; // 3秒ごとにスポーン
+    void SpawnEnemy(); // ランダム敵生成用関数
+
+    int current_wave = 1;
+    float wave_timer = 0.0f;
+    float wave_interval = 10.0f; // 10秒ごとに次のウェーブ
+    bool wave_in_progress = false;
+
+    void StartNextWave();
+    void SpawnEnemiesForWave(int wave);
+
 public:
     InGame();
     virtual ~InGame();

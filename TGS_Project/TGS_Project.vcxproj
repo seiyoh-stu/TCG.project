@@ -146,6 +146,9 @@
       <CreateHotpatchableImage Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</CreateHotpatchableImage>
     </ClCompile>
     <ClCompile Include="Object\Bullet\BulletAim.cpp" />
+    <ClCompile Include="Object\Enemy\Enemy2.cpp" />
+    <ClCompile Include="Object\Enemy\Enemy3.cpp" />
+    <ClCompile Include="Object\Enemy\Enemy4.cpp" />
     <ClCompile Include="Object\GameBase.cpp" />
     <ClCompile Include="Object\GameObjectManager.cpp" />
     <ClCompile Include="Utility\Collision.cpp" />
@@ -167,6 +170,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Object\Bullet\BulletAim.h" />
+    <ClInclude Include="Object\Enemy\Enemy2.h" />
+    <ClInclude Include="Object\Enemy\Enemy3.h" />
+    <ClInclude Include="Object\Enemy\Enemy4.h" />
     <ClInclude Include="Utility\Collision.h" />
     <ClInclude Include="Object\Bullet\Bullet.h" />
     <ClInclude Include="Object\Castle\Castle.h" />

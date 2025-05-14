@@ -2,6 +2,9 @@
 #include "../Utility/SingleTone.h"
 #include "GameBase.h"
 #include "../Object/Enemy/Enemy.h"
+#include "../Object/Enemy/Enemy2.h"
+#include "../Object/Enemy/Enemy3.h"
+#include "../Object/Enemy/Enemy4.h"
 #include <vector>
 
 class GameBaseManager : public Singleton <GameBaseManager>
