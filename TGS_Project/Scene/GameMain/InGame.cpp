@@ -32,8 +32,6 @@ void InGame::Initialize()
     gbmm->CreateGameBase<Enemy3>(Vector2D(2000, 500));            // 初期位置
     gbmm->CreateGameBase<Enemy4>(Vector2D(2500, 500));            // 初期位置
 
-	//バレットの照準マーク
-    bullet_aim.Initialize();
     //player->Initialize();
     //enemy->Initialize();
 }
@@ -49,7 +47,7 @@ eSceneType InGame::Update(float delta_second)
         return eSceneType::eResult;
     }
     // SPACEキーが押されたらリザルトシーンへ遷移
-    if (input->GetKeyDown(KEY_INPUT_S))
+    if (input->GetKeyDown(KEY_INPUT_L))
     {
         GameBaseManager* gbmm = GameBaseManager::GetInstance();
         gbmm->CreateGameBase<Bullet>(player->GetLocation());
@@ -88,7 +86,7 @@ eSceneType InGame::Update(float delta_second)
     //    enemy->OnHitCollision(player.get());
     //}
 
-    bullet_aim.Update(delta_second);
+ 
 
     return GetNowSceneType();
 }
@@ -106,7 +104,6 @@ void InGame::Draw() const
    {
        DrawFormatString(10, 40, GetColor(255, 255, 0), "Player HP: %d", player->GetHP());
    }
-   bullet_aim.Draw(screen_offset);
 
 }
 
@@ -218,8 +215,6 @@ void InGame::Finalize()
     // 入力制御インスタンスの取得
     GameBaseManager* gbmm = GameBaseManager::GetInstance();
     gbmm->Finalize();
-
-    bullet_aim.Finalize();
 
 }
 

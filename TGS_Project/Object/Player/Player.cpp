@@ -103,6 +103,13 @@ void Player::Movement()
     // 例：矢印キーで移動（シンプルな処理）
     if (CheckHitKey(KEY_INPUT_A)) location.x -= 5;
     if (CheckHitKey(KEY_INPUT_D)) location.x += 5;
+    if (CheckHitKey(KEY_INPUT_S)) location.y += 5;
+    if (CheckHitKey(KEY_INPUT_W)) location.y -= 5;
+
+    InputControl* input = InputControl::GetInstance();
+
+    // 十字キーの入力に応じて移動
+    if (input->GetPadButtonState(PAD_INPUT_DOWN) == eInputState::ePress)  location.x -= 5;
 }
 
 void Player::AnimeControl()

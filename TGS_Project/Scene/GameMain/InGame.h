@@ -6,7 +6,6 @@
 #include "../../Object/Enemy/Enemy2.h"
 #include "../../Object/Enemy/Enemy3.h"
 #include "../../Object/Enemy/Enemy4.h"
-#include"../../Object/Bullet/BulletAim.h"
 #include "../../Utility/Vector2D.h"
 #include <memory> // std::unique_ptr を使用するため
 
@@ -17,7 +16,6 @@ private:
     //std::unique_ptr<Player> player; // Playerクラスのインスタンスをスマートポインタで管理
     //// 他のプライベートメンバ変数
     //std::unique_ptr<Enemy> enemy; // Enemyクラスのインスタンスをスマートポインタで管理
-	BulletAim bullet_aim;// Aim マークのインスタンス
 
     float enemy_spawn_timer = 0.0f;
     float enemy_spawn_interval = 3.0f; // 3秒ごとにスポーン
