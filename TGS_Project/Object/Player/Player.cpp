@@ -74,13 +74,13 @@ void Player::Finalize()
 
 void Player::OnHitCollision(GameBase* hit_object)
 {
-    if (hit_object->GetCollision().object_type == eEnemy)
-    {
-        GameBaseManager* gbmm = GameBaseManager::GetInstance();
-        gbmm->DestroyGameBase(this);
+    //if (hit_object->GetCollision().object_type == eEnemy)
+    //{
+    //    GameBaseManager* gbmm = GameBaseManager::GetInstance();
+    //    gbmm->DestroyGameBase(this);
 
-        DecreaseHP(1); // HP‚ð1Œ¸‚ç‚·
-    }
+    //    DecreaseHP(1); // HP‚ð1Œ¸‚ç‚·
+    //}
 }
 
 // ’e‚Ì”­ŽËˆ—
@@ -126,4 +126,11 @@ int Player::GetHP() const
 {
     return hp;
 }
+
+////–Ú“I’n‚ÌÝ’è
+//void Player::SetDestinationLocation(const Vector2D& opponent_location)
+//{
+//    this->destination_location = opponent_location;
+//}
+
 

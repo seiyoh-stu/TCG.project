@@ -23,6 +23,10 @@ public:
     // 弾の取得（当たり判定などで使用）
     const std::vector<Bullet>& GetBullets() const { return bullets; }
 
+    //Vector2D destination_location; //目的地
+
+    //void SetDestinationLocation(const Vector2D& opponent_location);		//目的地の設定
+
 public:
     void DecreaseHP(int amount);  // HP減少関数
     int GetHP() const;            // HP取得関数

@@ -3,11 +3,11 @@
 #include"DxLib.h"
 
 Enemy2::Enemy2() :
-	enemy2_x(600), // 初期位置X座標
-	enemy2_y(500), // 初期位置Y座標
+	//enemy2_x(600), // 初期位置X座標
+	//enemy2_y(500), // 初期位置Y座標
 	size2_x_(64),  // 四角の幅
 	size2_y_(64),  // 四角の高さ
-	color2_(GetColor(255, 0, 0)) // 四角の色 (赤)
+	color2_(GetColor(255, 255, 255)) // 四角の色 (白)
 {
 
 }
@@ -64,6 +64,8 @@ void Enemy2::Movement()
 	}
 
 	location.x += move_x;
+
+
 }
 
 void Enemy2::AnimeControl()

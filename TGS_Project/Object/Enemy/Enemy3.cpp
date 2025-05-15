@@ -3,11 +3,11 @@
 #include"DxLib.h"
 
 Enemy3::Enemy3() :
-	enemy3_x(650), // 初期位置X座標
-	enemy3_y(500), // 初期位置Y座標
+	//enemy3_x(650), // 初期位置X座標
+	//enemy3_y(500), // 初期位置Y座標
 	size3_x_(64),  // 四角の幅
 	size3_y_(64),  // 四角の高さ
-	color3_(GetColor(255, 0, 0)) // 四角の色 (赤)
+	color3_(GetColor(0, 0, 255)) // 四角の色 (青)
 {
 
 }

@@ -22,21 +22,56 @@ InGame::~InGame()
     // std::unique_ptr は自動的に管理してくれるため、delete は不要
 }
 
+//int GetRandomNumber(int min, int max)
+//{
+//    // 固定なら(C++のランダム関数)
+//    return rand() % (max - min + 1) + min;
+//}
+
 void InGame::Initialize()
 {
+    // 固定なら(C++のランダム関数)
+    /*int randomNumber = GetRandomNumber(500, 2000);
+    int randomNumber2 = GetRandomNumber(800, 2000);
+    int randomNumber3 = GetRandomNumber(500, 2000);
+    int randomNumber4 = GetRandomNumber(500, 2000);*/
+
+    // 500〜1000の乱数を生成（GetRand は 0〜N の乱数を返す）(DxLibのランダム関数)
+    int randomNumber = GetRand(1500);  // 0〜1500 の値
+    randomNumber += 1500;              // → 1500〜3000 に調整(1500以上から出現するようになる)
+
+    int randomNumber2 = GetRand(1500);  // 0〜1500 の値
+    randomNumber2 += 1500;              // → 1500〜3000 に調整(1500以上から出現するようになる)
+
+    int randomNumber3 = GetRand(1500);  // 0〜1500 の値
+    randomNumber3 += 1500;              // → 1500〜3000 に調整(1500以上から出現するようになる)
+
+    int randomNumber4 = GetRand(1500);  // 0〜1500 の値
+    randomNumber4 += 1500;              // → 1500〜3000 に調整(1500以上から出現するようになる)
+
+    int e_randomNumber = GetRand(3);  // 3 の値
+
+    int e_randomNumber2 = GetRand(3);  // 0〜1 の値
+
+    int e_randomNumber3 = GetRand(3);  // 0〜1 の値
+
+    int e_randomNumber4 = GetRand(1);  // 0〜1 の値
+
+
     // 入力制御インスタンスの取得
     GameBaseManager * gbmm = GameBaseManager::GetInstance();
     player=gbmm->CreateGameBase<Player>(Vector2D(200,500));
-    gbmm->CreateGameBase<Enemy>(Vector2D(1000,500));            // 初期位置
-    gbmm->CreateGameBase<Enemy2>(Vector2D(1500, 500));            // 初期位置
-    gbmm->CreateGameBase<Enemy3>(Vector2D(2000, 500));            // 初期位置
-    gbmm->CreateGameBase<Enemy4>(Vector2D(2500, 500));            // 初期位置
+    gbmm->CreateGameBase<Enemy>(Vector2D(randomNumber,500))->SetPlayer(player);            // 初期位置
+    gbmm->CreateGameBase<Enemy2>(Vector2D(randomNumber2, 500));            // 初期位置
+    gbmm->CreateGameBase<Enemy3>(Vector2D(randomNumber3, 500));            // 初期位置
+    gbmm->CreateGameBase<Enemy4>(Vector2D(randomNumber4, 500));            // 初期位置
 
 	//バレットの照準マーク
     bullet_aim.Initialize();
     //player->Initialize();
     //enemy->Initialize();
 }
+
 
 eSceneType InGame::Update(float delta_second)
 {
