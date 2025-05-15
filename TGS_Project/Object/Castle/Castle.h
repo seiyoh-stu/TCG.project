@@ -3,7 +3,10 @@
 class Castle : public GameBase
 {
 private:
-    int hp = 10; // 初期値10
+    int hp; // 初期値10
+    bool hit;
+    float damage_cooldown = 0.0f; // クールタイム時間
+    const float DAMAGE_INTERVAL = 1.0f; // ダメージ間隔（秒
 
 public:
 	Castle();
