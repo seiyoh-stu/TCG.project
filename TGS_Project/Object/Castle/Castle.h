@@ -12,7 +12,7 @@ public:
     void Update(float delta_second) override;
     void Draw(const Vector2D& screen_offset) const override;
     void Finalize() override;
-    //void OnHitCollision(GameBase* hit_object) override;
+    void OnHitCollision(GameBase* hit_object) override;
   
 };
 
