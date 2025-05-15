@@ -2,6 +2,7 @@
 
 #include "SceneBase.h"
 #include "../../Object/Player/Player.h"
+#include "../../Object/Castle/Castle.h"
 #include "../../Object/Enemy/Enemy.h"
 #include "../../Object/Enemy/Enemy2.h"
 #include "../../Object/Enemy/Enemy3.h"
@@ -13,6 +14,7 @@ class InGame : public SceneBase
 {
 private:
     Player* player;
+    Castle* castle;
     //std::unique_ptr<Player> player; // Playerクラスのインスタンスをスマートポインタで管理
     //// 他のプライベートメンバ変数
     //std::unique_ptr<Enemy> enemy; // Enemyクラスのインスタンスをスマートポインタで管理

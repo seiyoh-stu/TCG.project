@@ -146,40 +146,6 @@ public:
 		}
 	}
 
-	//void CheckCollision(GameBase* target, GameBase* partner)
-	//{
-	//	bool flag = false;
-
-	//	if (target == nullptr || partner == nullptr)
-	//	{
-	//		return;
-	//	}
-
-	//	// target が Enemy でなければ何もしない
-	//	if (dynamic_cast<Enemy*>(target) == nullptr)
-	//	{
-	//		return;
-	//	}
-
-	//	Collision tc = target->GetCollision();
-	//	Collision pc = partner->GetCollision();
-
-
-	//	if (tc.IsCheckHitTarget(pc.object_type) || pc.IsCheckHitTarget(tc.object_type))
-	//	{
-
-	//		tc.pivot = target->GetLocation();
-	//		pc.pivot = partner->GetLocation();
-
-	//		if (tc.IsCheckHitCollision(tc, pc))
-	//		{
-	//			target->OnHitCollision(partner);
-	//			partner->OnHitCollision(target);
-	//		}
-
-	//	}
-	//}
-
 	/// <summary>
 /// 当たり判定のチェック
 /// </summary>

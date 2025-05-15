@@ -2,6 +2,7 @@
 #include"../../Utility/InputControl.h"
 #include "../../Utility/Vector2D.h"
 #include"../../Object/Player/Player.h"
+#include"../../Object/Castle/Castle.h"
 #include"../../Object/Enemy/Enemy.h"
 #include"../../Object/Enemy/Enemy2.h"
 #include"../../Object/Enemy/Enemy3.h"
@@ -26,7 +27,8 @@ void InGame::Initialize()
 {
     // 入力制御インスタンスの取得
     GameBaseManager * gbmm = GameBaseManager::GetInstance();
-    player=gbmm->CreateGameBase<Player>(Vector2D(200,500));
+    player = gbmm->CreateGameBase<Player>(Vector2D(200, 500));
+    castle = gbmm->CreateGameBase<Castle>(Vector2D(200, 500));
     gbmm->CreateGameBase<Enemy>(Vector2D(1000,500));            // 初期位置
     gbmm->CreateGameBase<Enemy2>(Vector2D(1500, 500));            // 初期位置
     gbmm->CreateGameBase<Enemy3>(Vector2D(2000, 500));            // 初期位置
@@ -70,26 +72,11 @@ eSceneType InGame::Update(float delta_second)
         // 入力制御インスタンスの取得
     GameBaseManager* gbmm = GameBaseManager::GetInstance();
     gbmm->Update(delta_second);
-    //player->Update(delta_second);
-    //
-    //enemy->Update(delta_second);
-
-
-    //Collision* col = new Collision();
-    //bool check_collision;
-
-    //check_collision = col->IsCheckHitCollision(player->GetCollision(), enemy->GetCollision());
-
-    //if (check_collision == true)
-    //{
-    //    player->OnHitCollision(enemy.get());
-    //    enemy->OnHitCollision(player.get());
-    //}
-
- 
 
     return GetNowSceneType();
 }
+
+
 void InGame::Draw() const  
 {  
    Vector2D screen_offset(0, 0); // スクリーンオフセットを初期化  
