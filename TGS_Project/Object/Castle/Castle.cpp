@@ -1,5 +1,6 @@
 #include "Castle.h"
 #include "DxLib.h"
+#include "../../Object/Enemy/Enemy.h"
 
 Castle::Castle()
 {
@@ -20,6 +21,7 @@ void Castle::Initialize()
     filp_flag = false;
     hit_flag = false;
 
+    hp = 10; // 初期化
     // サイズや当たり判定なども必要に応じてここで設定する
 }
 
@@ -45,5 +47,14 @@ void Castle::Finalize()
 
 void Castle::OnHitCollision(GameBase* hit_object)
 {
+     //敵かどうか判断したいなら（Enemy クラスがある場合）
+    if (dynamic_cast<Enemy*>(hit_object)) {
+        hp--;
+    }
 
+   // すべての当たりをとりあえず「敵からの攻撃」と仮定する場合：
+    if (hp > 0) {
+        hp--;
+        printf("Castle HP: %d\n", hp); // コンソールにHP表示
+    }
 }

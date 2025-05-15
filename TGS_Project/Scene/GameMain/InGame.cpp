@@ -92,6 +92,9 @@ void InGame::Draw() const
        DrawFormatString(10, 40, GetColor(255, 255, 0), "Player HP: %d", player->GetHP());
    }
 
+
+   DrawFormatString(10, 60, GetColor(255, 128, 128), "Castle HP: %d", castle->GetHP());
+
 }
 
 void InGame::SpawnEnemy()

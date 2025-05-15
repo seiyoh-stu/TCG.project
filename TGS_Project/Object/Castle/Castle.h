@@ -2,7 +2,8 @@
 #include "../GameBase.h"
 class Castle : public GameBase
 {
-
+private:
+    int hp = 10; // ‰Šú’l10
 
 public:
 	Castle();
@@ -13,6 +14,7 @@ public:
     void Draw(const Vector2D& screen_offset) const override;
     void Finalize() override;
     void OnHitCollision(GameBase* hit_object) override;
+    int GetHP() const { return hp; }
   
 };
 
