@@ -80,7 +80,7 @@ eSceneType InGame::Update(float delta_second)
 void InGame::Draw() const  
 {  
    Vector2D screen_offset(0, 0); // スクリーンオフセットを初期化  
-   DrawFormatString(10, 10, GetColor(255, 255, 255), "Bottun.Sで球発射");  
+   DrawFormatString(10, 10, GetColor(255, 255, 255), "Lキーで球発射");  
    //player->Draw(screen_offset); // 必要な引数を渡す  
    //enemy->Draw(screen_offset);  
            // 入力制御インスタンスの取得
