@@ -5,20 +5,20 @@ class Bullet : public GameBase
 {
 public:
     Bullet(); // デフォルトコンストラクタ
-    void Initialize() override;
+    void Initialize() override; // 使用しないなら削除してもOK
+    void Initialize(int start_x, int start_y); // ★ 位置指定付き初期化
     void Update(float delta_second) override;
     void Draw(const Vector2D& screen_offset) const override;
     void Finalize() override;
-    bool IsActive() const;
-    int GetX() const { return x_; }
-    int GetY() const { return y_; }
-    void Deactivate() { is_active_ = false; }
     void OnHitCollision(GameBase* hit_object) override;
 
+    bool IsActive() const;
+    int GetX() const { return location.x; }
+    int GetY() const { return location.y; }
+    void Deactivate() { is_active_ = false; }
 
 private:
-    int x_;
-    int y_;
     int speed_;
     bool is_active_;
 };
+

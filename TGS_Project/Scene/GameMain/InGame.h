@@ -30,6 +30,14 @@ private:
 
     void StartNextWave();
     void SpawnEnemiesForWave(int wave);
+    void DrawWithOffset(Vector2D& offset);
+
+public:
+
+    int  scroll = 0.0f;
+   
+
+    int back_image;
 
 public:
     InGame();
