@@ -1,6 +1,5 @@
 #pragma once
 
-#include <vector>
 #include "../../Object/Bullet/Bullet.h"
 #include "../GameBase.h"
 
@@ -17,15 +16,11 @@ public:
     void Finalize() override;
     void OnHitCollision(GameBase* hit_object) override;
 
-    // プレイヤー固有機能
-    void Shoot();  // 弾を生成する処理（内部で管理リストに登録する想定）
+    void Shoot();  // 弾を発射する処理
 
-    // 弾の取得（当たり判定などで使用）
-    const std::vector<Bullet>& GetBullets() const { return bullets; }
-
-public:
     void DecreaseHP(int amount);  // HP減少関数
     int GetHP() const;            // HP取得関数
+    Vector2D& GetLocation();
 
 private:
     void Movement();
@@ -38,14 +33,13 @@ private:
     unsigned int color;
     int hp;                      // プレイヤーのHP（初期値10）
 
+    bool flip_flag;
+    bool scroll_end;
+    bool scroll_start;
 
-
-    std::vector<Bullet> bullets; // プレイヤーの弾のリスト
-    // 発射位置のオフセット（←追加した変数）
     int bullet_offset_x;
     int bullet_offset_y;
 
-    // 発射間隔管理用
     int last_shot_time;
     const int kShotIntervalMs = 500; // 500msで2発/秒
 };

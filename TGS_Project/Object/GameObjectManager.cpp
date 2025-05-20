@@ -29,3 +29,13 @@ void GameBaseManager::Finalize()
 		gb->Finalize();
 	}
 }
+
+
+
+void GameBaseManager::DrawWithOffset(const Vector2D& offset)
+{
+	for (GameBase* gb : game_object_list)
+	{
+		gb->Draw(offset);
+	}
+}

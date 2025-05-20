@@ -192,4 +192,7 @@ public:
 	void Draw();
 
 	void Finalize();
+
+	void DrawWithOffset(const Vector2D& offset);
+
 };
