@@ -20,8 +20,9 @@ void Castle::Initialize()
     is_mobility = false;
     filp_flag = false;
     hit_flag = false;
+    hit = false;
 
-    hp = 10; // 初期化
+    hp = 20; // 初期化
     // サイズや当たり判定なども必要に応じてここで設定する
 }
 
@@ -38,6 +39,16 @@ void Castle::Draw(const Vector2D& screen_offset) const
 
 void Castle::Update(float delta_second) 
 { 
+    if (hit == true)
+    { 
+        damage_cooldown += delta_second;
+
+        if (damage_cooldown == 1.0f)
+        {
+            hit = false;
+        }
+    }
+   
 }
 
 void Castle::Finalize()
@@ -47,14 +58,12 @@ void Castle::Finalize()
 
 void Castle::OnHitCollision(GameBase* hit_object)
 {
-     //敵かどうか判断したいなら（Enemy クラスがある場合）
-    if (dynamic_cast<Enemy*>(hit_object)) {
-        hp--;
-    }
 
-   // すべての当たりをとりあえず「敵からの攻撃」と仮定する場合：
-    if (hp > 0) {
-        hp--;
-        printf("Castle HP: %d\n", hp); // コンソールにHP表示
+    if (damage_cooldown <= 0.0f && hp > 0)
+    {
+        hp--; // HPを1減らす
+        hit = true;
+        //damage_cooldown = DAMAGE_INTERVAL; // ダメージを受けたらクールタイム開始
+        printf("Castle HP: %d\n", hp);
     }
 }
