@@ -5,13 +5,14 @@
 
 Player::Player()
     : player_x(200), player_y(500),
-    size_x(64), size_y(64),
+    size_x(128), size_y(128),
     color(GetColor(0, 255, 0)),
     bullet_offset_x(0), bullet_offset_y(0),
     last_shot_time(0), scroll_end(false),
     scroll_start(false),
-    flip_flag(false)
+	flip_flag(false)
 {
+
 }
 
 Player::~Player()
@@ -20,6 +21,7 @@ Player::~Player()
 
 void Player::Initialize()
 {
+	player_image = LoadGraph("Resource/Images/Player.png");
     player_x = 200;
     player_y = 500;
 
@@ -47,6 +49,15 @@ void Player::Update(float delta_second)
     if (location.x < 24) {
         location.x = 24;
     }
+    if (location.x > 2400) {
+        location.x = 2400;
+    }
+    if (location.y < 40) {
+        location.y = 40;
+    }
+    if (location.y >650) {
+        location.y = 650;
+    }
 
 }
 
@@ -55,15 +66,15 @@ void Player::Draw(const Vector2D& screen_offset) const
     int draw_x = location.x - screen_offset.x;
     int draw_y = location.y - screen_offset.y;
 
-    DrawBox(
-        draw_x - collision.box_size.x,
-        draw_y - collision.box_size.y,
-        draw_x + collision.box_size.x,
-        draw_y + collision.box_size.y,
-        color, TRUE
+    DrawExtendGraph(
+        draw_x - size_x / 2,
+        draw_y - size_y / 2,
+        draw_x + size_x / 2,
+        draw_y + size_y / 2,
+        player_image,
+        TRUE
     );
 }
-
 void Player::Finalize()
 {
 }
@@ -94,8 +105,16 @@ void Player::Shoot()
 
 void Player::Movement()
 {
-    if (CheckHitKey(KEY_INPUT_A)) location.x -= 2;
-    if (CheckHitKey(KEY_INPUT_D)) location.x += 2;
+    if (CheckHitKey(KEY_INPUT_A)) 
+    {
+        location.x -= 2;
+        flip_flag = TRUE;
+    }
+    if (CheckHitKey(KEY_INPUT_D))
+    {
+        location.x += 2;
+        flip_flag = FALSE;
+    }
     if (CheckHitKey(KEY_INPUT_S)) location.y += 2;
     if (CheckHitKey(KEY_INPUT_W)) location.y -= 2;
 
