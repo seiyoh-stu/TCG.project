@@ -33,7 +33,7 @@ private:
     unsigned int color;
     int hp;                      // プレイヤーのHP（初期値10）
 
-    int  flip_flag;
+    int flip_flag;
     bool scroll_end;
     bool scroll_start;
 

@@ -10,13 +10,15 @@ Player::Player()
     bullet_offset_x(0), bullet_offset_y(0),
     last_shot_time(0), scroll_end(false),
     scroll_start(false),
-	flip_flag(false)
+	flip_flag(FALSE)
 {
 
 }
 
 Player::~Player()
 {
+
+
 }
 
 void Player::Initialize()
@@ -64,17 +66,33 @@ void Player::Update(float delta_second)
 void Player::Draw(const Vector2D& screen_offset) const
 {
     int draw_x = location.x - screen_offset.x;
-    int draw_y = location.y - screen_offset.y;
+	int draw_y = location.y - screen_offset.y;
 
-    DrawExtendGraph(
-        draw_x - size_x / 2,
-        draw_y - size_y / 2,
-        draw_x + size_x / 2,
-        draw_y + size_y / 2,
-        player_image,
-        TRUE
-    );
+
+    if (!flip_flag) {
+        // 通常描画（右向き）
+        DrawExtendGraph(
+            draw_x - size_x / 2,
+            draw_y - size_y / 2,
+            draw_x + size_x / 2,
+            draw_y + size_y / 2,
+            player_image,
+            TRUE
+        );
+    }
+    else {
+        // 左右反転描画（左向き）
+        DrawExtendGraph(
+            draw_x + size_x / 2,  // ← 左右の座標を反転させる
+            draw_y - size_y / 2,
+            draw_x - size_x / 2,
+            draw_y + size_y / 2,
+            player_image,
+            TRUE
+        );
+    }
 }
+
 void Player::Finalize()
 {
 }
@@ -92,28 +110,20 @@ void Player::OnHitCollision(GameBase* hit_object)
 
 void Player::Shoot()
 {
-    int now = GetNowCount();
-
-    //if (InputControl::GetInstance()->GetKey(KEY_INPUT_L) &&
-    //    now - last_shot_time >= kShotIntervalMs)
-    //{
-    //    Vector2D spawn_pos(location.x + bullet_offset_x, location.y + bullet_offset_y);
-    //    GameBaseManager::GetInstance()->CreateGameBase<Bullet>(spawn_pos);
-    //    last_shot_time = now;
-    //}
+    int now = GetNowCount();  
 }
 
 void Player::Movement()
 {
-    if (CheckHitKey(KEY_INPUT_A)) 
+    if (CheckHitKey(KEY_INPUT_A))
     {
         location.x -= 2;
-        flip_flag = TRUE;
+        flip_flag = TRUE;  // 左向き
     }
     if (CheckHitKey(KEY_INPUT_D))
     {
         location.x += 2;
-        flip_flag = FALSE;
+        flip_flag = FALSE; // 右向き
     }
     if (CheckHitKey(KEY_INPUT_S)) location.y += 2;
     if (CheckHitKey(KEY_INPUT_W)) location.y -= 2;
