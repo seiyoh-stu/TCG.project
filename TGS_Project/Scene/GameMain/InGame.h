@@ -34,7 +34,7 @@ private:
 
 public:
 
-    int  scroll = 0.0f;
+    float  scroll = 0.0f;
    
 
     int back_image;
