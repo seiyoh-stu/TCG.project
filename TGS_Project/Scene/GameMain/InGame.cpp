@@ -11,9 +11,8 @@
 #include "DxLib.h"
 #include <memory>
 
-InGame::InGame()
+InGame::InGame() : bgmHandle(-1)
 {
-
 }
 
 InGame::~InGame()
@@ -34,6 +33,13 @@ void InGame::Initialize()
 
     back_image = LoadGraph("Resource/Images/Title2.png");
     scroll = 0;
+
+    // BGMの読み込みと再生
+    bgmHandle = LoadSoundMem("Resource/Sounds/InGameBGM.mp3");
+    if (bgmHandle != -1)
+    {
+        PlaySoundMem(bgmHandle, DX_PLAYTYPE_LOOP, TRUE); // ループ再生
+    }
 }
 
 eSceneType InGame::Update(float delta_second)
@@ -164,6 +170,12 @@ void InGame::SpawnEnemiesForWave(int wave)
 
 void InGame::Finalize()
 {
+    if (bgmHandle != -1)
+    {
+        StopSoundMem(bgmHandle);
+        DeleteSoundMem(bgmHandle);
+    }
+
     GameBaseManager::GetInstance()->Finalize();
 }
 

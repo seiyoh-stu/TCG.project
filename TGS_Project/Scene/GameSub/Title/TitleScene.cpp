@@ -2,7 +2,7 @@
 #include "DxLib.h"
 #include"../../../Utility/InputControl.h"
 
-TitleScene::TitleScene() : titleImageHandle(-1), title_arrow(-1)
+TitleScene::TitleScene() : titleImageHandle(-1), title_arrow(-1),bgmHandle(-1)
 {
 }
 
@@ -17,6 +17,13 @@ void TitleScene::Initialize()
 
 	cursor_number = 0;
 	cursor_y = 200;  //カーソルの初期位置
+
+	// BGM 読み込みと再生
+	bgmHandle = LoadSoundMem("Resource/Sounds/オープニング.mp3");
+	if (bgmHandle != -1)
+	{
+		PlaySoundMem(bgmHandle, DX_PLAYTYPE_LOOP, TRUE); // ループ再生
+	}
 }
 
 eSceneType TitleScene::Update(float delta_second)
@@ -85,6 +92,12 @@ void TitleScene::Finalize()
 	if (title_arrow != -1)
 	{
 		DeleteGraph(title_arrow);
+	}
+	//BGM終了処理
+	if (bgmHandle != -1)
+	{
+		StopSoundMem(bgmHandle);
+		DeleteSoundMem(bgmHandle);
 	}
 }
 

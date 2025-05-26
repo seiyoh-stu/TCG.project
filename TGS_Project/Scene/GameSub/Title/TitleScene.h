@@ -10,6 +10,9 @@ private:
 
 	int cursor_number; // カーソルの番号
 	int cursor_y; // カーソルの位置
+
+	int bgmHandle;
+
 	
 	
 public:

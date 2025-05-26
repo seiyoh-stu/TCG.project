@@ -19,6 +19,8 @@ private:
     //// 他のプライベートメンバ変数
     //std::unique_ptr<Enemy> enemy; // Enemyクラスのインスタンスをスマートポインタで管理
 
+    int bgmHandle;
+
     float enemy_spawn_timer = 0.0f;
     float enemy_spawn_interval = 3.0f; // 3秒ごとにスポーン
     void SpawnEnemy(); // ランダム敵生成用関数
