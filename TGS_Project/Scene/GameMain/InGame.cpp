@@ -63,11 +63,20 @@ eSceneType InGame::Update(float delta_second)
     GameBaseManager* gbmm = GameBaseManager::GetInstance();
     gbmm->Update(delta_second);
 
-    if (player->GetLocation().x >= 640) {
+
+    //--------スクロール処理--------------
+    float prev_scroll = scroll;
+    if (player->GetLocation().x >= 640)
+    {
         scroll = player->GetLocation().x - 640;
+
+        float scroll_delta = scroll - prev_scroll;
+        castle->SetScroll(scroll_delta, delta_second);
+
         if (scroll < 0) scroll = 0;
     }
-    else {
+    else
+    {
         scroll = 0;
     }
 

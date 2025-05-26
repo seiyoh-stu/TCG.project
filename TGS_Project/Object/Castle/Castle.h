@@ -18,6 +18,7 @@ public:
     void Finalize() override;
     void OnHitCollision(GameBase* hit_object) override;
     int GetHP() const { return hp; }
+    void SetScroll(float scroll , float& delta_second);
   
 };
 
