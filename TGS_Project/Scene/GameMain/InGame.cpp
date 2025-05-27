@@ -11,7 +11,7 @@
 #include "DxLib.h"
 #include <memory>
 
-InGame::InGame() : bgmHandle(-1)
+InGame::InGame() : bgmHandle(-1) , flip_flag(false)
 {
 }
 
@@ -49,9 +49,19 @@ eSceneType InGame::Update(float delta_second)
     if (input->GetKeyDown(KEY_INPUT_SPACE))
         return eSceneType::eResult;
 
+    // ばれっと生成
     if (input->GetKeyDown(KEY_INPUT_L)) {
         GameBaseManager* gbmm = GameBaseManager::GetInstance();
-        gbmm->CreateGameBase<Bullet>(player->GetLocation());
+        Bullet* bullet;
+        bullet = gbmm->CreateGameBase<Bullet>(player->GetLocation());
+        if (player->flip_flag == TRUE)
+        {
+            bullet->GetFlipFlag(TRUE);
+        }
+        else
+        {
+            bullet->GetFlipFlag(FALSE);
+        }
     }
 
     enemy_spawn_timer += delta_second;

@@ -20,6 +20,7 @@ private:
     //std::unique_ptr<Enemy> enemy; // Enemyクラスのインスタンスをスマートポインタで管理
 
     int bgmHandle;
+    bool flip_flag; // 画面反転フラぐ
 
     float enemy_spawn_timer = 0.0f;
     float enemy_spawn_interval = 3.0f; // 3秒ごとにスポーン
