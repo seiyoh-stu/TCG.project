@@ -1,10 +1,11 @@
 #include "Enemy.h"
+#include "../Player/Player.h"
 #include"../../Object/GameObjectManager.h"
 #include"DxLib.h"
 
 Enemy::Enemy() :
-	enemy_x(550), // 初期位置X座標
-	enemy_y(500), // 初期位置Y座標
+	//enemy_x(550), // 初期位置X座標
+	//enemy_y(500), // 初期位置Y座標
 	size_x_(64),  // 四角の幅
 	size_y_(64),  // 四角の高さ
 	color_(GetColor(255, 0, 0)) // 四角の色 (赤)
@@ -57,10 +58,21 @@ void Enemy::Movement()
 	//移動量
 	int move_x = 0;
 
-	// 右の端っこに着くと、左の端っこに移動する
-	if (location.x >= 100)
+	//// 右の端っこに着くと、左の端っこに移動する
+	//if (location.x >= 100)
+	//{
+	//	move_x -= speed;
+	//}
+
+	Vector2D p_location = player->GetLocation();
+
+	if (p_location.x < location.x)
 	{
-		move_x -= speed;
+		move_x = -1;
+	}
+	else
+	{
+		move_x = 1;
 	}
 
 	location.x += move_x;
@@ -69,6 +81,11 @@ void Enemy::Movement()
 void Enemy::AnimeControl()
 {
 	// アニメーションに関する処理を記述 (今回は空)
+}
+
+void Enemy::SetPlayer(Player* p)
+{
+	player = p;
 }
 
 //void OnHitCollision(GameBase* hit_object)

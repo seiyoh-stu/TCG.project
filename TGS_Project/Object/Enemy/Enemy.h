@@ -3,6 +3,7 @@
 
 class Enemy : public GameBase
 {
+	Player* player;
 public:
 	Enemy();
 	~Enemy();
@@ -13,6 +14,7 @@ public:
 	void Draw(const Vector2D& screen_offset) const override;
 	void Finalize() override;
 	void OnHitCollision(GameBase* hit_object) override;
+	void SetPlayer(Player* p);
 
 private:
 	void Movement();

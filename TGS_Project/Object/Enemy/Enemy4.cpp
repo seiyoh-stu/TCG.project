@@ -3,8 +3,8 @@
 #include"DxLib.h"
 
 Enemy4::Enemy4() :
-	enemy4_x(700), // 初期位置X座標
-	enemy4_y(500), // 初期位置Y座標
+	//enemy4_x(700), // 初期位置X座標
+	//enemy4_y(500), // 初期位置Y座標
 	size4_x_(64),  // 四角の幅
 	size4_y_(64),  // 四角の高さ
 	color4_(GetColor(255, 0, 0)) // 四角の色 (赤)

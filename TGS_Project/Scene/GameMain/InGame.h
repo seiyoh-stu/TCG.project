@@ -27,7 +27,7 @@ private:
 
     int current_wave = 1;
     float wave_timer = 0.0f;
-    float wave_interval = 10.0f; // 10秒ごとに次のウェーブ
+    float wave_interval = 2.5f; // 2.5秒ごとに次のウェーブ
     bool wave_in_progress = false;
 
     void StartNextWave();
