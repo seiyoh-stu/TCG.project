@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "../../Utility/InputControl.h"
+#include "../../Object/Bullet/Bullet.h"
 #include "../../Object/GameObjectManager.h"
 #include "DxLib.h"
 
@@ -23,6 +24,8 @@ Player::~Player()
 
 void Player::Initialize()
 {
+    Bullet* bullet;         //Bullet呼出処理
+
 	player_image = LoadGraph("Resource/Images/Player.png");
     player_x = 200;
     player_y = 500;
@@ -110,15 +113,41 @@ void Player::OnHitCollision(GameBase* hit_object)
 
 void Player::Shoot()
 {
-    int now = GetNowCount();  
+    int now = GetNowCount();
+
+    // 発射間隔制御例（省略）
+
+    // 弾生成例（仮にGameBaseManagerで生成）
+    GameBaseManager* gbm = GameBaseManager::GetInstance();
+
+    // 弾の初期位置はプレイヤーの中心＋オフセット
+    int bullet_x = location.x + (flip_flag ? -bullet_offset_x : bullet_offset_x);
+    int bullet_y = location.y + bullet_offset_y;
+
+   /* Bullet* bullet = gbm->CreateBullet();
+    if (bullet)
+    {
+        bullet->Initialize(bullet_x, bullet_y, flip_flag);
+    }*/
+
+    last_shot_time = now;
 }
 
 void Player::Movement()
 {
+    Bullet* bullet;
+
     if (CheckHitKey(KEY_INPUT_A))
     {
         location.x -= 2;
         flip_flag = TRUE;  // 左向き
+        if (flip_flag = TRUE)
+        {
+       //     bullet->GetFlipFlag(TRUE);
+       }
+
+
+
     }
     if (CheckHitKey(KEY_INPUT_D))
     {
@@ -156,3 +185,4 @@ Vector2D& Player::GetLocation()
 {
     return this->location;
 }
+

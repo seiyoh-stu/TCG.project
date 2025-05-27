@@ -2,6 +2,7 @@
 #include "DxLib.h"
 #include"../../Object/GameObjectManager.h"
 
+
 Bullet::Bullet()
     : speed_(5), is_active_(false)
 {
@@ -12,10 +13,10 @@ Bullet::Bullet()
 void Bullet::Initialize()
 {
     // デフォルトの初期化（使用しない場合は削除可）
-    Initialize(0, 0);
+    Initialize(0, 0,false);
 }
 
-void Bullet::Initialize(int start_x, int start_y)
+void Bullet::Initialize(int start_x, int start_y,bool flip_flag)
 {
     location.x = start_x;
     location.y = start_y;
@@ -28,12 +29,15 @@ void Bullet::Initialize(int start_x, int start_y)
 
 void Bullet::Update(float delta_second)
 {
-    location.x += speed_;
 
-    if (location.x >4000) {  
+    if (location.x >4000|| location.x < 0) {
         is_active_ = false;
         GameBaseManager::GetInstance()->DestroyGameBase(this);
     }
+
+    //GetFlipFlag(1);
+    location.x += speed_;
+
 }
 
 void Bullet::Draw(const Vector2D& screen_offset) const
@@ -68,4 +72,16 @@ void Bullet::OnHitCollision(GameBase* hit_object)
 bool Bullet::IsActive() const
 {
     return is_active_;
+}
+
+void Bullet::GetFlipFlag(bool flag)
+{
+    if (flag==TRUE) 
+    {
+        speed_ = -5;
+    }
+    else
+    {
+        speed_ = 5;
+    }
 }

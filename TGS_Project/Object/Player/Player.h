@@ -33,7 +33,6 @@ private:
     unsigned int color;
     int hp;                      // プレイヤーのHP（初期値10）
 
-    int flip_flag;
     bool scroll_end;
     bool scroll_start;
 
@@ -44,4 +43,6 @@ private:
 
     int last_shot_time;
     const int kShotIntervalMs = 500; // 500msで2発/秒
+public:
+    bool flip_flag;//反転
 };
