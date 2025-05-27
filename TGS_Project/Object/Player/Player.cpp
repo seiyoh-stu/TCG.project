@@ -145,9 +145,6 @@ void Player::Movement()
         {
        //     bullet->GetFlipFlag(TRUE);
        }
-
-
-
     }
     if (CheckHitKey(KEY_INPUT_D))
     {
