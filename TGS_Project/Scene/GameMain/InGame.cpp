@@ -8,6 +8,7 @@
 #include "../../Object/Enemy/Enemy3.h"
 #include "../../Object/Enemy/Enemy4.h"
 #include "../../Object/GameObjectManager.h"
+#include "../../Utility/ScoreManager.h"
 #include "DxLib.h"
 #include <memory>
 
@@ -22,9 +23,33 @@ InGame::~InGame()
 
 void InGame::Initialize()
 {
+    // 500〜1000の乱数を生成（GetRand は 0〜N の乱数を返す）(DxLibのランダム関数)
+    int randomNumber = GetRand(1500);  // 0〜1500 の値
+    randomNumber += 1500;              // → 1500〜3000 に調整(1500以上から出現するようになる)
+
+    int randomNumber2 = GetRand(1500);  // 0〜1500 の値
+    randomNumber2 += 1500;              // → 1500〜3000 に調整(1500以上から出現するようになる)
+
+    int randomNumber3 = GetRand(1500);  // 0〜1500 の値
+    randomNumber3 += 1500;              // → 1500〜3000 に調整(1500以上から出現するようになる)
+
+    int randomNumber4 = GetRand(1500);  // 0〜1500 の値
+    randomNumber4 += 1500;              // → 1500〜3000 に調整(1500以上から出現するようになる)
+
+    int e_randomNumber = GetRand(3);  // 3 の値
+
+    int e_randomNumber2 = GetRand(3);  // 0〜1 の値
+
+    int e_randomNumber3 = GetRand(3);  // 0〜1 の値
+
+    int e_randomNumber4 = GetRand(1);  // 0〜1 の値
+
     GameBaseManager* gbmm = GameBaseManager::GetInstance();
     player = gbmm->CreateGameBase<Player>(Vector2D(200, 500));
     castle = gbmm->CreateGameBase<Castle>(Vector2D(100, 500));
+
+    enemy_spawn_timer = 0.0f;
+    enemy_spawn_interval = 3.0f; // 3秒ごとに敵を出現
 
     gbmm->CreateGameBase<Enemy>(Vector2D(1000, 500));
     gbmm->CreateGameBase<Enemy2>(Vector2D(1500, 500));
@@ -40,6 +65,8 @@ void InGame::Initialize()
     {
         PlaySoundMem(bgmHandle, DX_PLAYTYPE_LOOP, TRUE); // ループ再生
     }
+
+    score = ScoreManager::GetInstance();
 }
 
 eSceneType InGame::Update(float delta_second)
@@ -110,6 +137,12 @@ void InGame::Draw() const
         DrawFormatString(10, 40, GetColor(255, 255, 0), "Player HP: %d", player->GetHP());
 
     DrawFormatString(10, 60, GetColor(255, 128, 128), "Castle HP: %d", castle->GetHP());
+
+    if (score != nullptr) 
+    {
+        DrawFormatString(10, 80, GetColor(255, 128, 128), "Score: %d", score->GetScore());
+    }
+
 }
 
 void InGame::SpawnEnemy()

@@ -1,5 +1,6 @@
 #include "Enemy3.h"
 #include"../../Object/GameObjectManager.h"
+#include"../../Utility/ScoreManager.h"
 #include"DxLib.h"
 
 Enemy3::Enemy3() :
@@ -7,7 +8,7 @@ Enemy3::Enemy3() :
 	enemy3_y(500), // ‰ŠúˆÊ’uYÀ•W
 	size3_x_(64),  // ŽlŠp‚Ì•
 	size3_y_(64),  // ŽlŠp‚Ì‚‚³
-	color3_(GetColor(255, 0, 0)) // ŽlŠp‚ÌF (Ô)
+	color3_(GetColor(0, 0, 255)) // ŽlŠp‚ÌF (Ô)
 {
 
 }
@@ -45,6 +46,16 @@ void Enemy3::OnHitCollision(GameBase* hit_object)
 {
 	if (hit_object->GetCollision().object_type == eBullet)
 	{
+		static bool check_hit = false;
+
+		if (check_hit == false)
+		{
+			// ƒXƒRƒA‚ð‰ÁŽZ‚·‚é
+			ScoreManager* score = ScoreManager::GetInstance();
+			score->AddScore(150); // “G‚ð“|‚·‚Æ100“_‰ÁŽZi“K‹X’²®j
+			check_hit = true;
+		}
+
 		GameBaseManager* gbmm = GameBaseManager::GetInstance();
 		gbmm->DestroyGameBase(this);
 	}

@@ -164,6 +164,7 @@
     <ClCompile Include="Scene\GameSub\Result\Result.cpp" />
     <ClCompile Include="Scene\GameMain\SceneManager.cpp" />
     <ClCompile Include="Utility\InputControl.cpp" />
+    <ClCompile Include="Utility\ScoreManager.cpp" />
     <ClCompile Include="Utility\SingleTone.h" />
     <ClCompile Include="Utility\Vector2D.cpp" />
   </ItemGroup>
@@ -186,6 +187,7 @@
     <ClInclude Include="Scene\GameMain\SceneBase.h" />
     <ClInclude Include="Scene\GameMain\SceneManager.h" />
     <ClInclude Include="Utility\InputControl.h" />
+    <ClInclude Include="Utility\ScoreManager.h" />
     <ClInclude Include="Utility\Vector2D.h" />
     <ClInclude Include="Utility\Enum.h" />
   </ItemGroup>

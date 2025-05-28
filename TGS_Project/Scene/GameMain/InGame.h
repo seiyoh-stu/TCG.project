@@ -7,6 +7,7 @@
 #include "../../Object/Enemy/Enemy2.h"
 #include "../../Object/Enemy/Enemy3.h"
 #include "../../Object/Enemy/Enemy4.h"
+#include "../../Utility/ScoreManager.h"
 #include "../../Utility/Vector2D.h"
 #include <memory> // std::unique_ptr を使用するため
 
@@ -15,6 +16,7 @@ class InGame : public SceneBase
 private:
     Player* player;
     Castle* castle;
+    ScoreManager* score;
     //std::unique_ptr<Player> player; // Playerクラスのインスタンスをスマートポインタで管理
     //// 他のプライベートメンバ変数
     //std::unique_ptr<Enemy> enemy; // Enemyクラスのインスタンスをスマートポインタで管理
@@ -35,12 +37,16 @@ private:
     void SpawnEnemiesForWave(int wave);
     void DrawWithOffset(Vector2D& offset);
 
+    
+
 public:
 
     float  scroll = 0.0f;
    
 
     int back_image;
+
+    
 
 public:
     InGame();

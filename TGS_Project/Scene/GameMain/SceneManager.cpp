@@ -44,6 +44,7 @@ void SceneManager::Initialize()
 
     // 最初のシーンをタイトルに設定
     ChangeScene(eSceneType::eTitle);
+
 }
 
 /// <summary>
