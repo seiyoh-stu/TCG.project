@@ -21,6 +21,12 @@ private:
 
     int bgmHandle;
     bool flip_flag; // 画面反転フラぐ
+    int bullet_magazine;
+    int reload;
+    bool push_flg;
+
+    bool a;
+
 
     float enemy_spawn_timer = 0.0f;
     float enemy_spawn_interval = 3.0f; // 3秒ごとにスポーン

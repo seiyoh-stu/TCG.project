@@ -43,6 +43,9 @@ private:
 
     int last_shot_time;
     const int kShotIntervalMs = 500; // 500ms‚Å2”­/•b
+
+   
+
 public:
     bool flip_flag;//”½“]
 };

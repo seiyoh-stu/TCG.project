@@ -11,8 +11,10 @@
 #include "DxLib.h"
 #include <memory>
 
-InGame::InGame() : bgmHandle(-1) , flip_flag(false)
+InGame::InGame() : bgmHandle(-1) , flip_flag(false),
+ bullet_magazine(5), push_flg(true),reload(0)
 {
+
 }
 
 InGame::~InGame()
@@ -49,18 +51,52 @@ eSceneType InGame::Update(float delta_second)
     if (input->GetKeyDown(KEY_INPUT_SPACE))
         return eSceneType::eResult;
 
+    if (input->GetKeyDown(KEY_INPUT_J))
+    {
+        a = true;
+    }
+     
+    if (a == true)
+    {
+        reload++;
+        if (reload >= 100)
+        {
+            bullet_magazine = 5;
+            a = false;
+            reload = 0;
+        }
+
+    }
+
+
     // ばれっと生成
-    if (input->GetKeyDown(KEY_INPUT_L)) {
+    if (input->GetKeyDown(KEY_INPUT_L) &&(bullet_magazine >0)){
         GameBaseManager* gbmm = GameBaseManager::GetInstance();
         Bullet* bullet;
         bullet = gbmm->CreateGameBase<Bullet>(player->GetLocation());
         if (player->flip_flag == TRUE)
         {
             bullet->GetFlipFlag(TRUE);
+
         }
         else
         {
             bullet->GetFlipFlag(FALSE);
+        }
+
+        bullet_magazine--;//弾が減る
+
+    }
+
+
+    // たまが0になった時に強制的にreload
+    if (bullet_magazine <= 0)
+    {
+        reload++;
+        if (reload >= 200)
+        {
+            bullet_magazine = 5;
+            reload = 0;
         }
     }
 
@@ -110,6 +146,12 @@ void InGame::Draw() const
         DrawFormatString(10, 40, GetColor(255, 255, 0), "Player HP: %d", player->GetHP());
 
     DrawFormatString(10, 60, GetColor(255, 128, 128), "Castle HP: %d", castle->GetHP());
+    DrawFormatString(10, 80, GetColor(255, 128, 128), "弾の残弾数: %d", bullet_magazine);
+    if (bullet_magazine == 0 || a == true)
+    {
+        // クールタイムの文
+        DrawFormatString(10, 100, GetColor(255, 128, 128), "reloadnow");
+    }
 }
 
 void InGame::SpawnEnemy()
