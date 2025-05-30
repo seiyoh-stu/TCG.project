@@ -58,7 +58,7 @@ void InGame::Initialize()
     gbmm->CreateGameBase<Enemy3>(Vector2D(2000, 500));
     gbmm->CreateGameBase<Enemy4>(Vector2D(2500, 500));
 
-    back_image = LoadGraph("Resource/Images/Title2.png");
+    back_image = LoadGraph("Resource/Images/Ingame.png");
     scroll = 0;
 
     // BGMの読み込みと再生
@@ -164,7 +164,7 @@ eSceneType InGame::Update(float delta_second)
 
 void InGame::Draw() const
 {
-    DrawRotaGraph(1280 - scroll, 480, 2.0, 0.0, back_image, TRUE);
+    DrawRotaGraph(1280 - scroll, 480, 5.0, 0.0, back_image, TRUE);
     Vector2D screen_offset(scroll, 0);
 
     GameBaseManager::GetInstance()->DrawWithOffset(screen_offset);

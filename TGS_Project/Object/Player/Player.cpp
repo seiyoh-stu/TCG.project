@@ -26,7 +26,7 @@ void Player::Initialize()
 {
     Bullet* bullet;         //BulletŒÄoˆ—
 
-	player_image = LoadGraph("Resource/Images/Player.png");
+	player_image = LoadGraph("Resource/Images/player(2).png");
     player_x = 200;
     player_y = 500;
 
