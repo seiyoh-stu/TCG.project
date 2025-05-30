@@ -78,6 +78,7 @@ eSceneType InGame::Update(float delta_second)
     if (input->GetKeyDown(KEY_INPUT_SPACE))
         return eSceneType::eResult;
 
+	//リロード処理----------------
     if (input->GetKeyDown(KEY_INPUT_K))
     {
         a = true;
@@ -94,7 +95,7 @@ eSceneType InGame::Update(float delta_second)
         }
 
     }
-
+    //----------------------------
 
     // ばれっと生成
     if (input->GetKeyDown(KEY_INPUT_L) &&(bullet_magazine >0)){
