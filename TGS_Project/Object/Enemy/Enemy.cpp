@@ -1,5 +1,6 @@
 #include "Enemy.h"
 #include"../../Object/GameObjectManager.h"
+#include"../../Utility/ScoreManager.h"
 #include"DxLib.h"
 
 Enemy::Enemy() :
@@ -45,8 +46,20 @@ void Enemy::OnHitCollision(GameBase* hit_object)
 {
 	if (hit_object->GetCollision().object_type == eBullet)
 	{
+		static bool check_hit = false;
+
+		if (check_hit == false)
+		{
+			// スコアを加算する
+			ScoreManager* score = ScoreManager::GetInstance();
+			score->AddScore(100); // 敵を倒すと100点加算（適宜調整）
+			check_hit = true;
+		}
+
+		// 敵オブジェクトを破棄
 		GameBaseManager* gbmm = GameBaseManager::GetInstance();
 		gbmm->DestroyGameBase(this);
+		
 	}
 }
 //移動処理
