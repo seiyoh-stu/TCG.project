@@ -78,7 +78,7 @@ eSceneType InGame::Update(float delta_second)
     if (input->GetKeyDown(KEY_INPUT_SPACE))
         return eSceneType::eResult;
 
-    if (input->GetKeyDown(KEY_INPUT_J))
+    if (input->GetKeyDown(KEY_INPUT_K))
     {
         a = true;
     }
@@ -173,21 +173,17 @@ void InGame::Draw() const
         DrawFormatString(10, 40, GetColor(255, 255, 0), "Player HP: %d", player->GetHP());
 
     DrawFormatString(10, 60, GetColor(255, 128, 128), "Castle HP: %d", castle->GetHP());
-<<<<<<< HEAD
-    DrawFormatString(10, 80, GetColor(255, 128, 128), "弾の残弾数: %d", bullet_magazine);
+    DrawFormatString(10, 100, GetColor(255, 128, 128), "弾の残弾数: %d", bullet_magazine);
     if (bullet_magazine == 0 || a == true)
     {
         // クールタイムの文
-        DrawFormatString(10, 100, GetColor(255, 128, 128), "reloadnow");
+        DrawFormatString(10, 120, GetColor(255, 128, 128), "reloadnow");
     }
-=======
 
     if (score != nullptr) 
     {
         DrawFormatString(10, 80, GetColor(255, 128, 128), "Score: %d", score->GetScore());
     }
-
->>>>>>> main
 }
 
 void InGame::SpawnEnemy()
