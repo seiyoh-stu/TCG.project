@@ -170,10 +170,10 @@ void InGame::Draw() const
 
     GameBaseManager::GetInstance()->DrawWithOffset(screen_offset);
 
-    if (player != nullptr)
-        DrawFormatString(10, 40, GetColor(255, 255, 0), "Player HP: %d", player->GetHP());
-
+    //城のHP描画
     DrawFormatString(10, 60, GetColor(255, 128, 128), "Castle HP: %d", castle->GetHP());
+
+    //弾の残弾数表示
     DrawFormatString(10, 100, GetColor(255, 128, 128), "弾の残弾数: %d", bullet_magazine);
     if (bullet_magazine == 0 || a == true)
     {
@@ -181,6 +181,8 @@ void InGame::Draw() const
         DrawFormatString(10, 120, GetColor(255, 128, 128), "reloadnow");
     }
 
+
+    //スコア表示
     if (score != nullptr) 
     {
         DrawFormatString(10, 80, GetColor(255, 128, 128), "Score: %d", score->GetScore());

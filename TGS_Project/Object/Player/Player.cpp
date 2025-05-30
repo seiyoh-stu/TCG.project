@@ -68,32 +68,33 @@ void Player::Update(float delta_second)
 
 void Player::Draw(const Vector2D& screen_offset) const
 {
-    int draw_x = location.x - screen_offset.x;
-	int draw_y = location.y - screen_offset.y;
+ //   int draw_x = location.x - screen_offset.x;
+	//int draw_y = location.y - screen_offset.y;
 
 
-    if (!flip_flag) {
-        // 通常描画（右向き）
-        DrawExtendGraph(
-            draw_x - size_x / 2,
-            draw_y - size_y / 2,
-            draw_x + size_x / 2,
-            draw_y + size_y / 2,
-            player_image,
-            TRUE
-        );
-    }
-    else {
-        // 左右反転描画（左向き）
-        DrawExtendGraph(
-            draw_x + size_x / 2,  // ← 左右の座標を反転させる
-            draw_y - size_y / 2,
-            draw_x - size_x / 2,
-            draw_y + size_y / 2,
-            player_image,
-            TRUE
-        );
-    }
+ //   if (!flip_flag) {
+ //       // 通常描画（右向き）
+ //       DrawExtendGraph(
+ //           draw_x - size_x / 2,
+ //           draw_y - size_y / 2,
+ //           draw_x + size_x / 2,
+ //           draw_y + size_y / 2,
+ //           player_image,
+ //           TRUE
+ //       );
+ //   }
+ //   else {
+ //       // 左右反転描画（左向き）
+ //       DrawExtendGraph(
+ //           draw_x + size_x / 2,  // ← 左右の座標を反転させる
+ //           draw_y - size_y / 2,
+ //           draw_x - size_x / 2,
+ //           draw_y + size_y / 2,
+ //           player_image,
+ //           TRUE
+ //       );
+ //   }4
+    DrawBox(location.x - collision.box_size.x, location.y - collision.box_size.y, location.x + collision.box_size.x, location.y + collision.box_size.y, GetColor(100, 0, 255), TRUE);
 }
 
 void Player::Finalize()
@@ -124,12 +125,6 @@ void Player::Shoot()
     int bullet_x = location.x + (flip_flag ? -bullet_offset_x : bullet_offset_x);
     int bullet_y = location.y + bullet_offset_y;
 
-   /* Bullet* bullet = gbm->CreateBullet();
-    if (bullet)
-    {
-        bullet->Initialize(bullet_x, bullet_y, flip_flag);
-    }*/
-
     last_shot_time = now;
 }
 
@@ -137,22 +132,27 @@ void Player::Movement()
 {
     Bullet* bullet;
 
+    //player移動
+
+    //左に移動
     if (CheckHitKey(KEY_INPUT_A))
     {
-        location.x -= 2;
+        location.x -= 1;
         flip_flag = TRUE;  // 左向き
         if (flip_flag = TRUE)
         {
        //     bullet->GetFlipFlag(TRUE);
        }
     }
+    //右に移動
     if (CheckHitKey(KEY_INPUT_D))
     {
-        location.x += 2;
+        location.x += 1;
         flip_flag = FALSE; // 右向き
     }
-    if (CheckHitKey(KEY_INPUT_S)) location.y += 2;
-    if (CheckHitKey(KEY_INPUT_W)) location.y -= 2;
+
+    if (CheckHitKey(KEY_INPUT_S)) location.y += 1;
+    if (CheckHitKey(KEY_INPUT_W)) location.y -= 1;
 
     InputControl* input = InputControl::GetInstance();
     if (input->GetPadButtonState(PAD_INPUT_DOWN) == eInputState::ePress) location.x -= 5;
