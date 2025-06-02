@@ -1,5 +1,6 @@
 #pragma once
 #include "../GameBase.h"
+#include"../../Scene/GameMain/SceneManager.h"
 class Castle : public GameBase
 {
 private:
@@ -19,6 +20,8 @@ public:
     void OnHitCollision(GameBase* hit_object) override;
     int GetHP() const { return hp; }
     void SetScroll(float scroll , float& delta_second);
+
+    int GetHp() const;
   
 };
 

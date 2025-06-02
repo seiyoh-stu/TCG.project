@@ -25,7 +25,7 @@ void Castle::Initialize()
     collision.box_size = 64;
 
 
-    hp = 20; // 初期化
+    hp = 5; // 初期化
     // サイズや当たり判定なども必要に応じてここで設定する
 }
 
@@ -65,9 +65,6 @@ void Castle::Update(float delta_second)
             hit = false;
         }
     }
-
-   
-   
 }
 
 void Castle::Finalize()
@@ -90,4 +87,9 @@ void Castle::OnHitCollision(GameBase* hit_object)
 void Castle::SetScroll(float scroll, float& delta_second)
 {
     location.x -= scroll;
+}
+
+int Castle::GetHp() const
+{
+    return hp;
 }
