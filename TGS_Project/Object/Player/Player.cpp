@@ -68,33 +68,38 @@ void Player::Update(float delta_second)
 
 void Player::Draw(const Vector2D& screen_offset) const
 {
- //   int draw_x = location.x - screen_offset.x;
-	//int draw_y = location.y - screen_offset.y;
+    int draw_x = location.x - screen_offset.x;
+	int draw_y = location.y - screen_offset.y;
 
 
- //   if (!flip_flag) {
- //       // 通常描画（右向き）
- //       DrawExtendGraph(
- //           draw_x - size_x / 2,
- //           draw_y - size_y / 2,
- //           draw_x + size_x / 2,
- //           draw_y + size_y / 2,
- //           player_image,
- //           TRUE
- //       );
- //   }
- //   else {
- //       // 左右反転描画（左向き）
- //       DrawExtendGraph(
- //           draw_x + size_x / 2,  // ← 左右の座標を反転させる
- //           draw_y - size_y / 2,
- //           draw_x - size_x / 2,
- //           draw_y + size_y / 2,
- //           player_image,
- //           TRUE
- //       );
- //   }4
-    DrawBox(location.x - collision.box_size.x, location.y - collision.box_size.y, location.x + collision.box_size.x, location.y + collision.box_size.y, GetColor(100, 0, 255), TRUE);
+    if (!flip_flag) {
+        // 通常描画（右向き）
+        /*DrawExtendGraph(
+            draw_x - size_x / 2,
+            draw_y - size_y / 2,
+            draw_x + size_x / 2,
+            draw_y + size_y / 2,
+            player_image,
+            TRUE
+        );*/
+
+        DrawRotaGraph(location.x, location.y, 0.5f, 0.0f, player_image, TRUE);
+    }
+    else {
+        // 左右反転描画（左向き）
+        //DrawExtendGraph(
+        //    draw_x + size_x / 2,  // ← 左右の座標を反転させる
+        //    draw_y - size_y / 2,
+        //    draw_x - size_x / 2,
+        //    draw_y + size_y / 2,
+        //    player_image,
+        //    TRUE
+        //);
+
+        DrawRotaGraph(location.x, location.y, 0.5f, 0.0f, player_image, FALSE);
+
+    }
+    //DrawBox(location.x - collision.box_size.x, location.y - collision.box_size.y, location.x + collision.box_size.x, location.y + collision.box_size.y, GetColor(100, 0, 255), TRUE);
 }
 
 void Player::Finalize()
@@ -147,8 +152,12 @@ void Player::Movement()
     //右に移動
     if (CheckHitKey(KEY_INPUT_D))
     {
-        location.x += 1;
-        flip_flag = FALSE; // 右向き
+        if (location.x < 650)
+        {
+            location.x += 1;
+            flip_flag = FALSE; // 右向き
+
+        }
     }
 
     if (CheckHitKey(KEY_INPUT_S)) location.y += 1;

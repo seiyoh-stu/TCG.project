@@ -146,18 +146,14 @@ eSceneType InGame::Update(float delta_second)
 
     //--------スクロール処理--------------
     float prev_scroll = scroll;
-    if (player->GetLocation().x >= 640)
+    if (player->GetLocation().x >= 640 && CheckHitKey(KEY_INPUT_D))
     {
-        scroll = player->GetLocation().x - 640;
+        scroll++;
 
         float scroll_delta = scroll - prev_scroll;
         castle->SetScroll(scroll_delta, delta_second);
 
         if (scroll < 0) scroll = 0;
-    }
-    else
-    {
-        scroll = 0;
     }
 
     return GetNowSceneType();
