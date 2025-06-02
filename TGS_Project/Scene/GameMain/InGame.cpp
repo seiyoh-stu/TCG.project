@@ -78,6 +78,11 @@ eSceneType InGame::Update(float delta_second)
     if (input->GetKeyDown(KEY_INPUT_SPACE))
         return eSceneType::eResult;
 
+    if (castle->GetHp() <= 0)
+    {
+        return eSceneType::eResult;
+    }
+
 	//リロード処理----------------
     if (input->GetKeyDown(KEY_INPUT_K))
     {
