@@ -5,6 +5,13 @@
 class Result :public SceneBase
 {
 private:
+	int ResultImageHandle; // リザルト画像のハンドル
+	int Result_arrow; // リザルトの矢印のハンドル
+
+	int cursor_number; // カーソルの番号
+	int cursor_x; // カーソルの位置
+
+	int bgmHandle;
 
 public:
 	Result();

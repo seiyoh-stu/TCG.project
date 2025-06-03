@@ -44,8 +44,8 @@ void Bullet::Draw(const Vector2D& screen_offset) const
 {
     if (!is_active_) return;
 
-    int draw_x = location.x - screen_offset.x;
-    int draw_y = location.y - screen_offset.y;
+    int draw_x = location.x /*- screen_offset.x*/;      // 代用案　（バレットがスクロールでもついてくる）
+    int draw_y = location.y /*- screen_offset.y*/;
 
     DrawBox(
         draw_x - collision.box_size.x,
