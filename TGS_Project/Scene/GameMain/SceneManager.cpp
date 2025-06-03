@@ -60,7 +60,7 @@ void SceneManager::Run()
     {
         // 入力制御の更新処理
         input->Update();
-
+        FrameControl();
         // 現在のシーンの更新処理
         eSceneType next_scene_type = current_scene->Update(delta_second);
 
