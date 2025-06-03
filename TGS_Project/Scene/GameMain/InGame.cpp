@@ -53,10 +53,10 @@ void InGame::Initialize()
     enemy_spawn_timer = 0.0f;
     enemy_spawn_interval = 3.0f; // 3秒ごとに敵を出現
 
-    gbmm->CreateGameBase<Enemy>(Vector2D(1000, 500));
-    gbmm->CreateGameBase<Enemy2>(Vector2D(1500, 500));
-    gbmm->CreateGameBase<Enemy3>(Vector2D(2000, 500));
-    gbmm->CreateGameBase<Enemy4>(Vector2D(2500, 500));
+    //gbmm->CreateGameBase<Enemy>(Vector2D(1000, 500));
+    //gbmm->CreateGameBase<Enemy2>(Vector2D(1500, 500));
+    //gbmm->CreateGameBase<Enemy3>(Vector2D(2000, 500));
+    //gbmm->CreateGameBase<Enemy4>(Vector2D(2500, 500));
 
     back_image = LoadGraph("Resource/Images/Ingame.png");
     scroll = 0;
@@ -128,16 +128,28 @@ eSceneType InGame::Update(float delta_second)
         }
     }
 
-    enemy_spawn_timer += delta_second;
-    if (enemy_spawn_timer >= enemy_spawn_interval) {
-        SpawnEnemy();
-        enemy_spawn_timer = 0.0f;
+    //enemy_spawn_timer += delta_second;
+    //if (enemy_spawn_timer >= enemy_spawn_interval) {
+    //    SpawnEnemy();
+    //    enemy_spawn_timer = 0.0f;
+    //}
+
+    // intervalの数字分時間が経ったら敵の生成
+    wave_timer += delta_second;
+    if (!wave_in_progress && wave_timer >= wave_interval)
+    {
+        if (wave_in_progress == false)
+        {
+            StartNextWave();
+            wave_timer = 0.0f;
+
+        }
     }
 
-    wave_timer += delta_second;
-    if (!wave_in_progress && wave_timer >= wave_interval) {
-        StartNextWave();
-        wave_timer = 0.0f;
+
+    if (CheckHitKey(KEY_INPUT_B))
+    {
+        wave_in_progress = false;
     }
 
     GameBaseManager* gbmm = GameBaseManager::GetInstance();
@@ -241,18 +253,24 @@ void InGame::StartNextWave()
 void InGame::SpawnEnemiesForWave(int wave)
 {
     GameBaseManager* gbmm = GameBaseManager::GetInstance();
-    int num_enemies = 2 + wave;
-    for (int i = 0; i < num_enemies; ++i)
-    {
-        int enemy_type = GetRand(100);
-        Vector2D spawn_pos(GetRand(640), 170 + (GetRand(3) * 80));
 
-        if (enemy_type < 40) gbmm->CreateGameBase<Enemy>(spawn_pos);
-        else if (enemy_type < 75) gbmm->CreateGameBase<Enemy2>(spawn_pos);
-        else if (enemy_type < 90) gbmm->CreateGameBase<Enemy3>(spawn_pos);
-        else gbmm->CreateGameBase<Enemy4>(spawn_pos);
+    // 生成する敵の数（wave1なら2 * 1で2体生成）
+    int num_enemies = 2 * wave;
+    if (wave_in_progress == true)
+    {
+        for (int i = 0; i < num_enemies; i++)
+        {
+            int enemy_type = GetRand(100);
+            //Vector2D spawn_pos(GetRand(640), 170 + (GetRand(3) * 80));
+
+            if (enemy_type < 40)  enemy_list.push_back(gbmm->CreateGameBase<Enemy>(Vector2D(1260 + (i * 500), 500)));
+            else if (enemy_type < 75)  enemy_list.push_back(gbmm->CreateGameBase<Enemy2>(Vector2D(1260 + (i * 500), 500)));
+            else if (enemy_type < 90)  enemy_list.push_back(gbmm->CreateGameBase<Enemy3>(Vector2D(1260 + (i * 500), 500)));
+            else  enemy_list.push_back(gbmm->CreateGameBase<Enemy4>(Vector2D(1260 + (i * 500), 500)));
+
+        }
+
     }
-    wave_in_progress = false;
 }
 
 void InGame::Finalize()
