@@ -151,15 +151,33 @@ eSceneType InGame::Update(float delta_second)
 
     //--------スクロール処理--------------
     float prev_scroll = scroll;
+
+    // 右にスクロール
     if (player->GetLocation().x >= 640 && CheckHitKey(KEY_INPUT_D))
     {
-        scroll++;
-
-        float scroll_delta = scroll - prev_scroll;
-        castle->SetScroll(scroll_delta, delta_second);
-
-        if (scroll < 0) scroll = 0;
+        scroll += 1.0f;
+        
     }
+
+    // 左にスクロール
+    if (player->GetLocation().x < 640 && CheckHitKey(KEY_INPUT_A))
+    {
+        scroll -= 1.0f;
+        
+    }
+
+    if (scroll < 0) 
+    {
+        scroll = 0;  // 左壁
+    }
+    if (scroll >700)
+    {
+        scroll = 700;  //右壁
+    } 
+
+    // スクロール差分に応じて城の位置を調整
+    float scroll_delta = scroll - prev_scroll;
+    castle->SetScroll(scroll_delta, delta_second);
 
     return GetNowSceneType();
 }

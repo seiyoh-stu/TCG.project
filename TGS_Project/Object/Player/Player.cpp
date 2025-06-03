@@ -68,8 +68,8 @@ void Player::Update(float delta_second)
 
 void Player::Draw(const Vector2D& screen_offset) const
 {
-    int draw_x = location.x - screen_offset.x;
-	int draw_y = location.y - screen_offset.y;
+    /*int draw_x = location.x - screen_offset.x;
+	int draw_y = location.y - screen_offset.y;*/
 
 
     if (!flip_flag) {
@@ -83,7 +83,7 @@ void Player::Draw(const Vector2D& screen_offset) const
             TRUE
         );*/
 
-        DrawRotaGraph(location.x, location.y, 0.5f, 0.0f, player_image, TRUE);
+        DrawRotaGraph(location.x, location.y, 0.5f, 0.0f, player_image, flip_flag, FALSE);
     }
     else {
         // ¶‰E”½“]•`‰æi¶Œü‚«j
@@ -96,7 +96,7 @@ void Player::Draw(const Vector2D& screen_offset) const
         //    TRUE
         //);
 
-        DrawRotaGraph(location.x, location.y, 0.5f, 0.0f, player_image, FALSE);
+        DrawRotaGraph(location.x, location.y, 0.5f, 0.0f, player_image, flip_flag, TRUE);
 
     }
     //DrawBox(location.x - collision.box_size.x, location.y - collision.box_size.y, location.x + collision.box_size.x, location.y + collision.box_size.y, GetColor(100, 0, 255), TRUE);
@@ -108,13 +108,13 @@ void Player::Finalize()
 
 void Player::OnHitCollision(GameBase* hit_object)
 {
-    if (hit_object->GetCollision().object_type == eEnemy)
+    /*if (hit_object->GetCollision().object_type == eEnemy)
     {
         GameBaseManager* gbmm = GameBaseManager::GetInstance();
         gbmm->DestroyGameBase(this);
 
         DecreaseHP(1);
-    }
+    }*/
 }
 
 void Player::Shoot()
@@ -164,7 +164,7 @@ void Player::Movement()
     if (CheckHitKey(KEY_INPUT_W)) location.y -= 1;
 
     InputControl* input = InputControl::GetInstance();
-    if (input->GetPadButtonState(PAD_INPUT_DOWN) == eInputState::ePress) location.x -= 5;
+    if (input->GetPadButtonState(PAD_INPUT_DOWN) == eInputState::ePress) location.x -= 1;
 }
 
 void Player::AnimeControl()
