@@ -25,6 +25,6 @@ private:
 	int size_y_;
 	unsigned int color_;
 
-	int hp_ = 3;             //初期HP（好きな数に調整）
+	int hp;             //初期HP（好きな数に調整）
 };
 
