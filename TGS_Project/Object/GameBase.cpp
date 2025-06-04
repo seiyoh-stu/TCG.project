@@ -100,3 +100,7 @@ Vector2D GameBase::GetBoxSize() const
 	return collision.box_size;
 }
 
+bool GameBase::IsDead() const
+{
+	return is_dead_;
+}

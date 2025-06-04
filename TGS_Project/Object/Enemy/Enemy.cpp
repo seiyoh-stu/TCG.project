@@ -23,6 +23,8 @@ void Enemy::Initialize()
 	collision.object_type = eEnemy;
 	collision.box_size = 64;
 	collision.hit_object_type.push_back(eBullet);
+
+	is_dead_ = false; // 死亡フラグ初期化
 }
 
 void Enemy::Update(float delta_second)
@@ -44,6 +46,9 @@ void Enemy::Finalize()
 }
 void Enemy::OnHitCollision(GameBase* hit_object)
 {
+
+	is_dead_ = true; // 死亡フラグ立てる
+
 	if (hit_object->GetCollision().object_type == eBullet)
 	{
 		static bool check_hit = false;
@@ -62,6 +67,10 @@ void Enemy::OnHitCollision(GameBase* hit_object)
 		
 	}
 }
+//bool Enemy::IsDead() const
+//{
+//	return is_dead_;
+//}
 //移動処理
 void Enemy::Movement()
 {

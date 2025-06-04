@@ -46,6 +46,9 @@ void Enemy2::OnHitCollision(GameBase* hit_object)
 {
 	if (hit_object->GetCollision().object_type == eBullet)
 	{
+		is_dead_ = true; // Ž€–Sƒtƒ‰ƒO—§‚Ä‚é
+
+
 		static bool check_hit = false;
 
 		if (check_hit == false)
