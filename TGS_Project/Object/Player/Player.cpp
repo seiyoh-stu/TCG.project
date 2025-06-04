@@ -10,8 +10,8 @@ Player::Player()
     color(GetColor(0, 255, 0)),
     bullet_offset_x(0), bullet_offset_y(0),
     last_shot_time(0), scroll_end(false),
-    scroll_start(false),
-	flip_flag(FALSE)
+    scroll_start(false), animation_count(0),
+    flip_flag(FALSE)
 {
 
 }
@@ -26,16 +26,25 @@ void Player::Initialize()
 {
     Bullet* bullet;         //Bullet呼出処理
 
-	player_image = LoadGraph("Resource/Images/player(2).png");
+    //プレイヤー画像読み込み
+    animation[0] = LoadGraph("Resource/Images/Run1.png");
+    animation[1] = LoadGraph("Resource/Images/Run2.png");
+    player_image = animation[0];
+
+
     player_x = 200;
     player_y = 500;
 
     bullet_offset_x = size_x / 2;
     bullet_offset_y = 28;
 
+    //プレイヤーHP
     hp = 10;
+
+    //ショットタイム
     last_shot_time = 0;
 
+    //コリジョン
     collision.object_type = ePlayer;
     collision.box_size = 64;
     collision.hit_object_type.push_back(eEnemy);
@@ -50,26 +59,12 @@ void Player::Update(float delta_second)
     if (!scroll_start && location.x >= 640) {
         scroll_start = true;
     }
-
-    if (location.x < 24) {
-        location.x = 24;
-    }
-    if (location.x > 2400) {
-        location.x = 2400;
-    }
-    if (location.y < 40) {
-        location.y = 40;
-    }
-    if (location.y >650) {
-        location.y = 650;
-    }
-
 }
 
 void Player::Draw(const Vector2D& screen_offset) const
 {
     /*int draw_x = location.x - screen_offset.x;
-	int draw_y = location.y - screen_offset.y;*/
+    int draw_y = location.y - screen_offset.y;*/
 
 
     if (!flip_flag) {
@@ -104,6 +99,8 @@ void Player::Draw(const Vector2D& screen_offset) const
 
 void Player::Finalize()
 {
+    DeleteGraph(animation[0]);
+    DeleteGraph(animation[1]);
 }
 
 void Player::OnHitCollision(GameBase* hit_object)
@@ -144,10 +141,10 @@ void Player::Movement()
     {
         location.x -= 1;
         flip_flag = TRUE;  // 左向き
-        if (flip_flag = TRUE)
+        if (flip_flag== TRUE)
         {
-       //     bullet->GetFlipFlag(TRUE);
-       }
+            //     bullet->GetFlipFlag(TRUE);
+        }
     }
     //右に移動
     if (CheckHitKey(KEY_INPUT_D))
@@ -169,7 +166,29 @@ void Player::Movement()
 
 void Player::AnimeControl()
 {
-    // アニメーション制御
+    if (CheckHitKey(KEY_INPUT_D)|| CheckHitKey(KEY_INPUT_A)) {
+        
+
+        //フレームカウントを加算する
+        animation_count++;
+
+        //60フレーム目に達したら
+        if (animation_count >= 40)
+        {
+            //カウントのリセット
+            animation_count = 0;
+
+            //画像の切り替え
+            if (player_image == animation[0])
+            {
+                player_image = animation[1];
+            }
+            else
+            {
+                player_image = animation[0];
+            }
+        }
+    }
 }
 
 void Player::DecreaseHP(int amount)

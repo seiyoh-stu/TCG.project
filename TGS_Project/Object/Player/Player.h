@@ -5,6 +5,31 @@
 
 class Player : public GameBase
 {
+private:
+    int player_x;
+    int player_y;
+    int size_x;
+    int size_y;
+    unsigned int color;
+    int hp;                      // プレイヤーのHP（初期値10）
+
+    bool scroll_end;
+    bool scroll_start;
+
+    int bullet_offset_x;
+    int bullet_offset_y;
+
+    int player_image;//プレイヤー画像
+    int animation[2];  //アニメーション画像
+    int animation_count;//アニメーション時間
+
+    int last_shot_time;
+    const int kShotIntervalMs = 500; // 500msで2発/秒
+
+public:
+    bool flip_flag;//反転
+
+
 public:
     Player();
     ~Player();
@@ -26,26 +51,6 @@ private:
     void Movement();
     void AnimeControl();
 
-    int player_x;
-    int player_y;
-    int size_x;
-    int size_y;
-    unsigned int color;
-    int hp;                      // プレイヤーのHP（初期値10）
 
-    bool scroll_end;
-    bool scroll_start;
 
-    int bullet_offset_x;
-    int bullet_offset_y;
-
-    int player_image;
-
-    int last_shot_time;
-    const int kShotIntervalMs = 500; // 500msで2発/秒
-
-   
-
-public:
-    bool flip_flag;//反転
 };
