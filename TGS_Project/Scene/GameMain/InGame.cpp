@@ -79,7 +79,12 @@ eSceneType InGame::Update(float delta_second)
     // 全敵死亡なら次のwave開始準備へ
     if (wave_in_progress && enemy_list.empty())
     {
-        wave_in_progress = false;  // 次のwaveを起動可能にーーーーーーーーーーー
+        InputControl* input = InputControl::GetInstance();
+
+        if (input->GetKeyDown(KEY_INPUT_O))
+        {
+            wave_in_progress = false;  // 次のwaveを起動可能にーーーーーーーーーーー
+        }
     }
 
     InputControl* input = InputControl::GetInstance();
@@ -314,18 +319,26 @@ void InGame::SpawnEnemiesForWave(int wave)
         break;
     }
 
+    int e1 = GetRand(1000) + 1000;  // 1500〜3000のランダムなX座標
+
+    int e2 = GetRand(1000) + 1000;  // 1500〜3000のランダムなX座標
+
+    int e3 = GetRand(1000) + 1000;  // 1500〜3000のランダムなX座標
+
+    int e4 = GetRand(1000) + 1000;  // 1500〜3000のランダムなX座標
+
     for (int i = 0; i < num_enemies; i++)
     {
         int enemy_type = GetRand(100);
 
         if (enemy_type < 40)
-            enemy_list.push_back(gbmm->CreateGameBase<Enemy>(Vector2D(1260 + (i * 150), 500)));
+            enemy_list.push_back(gbmm->CreateGameBase<Enemy>(Vector2D(1260 + (i * e1), 500)));
         else if (enemy_type < 75)
-            enemy_list.push_back(gbmm->CreateGameBase<Enemy2>(Vector2D(1260 + (i * 150), 500)));
+            enemy_list.push_back(gbmm->CreateGameBase<Enemy2>(Vector2D(1260 + (i * e2), 500)));
         else if (enemy_type < 90)
-            enemy_list.push_back(gbmm->CreateGameBase<Enemy3>(Vector2D(1260 + (i * 150), 500)));
+            enemy_list.push_back(gbmm->CreateGameBase<Enemy3>(Vector2D(1260 + (i * e3), 500)));
         else
-            enemy_list.push_back(gbmm->CreateGameBase<Enemy4>(Vector2D(1260 + (i * 150), 500)));
+            enemy_list.push_back(gbmm->CreateGameBase<Enemy4>(Vector2D(1260 + (i * e4), 500)));
     }
 }
 

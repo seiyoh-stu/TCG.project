@@ -1,6 +1,10 @@
 #include "Castle.h"
 #include "DxLib.h"
 #include "../../Object/Enemy/Enemy.h"
+#include"../../Object/GameObjectManager.h"
+#include"../../Utility/ScoreManager.h"
+
+#define MAX_HP 10  // 6なら3発で死ぬ
 
 Castle::Castle()
 {
@@ -25,7 +29,7 @@ void Castle::Initialize()
     collision.box_size = 64;
 
 
-    hp = 5; // 初期化
+    hp = MAX_HP;; // 初期化
     // サイズや当たり判定なども必要に応じてここで設定する
 }
 
@@ -75,13 +79,32 @@ void Castle::Finalize()
 void Castle::OnHitCollision(GameBase* hit_object)
 {
 
-    if (damage_cooldown <= 0.0f && hp > 0)
+    if (hit_object->GetCollision().object_type == eEnemy)
     {
-        hp--; // HPを1減らす
-        hit = true;
-        //damage_cooldown = DAMAGE_INTERVAL; // ダメージを受けたらクールタイム開始
-        printf("Castle HP: %d\n", hp);
+        // HPを減らす
+        hp--;
+
+        //// スコア加算（当たった瞬間のみ）
+        //ScoreManager* score = ScoreManager::GetInstance();
+        //score->AddScore(100); // 弾1発につき100点（必要に応じて調整）
+
+        // HPが0以下ならオブジェクトを削除
+        if (hp <= 0)
+        {
+            is_dead_ = true;
+
+            GameBaseManager* gbmm = GameBaseManager::GetInstance();
+            gbmm->DestroyGameBase(this);
+        }
     }
+
+    //if (damage_cooldown <= 0.0f && hp > 0)
+    //{
+    //    hp--; // HPを1減らす
+    //    hit = true;
+    //    //damage_cooldown = DAMAGE_INTERVAL; // ダメージを受けたらクールタイム開始
+    //    printf("Castle HP: %d\n", hp);
+    //}
 }
 
 void Castle::SetScroll(float scroll, float& delta_second)

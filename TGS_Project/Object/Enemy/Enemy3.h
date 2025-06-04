@@ -23,5 +23,7 @@ private:
 	int size3_x_;
 	int size3_y_;
 	unsigned int color3_;
+
+	int hp;             //‰ŠúHPiD‚«‚È”‚É’²®j
 };
 

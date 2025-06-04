@@ -29,6 +29,7 @@ void Enemy::Initialize()
 	is_dead_ = false; // 死亡フラグ初期化
 
 	hp = MAX_HP;
+
 }
 
 void Enemy::Update(float delta_second)
@@ -76,10 +77,6 @@ void Enemy::OnHitCollision(GameBase* hit_object)
 		// HPを減らす
 		hp--;
 
-		// スコア加算（当たった瞬間のみ）
-		ScoreManager* score = ScoreManager::GetInstance();
-		score->AddScore(100); // 弾1発につき100点（必要に応じて調整）
-
 		// HPが0以下ならオブジェクトを削除
 		if (hp <= 0)
 		{
@@ -87,6 +84,10 @@ void Enemy::OnHitCollision(GameBase* hit_object)
 
 			GameBaseManager* gbmm = GameBaseManager::GetInstance();
 			gbmm->DestroyGameBase(this);
+
+			// スコア加算（倒した瞬間のみ）
+			ScoreManager* score = ScoreManager::GetInstance();
+			score->AddScore(200); // 200点（必要に応じて調整）
 		}
 	}
 }
@@ -103,7 +104,7 @@ void Enemy::Movement()
 	int move_x = 0;
 
 	// 右の端っこに着くと、左の端っこに移動する
-	if (location.x >= 100)
+	if (location.x >= 250)
 	{
 		move_x -= speed;
 	}
