@@ -14,6 +14,8 @@ protected:
 	bool filp_flag;
 	bool hit_flag;
 	class Player* player;
+    bool is_dead_ = false;   //Ž€–Sƒtƒ‰ƒO
+
 
 public:
     virtual void Initialize();
@@ -28,5 +30,7 @@ public:
     unsigned char GetZLayer() const;
     bool GetMobility() const;
     Vector2D GetBoxSize() const;
+    bool IsDead() const;
+
 
 };

@@ -71,8 +71,17 @@ void InGame::Initialize()
     score = ScoreManager::GetInstance();
 }
 
+
+
+//Update処理
 eSceneType InGame::Update(float delta_second)
 {
+    // 全敵死亡なら次のwave開始準備へ
+    if (wave_in_progress && enemy_list.empty())
+    {
+        wave_in_progress = false;  // 次のwaveを起動可能にーーーーーーーーーーー
+    }
+
     InputControl* input = InputControl::GetInstance();
 
     if (input->GetKeyDown(KEY_INPUT_SPACE))
@@ -121,7 +130,6 @@ eSceneType InGame::Update(float delta_second)
 
     }
 
-
     // たまが0になった時に強制的にreload
     if (bullet_magazine <= 0)
     {
@@ -133,29 +141,26 @@ eSceneType InGame::Update(float delta_second)
         }
     }
 
-    //enemy_spawn_timer += delta_second;
-    //if (enemy_spawn_timer >= enemy_spawn_interval) {
-    //    SpawnEnemy();
-    //    enemy_spawn_timer = 0.0f;
-    //}
-
-    // intervalの数字分時間が経ったら敵の生成
     wave_timer += delta_second;
+
     if (!wave_in_progress && wave_timer >= wave_interval)
     {
-        if (wave_in_progress == false)
-        {
-            StartNextWave();
-            wave_timer = 0.0f;
-
-        }
+        StartNextWave();
     }
-
 
     if (CheckHitKey(KEY_INPUT_B))
     {
         wave_in_progress = false;
     }
+
+    enemy_list.erase(
+        std::remove_if(enemy_list.begin(), enemy_list.end(),
+            [](GameBase* e)
+            {
+                return e && e->IsDead();
+            }),
+        enemy_list.end()
+    );
 
     GameBaseManager* gbmm = GameBaseManager::GetInstance();
     gbmm->Update(delta_second);
@@ -194,6 +199,9 @@ eSceneType InGame::Update(float delta_second)
     return GetNowSceneType();
 }
 
+
+
+
 void InGame::Draw() const
 {
     DrawRotaGraph(1280 - scroll, 480, 5.0, 0.0, back_image, TRUE);
@@ -218,7 +226,13 @@ void InGame::Draw() const
     {
         DrawFormatString(10, 80, GetColor(255, 128, 128), "Score: %d", score->GetScore());
     }
+
+    //ウェーブ表示
+    DrawFormatString(10, 140, GetColor(255, 255, 0), "Wave: %d", current_wave);
 }
+
+
+
 
 void InGame::SpawnEnemy()
 {
@@ -262,35 +276,61 @@ void InGame::SpawnEnemy()
     }
 }
 
+
+
+
+//ウェーブの1,2,3を切り替える関数
 void InGame::StartNextWave()
 {
-    wave_in_progress = true;
-    SpawnEnemiesForWave(current_wave);
-    current_wave++;
+    if (wave_in_progress == false)
+    {
+        defeated_enemies = 0;
+        wave_timer = 0.0f;
+        wave_in_progress = true;
+        SpawnEnemiesForWave(current_wave);
+        current_wave++;
+
+    }
 }
 
+
+
+
+//ウェーブ関数
 void InGame::SpawnEnemiesForWave(int wave)
 {
     GameBaseManager* gbmm = GameBaseManager::GetInstance();
 
-    // 生成する敵の数（wave1なら2 * 1で2体生成）
-    int num_enemies = 2 * wave;
-    if (wave_in_progress == true)
+    int num_enemies = 0;
+
+    // Waveごとに敵の数を変える
+    switch (wave)
     {
-        for (int i = 0; i < num_enemies; i++)
-        {
-            int enemy_type = GetRand(100);
-            //Vector2D spawn_pos(GetRand(640), 170 + (GetRand(3) * 80));
+    case 1: num_enemies = 2; break;  // wave1: 敵2体
+    case 2: num_enemies = 4; break;  // wave2: 敵4体
+    case 3: num_enemies = 8; break;  // wave3: 敵8体
+    default:
+        num_enemies = 10; // wave4以降は固定で10体（例）
+        break;
+    }
 
-            if (enemy_type < 40)  enemy_list.push_back(gbmm->CreateGameBase<Enemy>(Vector2D(1260 + (i * 500), 500)));
-            else if (enemy_type < 75)  enemy_list.push_back(gbmm->CreateGameBase<Enemy2>(Vector2D(1260 + (i * 500), 500)));
-            else if (enemy_type < 90)  enemy_list.push_back(gbmm->CreateGameBase<Enemy3>(Vector2D(1260 + (i * 500), 500)));
-            else  enemy_list.push_back(gbmm->CreateGameBase<Enemy4>(Vector2D(1260 + (i * 500), 500)));
+    for (int i = 0; i < num_enemies; i++)
+    {
+        int enemy_type = GetRand(100);
 
-        }
-
+        if (enemy_type < 40)
+            enemy_list.push_back(gbmm->CreateGameBase<Enemy>(Vector2D(1260 + (i * 150), 500)));
+        else if (enemy_type < 75)
+            enemy_list.push_back(gbmm->CreateGameBase<Enemy2>(Vector2D(1260 + (i * 150), 500)));
+        else if (enemy_type < 90)
+            enemy_list.push_back(gbmm->CreateGameBase<Enemy3>(Vector2D(1260 + (i * 150), 500)));
+        else
+            enemy_list.push_back(gbmm->CreateGameBase<Enemy4>(Vector2D(1260 + (i * 150), 500)));
     }
 }
+
+
+
 
 void InGame::Finalize()
 {
@@ -302,6 +342,9 @@ void InGame::Finalize()
 
     GameBaseManager::GetInstance()->Finalize();
 }
+
+
+
 
 eSceneType InGame::GetNowSceneType() const
 {

@@ -14,6 +14,7 @@ public:
 	void Finalize() override;
 	void OnHitCollision(GameBase* hit_object) override;
 
+
 private:
 	void Movement();
 	void AnimeControl();
@@ -23,5 +24,7 @@ private:
 	int size_x_;
 	int size_y_;
 	unsigned int color_;
+
+	int hp_ = 3;             //‰ŠúHPiD‚«‚È”‚É’²®j
 };
 

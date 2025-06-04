@@ -31,6 +31,7 @@ private:
 
 
     std::vector<GameBase*> enemy_list;
+    int defeated_enemies = 0;
 
     float enemy_spawn_timer = 0.0f;
     float enemy_spawn_interval = 3.0f; // 3秒ごとにスポーン
