@@ -7,6 +7,7 @@ enum eSceneType
     eResult,
     eHelp,
     eEnd,
+    eTarot
 };
 
 class SceneBase {

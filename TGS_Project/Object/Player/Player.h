@@ -47,10 +47,11 @@ public:
     int GetHP() const;            // HP取得関数
     Vector2D& GetLocation();
 
+    //プレイヤーレベルアップ
+    void Player_LevelUp(int levelup);
+    int Get_Level();
+
 private:
     void Movement();
     void AnimeControl();
-
-
-
 };

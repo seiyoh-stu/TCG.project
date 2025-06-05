@@ -92,6 +92,10 @@ eSceneType InGame::Update(float delta_second)
     if (input->GetKeyDown(KEY_INPUT_SPACE))
         return eSceneType::eResult;
 
+    //タロットシーン描画ーーーーーーーーーーーーーーーーーーーー
+    if (input->GetKeyDown(KEY_INPUT_P))
+        return eSceneType::eTarot;
+
     if (castle->GetHp() <= 0)
     {
         return eSceneType::eResult;

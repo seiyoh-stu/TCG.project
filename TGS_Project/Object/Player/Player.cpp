@@ -5,12 +5,17 @@
 #include "DxLib.h"
 
 Player::Player()
-    : player_x(200), player_y(500),
-    size_x(128), size_y(128),
+    : player_x(200), 
+    player_y(500),
+    size_x(128), 
+    size_y(128),
     color(GetColor(0, 255, 0)),
-    bullet_offset_x(0), bullet_offset_y(0),
-    last_shot_time(0), scroll_end(false),
-    scroll_start(false), animation_count(0),
+    bullet_offset_x(0), 
+    bullet_offset_y(0),
+    last_shot_time(0), 
+    scroll_end(false),
+    scroll_start(false), 
+    animation_count(0),
     flip_flag(FALSE)
 {
 
