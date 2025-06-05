@@ -97,20 +97,25 @@ eSceneType InGame::Update(float delta_second)
         return eSceneType::eResult;
     }
 
+    // 
+    b = true;
+
 	//リロード処理----------------
     if (input->GetKeyDown(KEY_INPUT_K))
     {
         a = true;
+        bullet_magazine = 0;
     }
      
     if (a == true)
     {
         reload++;
-        if (reload >= 100)
+        if (reload >= 150)
         {
             bullet_magazine = 5;
             a = false;
             reload = 0;
+            
         }
 
     }
@@ -138,12 +143,13 @@ eSceneType InGame::Update(float delta_second)
     // たまが0になった時に強制的にreload
     if (bullet_magazine <= 0)
     {
-        reload++;
-        if (reload >= 200)
+        
+        if (reload >= 150)
         {
             bullet_magazine = 5;
             reload = 0;
         }
+        reload++;
     }
 
     wave_timer += delta_second;
@@ -219,7 +225,7 @@ void InGame::Draw() const
 
     //弾の残弾数表示
     DrawFormatString(10, 100, GetColor(255, 128, 128), "弾の残弾数: %d", bullet_magazine);
-    if (bullet_magazine == 0 || a == true)
+    if (bullet_magazine == 0)
     {
         // クールタイムの文
         DrawFormatString(10, 120, GetColor(255, 128, 128), "reloadnow");
