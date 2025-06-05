@@ -29,6 +29,8 @@ private:
 
     bool a;
 
+    bool b;
+
 
     std::vector<GameBase*> enemy_list;
     int defeated_enemies = 0;

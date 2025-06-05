@@ -14,11 +14,11 @@ Result::~Result()
 
 void Result::Initialize()
 {
-	ResultImageHandle = LoadGraph("Resource/Images/2.png");
+	ResultImageHandle = LoadGraph("Resource/Images/help.png");
 	Result_arrow = LoadGraph("Resource/Images/AimMark.png");
 
 	cursor_number = 0;
-	cursor_x = 200;  //カーソルの初期位置
+	cursor_x = 100;  //カーソルの初期位置
 
 	// BGM 読み込みと再生
 	bgmHandle = LoadSoundMem("Resource/Sounds/オープニング.mp3");
@@ -59,7 +59,7 @@ eSceneType Result::Update(float delta_second)
 	}
 
 	// カーソル位置更新
-	cursor_x = 215 + cursor_number * 445;
+	cursor_x = 60 + cursor_number * 690;
 
 	return GetNowSceneType();
 }
@@ -73,7 +73,7 @@ void Result::Draw() const
 
 		// カーソル描画（x=100は仮、必要に応じて調整）
 		// DrawExtendGraph(1000, cursor_x, 900, cursor_x + 110, Result_arrow, TRUE);
-		DrawExtendGraph(cursor_x, 330, cursor_x + 100, 430, Result_arrow, TRUE);
+		DrawExtendGraph(cursor_x, 450, cursor_x + 100, 550, Result_arrow, TRUE);
 	}
 	
 	//DrawFormatString(10, 10, GetColor(255, 255, 255), "リザルト画面です");
