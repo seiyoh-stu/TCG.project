@@ -7,7 +7,7 @@
 
 Enemy3::Enemy3() :
 	enemy3_x(650), // 初期位置X座標
-	enemy3_y(500), // 初期位置Y座標
+	enemy3_y(300), // 初期位置Y座標
 	size3_x_(64),  // 四角の幅
 	size3_y_(64),  // 四角の高さ
 	color3_(GetColor(0, 0, 255)) // 四角の色 (赤)
@@ -91,12 +91,12 @@ void Enemy3::OnHitCollision(GameBase* hit_object)
 void Enemy3::Movement()
 {
 	//移動速度
-	const int speed = 2;
+	const int speed = 10;
 	//移動量
 	int move_x = 0;
 
 	// 右の端っこに着くと、左の端っこに移動する
-	if (location.x >= 250)
+	if (location.x >= 10)
 	{
 		move_x -= speed;
 	}
