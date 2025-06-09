@@ -1,6 +1,6 @@
 #include "Bullet.h"
 #include "DxLib.h"
-#include"../../Object/GameObjectManager.h"
+#include "../../Object/GameObjectManager.h"
 
 
 Bullet::Bullet()
@@ -13,26 +13,28 @@ Bullet::Bullet()
 void Bullet::Initialize()
 {
     // デフォルトの初期化（使用しない場合は削除可）
-    Initialize(0, 0,false);
+    Initialize(location, 0, false);
 }
 
 void Bullet::Initialize(const Vector2D& start, const Vector2D& target,bool flip_flag)
 {
     /*location.x = start_x;
     location.y = start_y;*/
+    //location = start;
+    //Vector2D diff = target - start;
+
+    //// 正規化
+    //float length = sqrt(diff.x * diff.x + diff.y * diff.y);
+    //if (length != 0)
+    //{
+    //    direction_.x = diff.x / length;
+    //    direction_.y = diff.y / length;
+    //}
     location = start;
-    Vector2D diff = target - start;
-
-    // 正規化
-    float length = sqrt(diff.x * diff.x + diff.y * diff.y);
-    if (length != 0)
-    {
-        direction_.x = diff.x / length;
-        direction_.y = diff.y / length;
-    }
-
+    target_ = target;           // ← 後で使うため保存
     speed_ = 10.0f;
     is_active_ = true;
+    is_shot = false;            // ← 初回フレームにだけ方向計算を行うため
 
     collision.object_type = eBullet;
     collision.box_size = 16;
@@ -41,6 +43,39 @@ void Bullet::Initialize(const Vector2D& start, const Vector2D& target,bool flip_
 
 void Bullet::Update(float delta_second)
 {
+    //if (bulletaim != nullptr && is_shot == false)
+    //{
+    //    Vector2D diff = bulletaim->GetLocation() - location;
+
+    //    // 正規化
+    //    float length = sqrt(diff.x * diff.x + diff.y * diff.y);
+    //    if (length != 0)
+    //    {
+    //        direction_.x = diff.x / length;
+    //        direction_.y = diff.y / length;
+    //    }
+    //    is_shot = true;
+
+    //}
+    if (!is_active_) return;
+
+    if (!is_shot && bulletaim!= nullptr)
+    {
+        Vector2D diff = bulletaim->GetLocation() - location;
+        float length = sqrt(diff.x * diff.x + diff.y * diff.y);
+        if (length != 0)
+        {
+            direction_.x = diff.x / length;
+            direction_.y = diff.y / length;
+        }
+        else
+        {
+            direction_ = { 0, -1 }; // デフォルト方向：上
+        }
+
+        is_shot = true;
+    }
+
 
     location.x += direction_.x * speed_;
     location.y += direction_.y * speed_;
@@ -51,7 +86,7 @@ void Bullet::Update(float delta_second)
     }
 
     //GetFlipFlag(1);
-    location.x += speed_;
+    /*location.x += speed_;*/
 
 }
 
@@ -91,12 +126,17 @@ bool Bullet::IsActive() const
 
 void Bullet::GetFlipFlag(bool flag)
 {
-    if (flag==TRUE) 
+    /*if (flag==TRUE) 
     {
         speed_ = -10;
     }
     else
     {
         speed_ = 10;
-    }
+    }*/
+}
+
+void Bullet::SetBalletAim(BulletAim* Aim)
+{
+    bulletaim = Aim;
 }

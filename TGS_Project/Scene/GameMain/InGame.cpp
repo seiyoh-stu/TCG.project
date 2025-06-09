@@ -128,21 +128,27 @@ eSceneType InGame::Update(float delta_second)
     //----------------------------
 
     // ばれっと生成
-    if (input->GetKeyDown(KEY_INPUT_L) &&(bullet_magazine >0)){
-        GameBaseManager* gbmm = GameBaseManager::GetInstance();
-        Bullet* bullet;
-        bullet = gbmm->CreateGameBase<Bullet>(player->GetLocation());
-        if (player->flip_flag == TRUE)
+    if (input->GetKeyDown(KEY_INPUT_L) || input->GetPadButtonState(PAD_INPUT_6) == eInputState::ePress){
+
+        if ((bullet_magazine > 0))
         {
-            bullet->GetFlipFlag(TRUE);
+            GameBaseManager* gbmm = GameBaseManager::GetInstance();
+            Bullet* bullet;
+            bullet = gbmm->CreateGameBase<Bullet>(player->GetLocation());
+            bullet->SetBalletAim(bullet_aim);
+            /*if (player->flip_flag == TRUE)
+            {
+                bullet->GetFlipFlag(TRUE);
+
+            }
+            else
+            {
+                bullet->GetFlipFlag(FALSE);
+            }*/
+
+            bullet_magazine--;//弾が減る
 
         }
-        else
-        {
-            bullet->GetFlipFlag(FALSE);
-        }
-
-        bullet_magazine--;//弾が減る
 
     }
 
@@ -187,14 +193,14 @@ eSceneType InGame::Update(float delta_second)
     float prev_scroll = scroll;
 
     // 右にスクロール
-    if (player->GetLocation().x >= 640 && CheckHitKey(KEY_INPUT_D) || player->GetLocation().x >= 640 && input->GetPadButtonState(PAD_INPUT_LEFT) == eInputState::eHeld)
+    if (player->GetLocation().x >= 640 && CheckHitKey(KEY_INPUT_D) || player->GetLocation().x >= 640 && input->GetPadButtonState(PAD_INPUT_9) == eInputState::eHeld)
     {
         scroll += 5.0f;
         
     }
 
     // 左にスクロール
-    if (player->GetLocation().x < 250 && CheckHitKey(KEY_INPUT_A)|| player->GetLocation().x < 250 && input->GetPadButtonState(PAD_INPUT_RIGHT) == eInputState::eHeld)
+    if (player->GetLocation().x < 250 && CheckHitKey(KEY_INPUT_A)|| player->GetLocation().x < 250 && input->GetPadButtonState(PAD_INPUT_9) == eInputState::eHeld)
     {
         scroll -= 5.0f;
         

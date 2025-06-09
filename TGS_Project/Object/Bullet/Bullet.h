@@ -1,6 +1,7 @@
 #pragma once
 #include "../GameBase.h"
 #include "../../Object/Player/Player.h"
+#include "BulletAim.h"
 
 class Bullet : public GameBase
 {
@@ -24,7 +25,13 @@ public:
 
     void GetFlipFlag(bool flag);
 
-    Vector2D direction_;
+    void SetBalletAim(class BulletAim* Aim);
+
+    BulletAim* bulletaim;
+
+    Vector2D direction_;   // 単位ベクトル（進行方向）
+    Vector2D target_;      // 弾のターゲット位置（BulletAimなど）
+    bool is_shot = false;  // 初回方向計算フラグ
 
 private:
 

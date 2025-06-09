@@ -29,8 +29,8 @@ void BulletAim::Update(float delta_second)
 void BulletAim::Draw(const Vector2D& screen_offset) const
 {
     // âÊñ è„Ç… Aim É}Å[ÉNÇï`âÊ
-    DrawExtendGraph(location.x - screen_offset.x, location.y - screen_offset.y,
-        location.x + 100 - screen_offset.x, location.y + 100 - screen_offset.y,
+    DrawExtendGraph(location.x - 50 - screen_offset.x, location.y - 50 -  screen_offset.y,
+        location.x + 50 - screen_offset.x, location.y + 50 - screen_offset.y,
         Aim_Image, TRUE);
 
 }
