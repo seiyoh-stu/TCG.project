@@ -5,17 +5,12 @@
 #include "DxLib.h"
 
 Player::Player()
-    : player_x(200), 
-    player_y(500),
-    size_x(128), 
-    size_y(128),
+    : player_x(200), player_y(580),
+    size_x(128), size_y(128),
     color(GetColor(0, 255, 0)),
-    bullet_offset_x(0), 
-    bullet_offset_y(0),
-    last_shot_time(0), 
-    scroll_end(false),
-    scroll_start(false), 
-    animation_count(0),
+    bullet_offset_x(0), bullet_offset_y(0),
+    last_shot_time(0), scroll_end(false),
+    scroll_start(false), animation_count(0),
     flip_flag(FALSE)
 {
 
@@ -38,7 +33,7 @@ void Player::Initialize()
 
 
     player_x = 200;
-    player_y = 500;
+    player_y = 580;
 
     bullet_offset_x = size_x / 2;
     bullet_offset_y = 28;
@@ -137,42 +132,46 @@ void Player::Shoot()
 
 void Player::Movement()
 {
-    Bullet* bullet;
+    InputControl* input = InputControl::GetInstance();
 
-    //player移動
-
-    //左に移動
-    if (CheckHitKey(KEY_INPUT_A))
+    // 左移動（キーボード or コントローラー）
+    if (CheckHitKey(KEY_INPUT_A) || input->GetPadButtonState(PAD_INPUT_LEFT) == eInputState::eHeld)
     {
-        location.x -= 1;
-        flip_flag = TRUE;  // 左向き
-        if (flip_flag== TRUE)
+        if (location.x >= 250)
         {
-            //     bullet->GetFlipFlag(TRUE);
+            location.x -= 5;
+            flip_flag = TRUE;  // 左向き
         }
     }
-    //右に移動
-    if (CheckHitKey(KEY_INPUT_D))
+
+    // 右移動（キーボード or コントローラー）
+    if (CheckHitKey(KEY_INPUT_D) || input->GetPadButtonState(PAD_INPUT_RIGHT) == eInputState::eHeld)
     {
         if (location.x < 650)
         {
-            location.x += 1;
+            location.x += 5;
             flip_flag = FALSE; // 右向き
-
         }
     }
 
-    if (CheckHitKey(KEY_INPUT_S)) location.y += 1;
-    if (CheckHitKey(KEY_INPUT_W)) location.y -= 1;
+    // 下移動（キーボード or コントローラー）
+    if (CheckHitKey(KEY_INPUT_S) || input->GetPadButtonState(PAD_INPUT_DOWN) == eInputState::eHeld)
+    {
+        location.y += 5;
+    }
 
-    InputControl* input = InputControl::GetInstance();
-    if (input->GetPadButtonState(PAD_INPUT_DOWN) == eInputState::ePress) location.x -= 1;
+    // 上移動（キーボード or コントローラー）
+    if (CheckHitKey(KEY_INPUT_W) || input->GetPadButtonState(PAD_INPUT_UP) == eInputState::eHeld)
+    {
+        location.y -= 5;
+    }
 }
+
 
 void Player::AnimeControl()
 {
-    if (CheckHitKey(KEY_INPUT_D)|| CheckHitKey(KEY_INPUT_A)) {
-        
+    if (CheckHitKey(KEY_INPUT_D) || CheckHitKey(KEY_INPUT_A)) {
+
 
         //フレームカウントを加算する
         animation_count++;
