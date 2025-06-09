@@ -7,7 +7,7 @@
 
 Enemy4::Enemy4() :
 	enemy4_x(700), // 初期位置X座標
-	enemy4_y(500), // 初期位置Y座標
+	enemy4_y(580), // 初期位置Y座標
 	size4_x_(64),  // 四角の幅
 	size4_y_(64),  // 四角の高さ
 	color4_(GetColor(255, 255, 255)) // 四角の色 (赤)
@@ -108,7 +108,7 @@ void Enemy4::OnHitCollision(GameBase* hit_object)
 void Enemy4::Movement()
 {
 	//移動速度
-	const int speed = 1;
+	const int speed = 2;
 	//移動量
 	int move_x = 0;
 

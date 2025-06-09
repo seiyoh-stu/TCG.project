@@ -145,6 +145,7 @@
       <CreateHotpatchableImage Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</CreateHotpatchableImage>
       <CreateHotpatchableImage Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</CreateHotpatchableImage>
     </ClCompile>
+    <ClCompile Include="Object\Bullet\BulletAim.cpp" />
     <ClCompile Include="Object\Enemy\Enemy2.cpp" />
     <ClCompile Include="Object\Enemy\Enemy3.cpp" />
     <ClCompile Include="Object\Enemy\Enemy4.cpp" />
@@ -170,6 +171,7 @@
     <ClCompile Include="Utility\Vector2D.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Object\Bullet\BulletAim.h" />
     <ClInclude Include="Object\Enemy\Enemy2.h" />
     <ClInclude Include="Object\Enemy\Enemy3.h" />
     <ClInclude Include="Object\Enemy\Enemy4.h" />

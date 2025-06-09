@@ -4,7 +4,7 @@
 
 
 Bullet::Bullet()
-    : speed_(5), is_active_(false)
+    : speed_(10), is_active_(false)
 {
     location.x = 0;
     location.y = 0;
@@ -78,10 +78,10 @@ void Bullet::GetFlipFlag(bool flag)
 {
     if (flag==TRUE) 
     {
-        speed_ = -5;
+        speed_ = -10;
     }
     else
     {
-        speed_ = 5;
+        speed_ = 10;
     }
 }

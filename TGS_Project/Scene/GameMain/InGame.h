@@ -7,14 +7,17 @@
 #include "../../Object/Enemy/Enemy2.h"
 #include "../../Object/Enemy/Enemy3.h"
 #include "../../Object/Enemy/Enemy4.h"
+#include"../../Object/Bullet/BulletAim.h"
 #include "../../Utility/ScoreManager.h"
 #include "../../Utility/Vector2D.h"
+
 #include <memory> // std::unique_ptr を使用するため
 
 class InGame : public SceneBase
 {
 private:
     Player* player;
+    BulletAim* bullet_aim;
     Castle* castle;
     ScoreManager* score;
     //std::unique_ptr<Player> player; // Playerクラスのインスタンスをスマートポインタで管理

@@ -8,6 +8,7 @@
 #include "../../Object/Enemy/Enemy3.h"
 #include "../../Object/Enemy/Enemy4.h"
 #include "../../Object/GameObjectManager.h"
+#include "../../Object/Bullet/BulletAim.h"
 #include "../../Utility/ScoreManager.h"
 #include "DxLib.h"
 #include <memory>
@@ -47,8 +48,9 @@ void InGame::Initialize()
     int e_randomNumber4 = GetRand(1);  // 0〜1 の値
 
     GameBaseManager* gbmm = GameBaseManager::GetInstance();
-    player = gbmm->CreateGameBase<Player>(Vector2D(200, 500));
-    castle = gbmm->CreateGameBase<Castle>(Vector2D(100, 500));
+    player = gbmm->CreateGameBase<Player>(Vector2D(200, 580));
+    castle = gbmm->CreateGameBase<Castle>(Vector2D(100, 580));
+    bullet_aim = gbmm->CreateGameBase<BulletAim>(Vector2D(100, 580));
 
     enemy_spawn_timer = 0.0f;
     enemy_spawn_interval = 3.0f; // 3秒ごとに敵を出現
@@ -76,6 +78,8 @@ void InGame::Initialize()
 //Update処理
 eSceneType InGame::Update(float delta_second)
 {
+    InputControl* input = InputControl::GetInstance();
+
     // 全敵死亡なら次のwave開始準備へ
     if (wave_in_progress && enemy_list.empty())
     {
@@ -86,8 +90,6 @@ eSceneType InGame::Update(float delta_second)
             wave_in_progress = false;  // 次のwaveを起動可能にーーーーーーーーーーー
         }
     }
-
-    InputControl* input = InputControl::GetInstance();
 
     if (input->GetKeyDown(KEY_INPUT_SPACE))
         return eSceneType::eResult;
@@ -185,16 +187,16 @@ eSceneType InGame::Update(float delta_second)
     float prev_scroll = scroll;
 
     // 右にスクロール
-    if (player->GetLocation().x >= 640 && CheckHitKey(KEY_INPUT_D))
+    if (player->GetLocation().x >= 640 && CheckHitKey(KEY_INPUT_D) || player->GetLocation().x >= 640 && input->GetPadButtonState(PAD_INPUT_LEFT) == eInputState::eHeld)
     {
-        scroll += 1.0f;
+        scroll += 5.0f;
         
     }
 
     // 左にスクロール
-    if (player->GetLocation().x < 640 && CheckHitKey(KEY_INPUT_A))
+    if (player->GetLocation().x < 250 && CheckHitKey(KEY_INPUT_A)|| player->GetLocation().x < 250 && input->GetPadButtonState(PAD_INPUT_RIGHT) == eInputState::eHeld)
     {
-        scroll -= 1.0f;
+        scroll -= 5.0f;
         
     }
 
@@ -202,9 +204,9 @@ eSceneType InGame::Update(float delta_second)
     {
         scroll = 0;  // 左壁
     }
-    if (scroll >700)
+    if (scroll >1200)
     {
-        scroll = 700;  //右壁
+        scroll = 1200;  //右壁
     } 
 
     // スクロール差分に応じて城の位置を調整
@@ -219,7 +221,7 @@ eSceneType InGame::Update(float delta_second)
 
 void InGame::Draw() const
 {
-    DrawRotaGraph(1280 - scroll, 480, 5.0, 0.0, back_image, TRUE);
+    DrawRotaGraph(1280 - scroll, 480, 1.0, 0.0, back_image, TRUE);
     Vector2D screen_offset(scroll, 0);
 
     GameBaseManager::GetInstance()->DrawWithOffset(screen_offset);
@@ -271,11 +273,11 @@ void InGame::SpawnEnemy()
         switch (random_e)
         {
         case 0: gbmm->CreateGameBase<Enemy>(Vector2D(100, Y_b)); break;
-        case 1: gbmm->CreateGameBase<Enemy>(Vector2D(500, Y_b)); break;
+        case 1: gbmm->CreateGameBase<Enemy>(Vector2D(580, Y_b)); break;
         case 2: gbmm->CreateGameBase<Enemy2>(Vector2D(100, Y_t)); break;
-        case 3: gbmm->CreateGameBase<Enemy2>(Vector2D(500, Y_t)); break;
+        case 3: gbmm->CreateGameBase<Enemy2>(Vector2D(580, Y_t)); break;
         case 4: gbmm->CreateGameBase<Enemy3>(Vector2D(100, Y_b)); break;
-        case 5: gbmm->CreateGameBase<Enemy3>(Vector2D(500, Y_b)); break;
+        case 5: gbmm->CreateGameBase<Enemy3>(Vector2D(300, Y_b)); break;
         }
     }
 
@@ -284,9 +286,9 @@ void InGame::SpawnEnemy()
         switch (random_f)
         {
         case 0: gbmm->CreateGameBase<Enemy2>(Vector2D(100, Y_b)); break;
-        case 1: gbmm->CreateGameBase<Enemy2>(Vector2D(500, Y_t)); break;
+        case 1: gbmm->CreateGameBase<Enemy2>(Vector2D(580, Y_t)); break;
         case 2: gbmm->CreateGameBase<Enemy4>(Vector2D(100, Y_b)); break;
-        case 3: gbmm->CreateGameBase<Enemy4>(Vector2D(500, Y_t)); break;
+        case 3: gbmm->CreateGameBase<Enemy4>(Vector2D(580, Y_t)); break;
         }
     }
 }
@@ -321,34 +323,34 @@ void InGame::SpawnEnemiesForWave(int wave)
     // Waveごとに敵の数を変える
     switch (wave)
     {
-    case 1: num_enemies = 2; break;  // wave1: 敵2体
-    case 2: num_enemies = 4; break;  // wave2: 敵4体
-    case 3: num_enemies = 8; break;  // wave3: 敵8体
+    case 1: num_enemies = 3; break;  // wave1: 敵2体
+    case 2: num_enemies = 7; break;  // wave2: 敵4体
+    case 3: num_enemies = 10; break;  // wave3: 敵8体
     default:
-        num_enemies = 10; // wave4以降は固定で10体（例）
+        num_enemies = 15; // wave4以降は固定で10体（例）
         break;
     }
 
-    int e1 = GetRand(1000) + 1000;  // 1500〜3000のランダムなX座標
+    int e1 = GetRand(1000) + 500;  // 1500〜3000のランダムなX座標
 
-    int e2 = GetRand(1000) + 1000;  // 1500〜3000のランダムなX座標
+    int e2 = GetRand(1000) + 500;  // 1500〜3000のランダムなX座標
 
-    int e3 = GetRand(1000) + 1000;  // 1500〜3000のランダムなX座標
+    int e3 = GetRand(1000) + 500;  // 1500〜3000のランダムなX座標
 
-    int e4 = GetRand(1000) + 1000;  // 1500〜3000のランダムなX座標
+    int e4 = GetRand(1000) + 500;  // 1500〜3000のランダムなX座標
 
     for (int i = 0; i < num_enemies; i++)
     {
         int enemy_type = GetRand(100);
 
         if (enemy_type < 40)
-            enemy_list.push_back(gbmm->CreateGameBase<Enemy>(Vector2D(1260 + (i * e1), 500)));
+            enemy_list.push_back(gbmm->CreateGameBase<Enemy>(Vector2D(1260 + (i * e1), 580)));
         else if (enemy_type < 75)
-            enemy_list.push_back(gbmm->CreateGameBase<Enemy2>(Vector2D(1260 + (i * e2), 500)));
+            enemy_list.push_back(gbmm->CreateGameBase<Enemy2>(Vector2D(1260 + (i * e2), 580)));
         else if (enemy_type < 90)
-            enemy_list.push_back(gbmm->CreateGameBase<Enemy3>(Vector2D(1260 + (i * e3), 500)));
+            enemy_list.push_back(gbmm->CreateGameBase<Enemy3>(Vector2D(1260 + (i * e3), 300)));
         else
-            enemy_list.push_back(gbmm->CreateGameBase<Enemy4>(Vector2D(1260 + (i * e4), 500)));
+            enemy_list.push_back(gbmm->CreateGameBase<Enemy4>(Vector2D(1260 + (i * e4), 580)));
     }
 }
 
