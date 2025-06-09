@@ -17,6 +17,9 @@ public:
     void Draw(const Vector2D& screen_offset) const override;    // 描画
     void Finalize() override;                                   // 終了処理
 
+    // ★ 追加：Aimの現在位置を取得
+    const Vector2D& GetLocation() const { return location; }
+
 private:
     void Movement(float delta_second);// 移動処理
     void AnimeControl();              // アニメーション制御

@@ -7,7 +7,11 @@ class Bullet : public GameBase
 public:
     Bullet(); // デフォルトコンストラクタ
     void Initialize() override; // 使用しないなら削除してもOK
-    void Initialize(int start_x, int start_y,bool flip_flag); // ★ 位置指定付き初期化
+    //void Initialize(int start_x, int start_y,bool flip_flag); // ★ 位置指定付き初期化
+
+    // ★ 新しい初期化：任意方向に撃てる
+    void Initialize(const Vector2D& start_pos, const Vector2D& target_pos, bool flip_flag);
+
     void Update(float delta_second) override;
     void Draw(const Vector2D& screen_offset) const override;
     void Finalize() override;
@@ -20,7 +24,10 @@ public:
 
     void GetFlipFlag(bool flag);
 
+    Vector2D direction_;
+
 private:
+
     int speed_;
     bool is_active_;
     bool move_left_;  // ← 追加、左向きかどうか

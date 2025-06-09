@@ -16,10 +16,22 @@ void Bullet::Initialize()
     Initialize(0, 0,false);
 }
 
-void Bullet::Initialize(int start_x, int start_y,bool flip_flag)
+void Bullet::Initialize(const Vector2D& start, const Vector2D& target,bool flip_flag)
 {
-    location.x = start_x;
-    location.y = start_y;
+    /*location.x = start_x;
+    location.y = start_y;*/
+    location = start;
+    Vector2D diff = target - start;
+
+    // ³‹K‰»
+    float length = sqrt(diff.x * diff.x + diff.y * diff.y);
+    if (length != 0)
+    {
+        direction_.x = diff.x / length;
+        direction_.y = diff.y / length;
+    }
+
+    speed_ = 10.0f;
     is_active_ = true;
 
     collision.object_type = eBullet;
@@ -30,7 +42,10 @@ void Bullet::Initialize(int start_x, int start_y,bool flip_flag)
 void Bullet::Update(float delta_second)
 {
 
-    if (location.x >4000|| location.x < 0) {
+    location.x += direction_.x * speed_;
+    location.y += direction_.y * speed_;
+
+    if (location.x > 4000 || location.x < 0 || location.y < 0 || location.y > 3000) {
         is_active_ = false;
         GameBaseManager::GetInstance()->DestroyGameBase(this);
     }
