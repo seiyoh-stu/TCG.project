@@ -215,3 +215,8 @@ Vector2D& Player::GetLocation()
     return this->location;
 }
 
+void Player::Player_LevelUp(int levelup)
+{
+    power_level = levelup;
+    bullet_damage = 10 + levelup * 5;
+}

@@ -33,11 +33,16 @@ public:
     Vector2D target_;      // 弾のターゲット位置（BulletAimなど）
     bool is_shot = false;  // 初回方向計算フラグ
 
+    void SetDamage(int dmg) { damage = dmg; }
+    int GetDamage() const { return damage; }
+
+
 private:
 
     int speed_;
     bool is_active_;
     bool move_left_;  // ← 追加、左向きかどうか
+    int damage = 1;
 
     //Player* player;
 };

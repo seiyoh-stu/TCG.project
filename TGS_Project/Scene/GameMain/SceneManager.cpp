@@ -5,6 +5,7 @@
 #include"../GameMain/InGame.h"
 #include"../GameSub/Result/Result.h"
 #include"../GameSub/Help/Help.h"
+#include"../GameSub/TarotScene/TarotScene.h"
 
 // グローバル変数定義
 LONGLONG old_time;        // 前回計測値
@@ -161,6 +162,9 @@ SceneBase* SceneManager::CreateScene(eSceneType type)
 
     case eSceneType::eHelp:
         return dynamic_cast<SceneBase*>(new Help());
+    case eSceneType::eTarot:
+        return dynamic_cast<SceneBase*>(new Tarot());
+
 
     case eSceneType::eEnd:
 
