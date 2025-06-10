@@ -189,35 +189,78 @@ eSceneType InGame::Update(float delta_second)
     gbmm->Update(delta_second);
 
 
+    ////--------スクロール処理--------------
+    //float prev_scroll = scroll;
+
+    //// 右にスクロール
+    //if (player->GetLocation().x >= 640 && CheckHitKey(KEY_INPUT_D) || player->GetLocation().x >= 640 && input->GetPadButtonState(PAD_INPUT_9) == eInputState::eHeld)
+    //{
+    //    scroll += 5.0f;
+    //    
+    //}
+
+    //// 左にスクロール
+    //if (player->GetLocation().x < 250 && CheckHitKey(KEY_INPUT_A)|| player->GetLocation().x < 250 && input->GetPadButtonState(PAD_INPUT_9) == eInputState::eHeld)
+    //{
+    //    scroll -= 5.0f;
+    //    
+    //}
+
+    //if (scroll < 0) 
+    //{
+    //    scroll = 0;  // 左壁
+    //}
+    //if (scroll >1200)
+    //{
+    //    scroll = 1200;  //右壁
+    //} 
+
     //--------スクロール処理--------------
     float prev_scroll = scroll;
 
-    // 右にスクロール
-    if (player->GetLocation().x >= 640 && CheckHitKey(KEY_INPUT_D) || player->GetLocation().x >= 640 && input->GetPadButtonState(PAD_INPUT_9) == eInputState::eHeld)
+
+
+    // 左スティックの入力取得
+    // VECTOR stick;
+    // GetJoypadAnalogInput(&stick, 0);  // 左スティック
+    float a = static_cast<float>(input->GetJoyStickLeft().x);
+    // GetJoypadAnalogInput(&stick, 0);  // 左スティック
+    const int DEAD_ZONE = 200;
+
+    float stick_x = 0.0f;
+    if (abs(a) > DEAD_ZONE) {
+        stick_x = a / 1000.0f;  // -1.0f ～ 1.0f に正規化
+    }
+
+    // 右にスクロール（スティック or キーボード）
+    if ((player->GetLocation().x >= 640 && CheckHitKey(KEY_INPUT_D)) ||
+        (player->GetLocation().x >= 640 && stick_x > 0.2f))
     {
         scroll += 5.0f;
-        
     }
 
-    // 左にスクロール
-    if (player->GetLocation().x < 250 && CheckHitKey(KEY_INPUT_A)|| player->GetLocation().x < 250 && input->GetPadButtonState(PAD_INPUT_9) == eInputState::eHeld)
+    // 左にスクロール（スティック or キーボード）
+    if ((player->GetLocation().x < 250 && CheckHitKey(KEY_INPUT_A)) ||
+        (player->GetLocation().x < 250 && stick_x < -0.2f))
     {
         scroll -= 5.0f;
-        
     }
 
-    if (scroll < 0) 
+    // スクロール制限
+    if (scroll < 0)
     {
-        scroll = 0;  // 左壁
+        scroll = 0;
     }
-    if (scroll >1200)
+    if (scroll > 1200)
     {
-        scroll = 1200;  //右壁
-    } 
+        scroll = 1200;
+    }
 
     // スクロール差分に応じて城の位置を調整
     float scroll_delta = scroll - prev_scroll;
     castle->SetScroll(scroll_delta, delta_second);
+
+    
 
     return GetNowSceneType();
 }
