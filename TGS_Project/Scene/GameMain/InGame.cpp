@@ -69,6 +69,8 @@ void InGame::Initialize()
     }
 
     score = ScoreManager::GetInstance();
+    tarot = new Tarot();  // インスタンス化------追加0610
+    tarot->SetPlayer(player);
 }
 
 
@@ -130,6 +132,8 @@ eSceneType InGame::Update(float delta_second)
         GameBaseManager* gbmm = GameBaseManager::GetInstance();
         Bullet* bullet;
         bullet = gbmm->CreateGameBase<Bullet>(player->GetLocation());
+
+        bullet->SetDamage(player->GetBulletDamage());  // 追加0610
         if (player->flip_flag == TRUE)
         {
             bullet->GetFlipFlag(TRUE);
@@ -244,6 +248,8 @@ void InGame::Draw() const
 
     //ウェーブ表示
     DrawFormatString(10, 140, GetColor(255, 255, 0), "Wave: %d", current_wave);
+
+    //DrawRotaGraph(1180 - scroll, 100, 1.5, 0.0, back_image, TRUE);
 }
 
 
@@ -305,6 +311,13 @@ void InGame::StartNextWave()
         SpawnEnemiesForWave(current_wave);
         current_wave++;
 
+        // ★ Tarotのチケットを加算し、プレイヤーを強化
+        if (tarot != nullptr) {
+            tarot->AddTicket();
+            int level = tarot->GetTicket();
+            player->Player_LevelUp(level);
+            bullet_magazine = 5 + level;
+        }
     }
 }
 

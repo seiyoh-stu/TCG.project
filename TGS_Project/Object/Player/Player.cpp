@@ -167,6 +167,18 @@ void Player::Movement()
 
     InputControl* input = InputControl::GetInstance();
     if (input->GetPadButtonState(PAD_INPUT_DOWN) == eInputState::ePress) location.x -= 1;
+
+    //道の幅
+    //プレイヤーのムーブメント
+    if (location.y < 395.0f)
+    {
+        location.y = 395.0f;
+    }
+
+    if (location.y > 640.0f)
+    {
+        location.y = 640.0f;
+    }
 }
 
 void Player::AnimeControl()
@@ -216,3 +228,8 @@ Vector2D& Player::GetLocation()
     return this->location;
 }
 
+void Player::Player_LevelUp(int levelup)
+{
+    power_level = levelup;
+    bullet_damage = 10 + levelup * 5;
+}

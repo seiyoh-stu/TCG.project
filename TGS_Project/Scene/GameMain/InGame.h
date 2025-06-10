@@ -9,6 +9,7 @@
 #include "../../Object/Enemy/Enemy4.h"
 #include "../../Utility/ScoreManager.h"
 #include "../../Utility/Vector2D.h"
+#include "../../Scene/GameSub/TarotScene/TarotScene.h" 
 #include <memory> // std::unique_ptr を使用するため
 
 class InGame : public SceneBase
@@ -17,6 +18,7 @@ private:
     Player* player;
     Castle* castle;
     ScoreManager* score;
+    Tarot* tarot;//ーーーーーーーー追加0610
     //std::unique_ptr<Player> player; // Playerクラスのインスタンスをスマートポインタで管理
     //// 他のプライベートメンバ変数
     //std::unique_ptr<Enemy> enemy; // Enemyクラスのインスタンスをスマートポインタで管理

@@ -20,10 +20,17 @@ public:
 
     void GetFlipFlag(bool flag);
 
+    //’Ç‰Á0610
+    void SetDamage(int dmg) { damage = dmg; }
+    int GetDamage() const { return damage; }
 private:
     int speed_;
     bool is_active_;
     bool move_left_;  // © ’Ç‰ÁA¶Œü‚«‚©‚Ç‚¤‚©
+
+
+    //’Ç‰Á0610
+    int damage = 10;
 
     //Player* player;
 };

@@ -162,9 +162,12 @@ SceneBase* SceneManager::CreateScene(eSceneType type)
     case eSceneType::eHelp:
         return dynamic_cast<SceneBase*>(new Help());
 
-    case eSceneType::eEnd:
+    case eSceneType::eTarot:
+        return dynamic_cast<SceneBase*>(new Tarot());
 
+    case eSceneType::eEnd:
         return nullptr;
+
     default:
         return nullptr;
     }

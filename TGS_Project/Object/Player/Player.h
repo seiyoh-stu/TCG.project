@@ -26,6 +26,10 @@ private:
     int last_shot_time;
     const int kShotIntervalMs = 500; // 500msで2発/秒
 
+    //プレイヤーレベルアップ変数ーーーー追加0610
+    int power_level = 1;
+    int bullet_damage = 10;
+
 public:
     bool flip_flag;//反転
 
@@ -47,9 +51,11 @@ public:
     int GetHP() const;            // HP取得関数
     Vector2D& GetLocation();
 
-    //プレイヤーレベルアップ
+
+    //プレイヤーレベルアップ関数ーーーーーーー0610
     void Player_LevelUp(int levelup);
-    int Get_Level();
+    int Get_Level() const { return power_level; }
+    int GetBulletDamage() const { return bullet_damage; }
 
 private:
     void Movement();

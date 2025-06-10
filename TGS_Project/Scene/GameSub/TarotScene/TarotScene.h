@@ -1,33 +1,41 @@
 #pragma once
 
-#include"../../GameMain/SceneBase.h"
+#include "../../GameMain/SceneBase.h"
+#include "../../../Object/Player/Player.h"
+#include <vector>
+#include <string>
+#include <algorithm>  // std::max に必要
 
-class Tarot :public SceneBase
+class Tarot : public SceneBase
 {
 private:
-	
+    struct CardInfo {
+        int x, y, width, height;
+        std::string effect;  // "power_up" または "power_down"
+    };
+
+    std::vector<CardInfo> cards;
+    int selectedIndex = 0;
+    bool keyLeftPrev = false;
+    bool keyRightPrev = false;
+    bool keyEnterPrev = false;
+
+    int ticket = 0;         // チケット数
+    Player* player = nullptr;  // プレイヤー参照
 
 public:
-	Tarot();
-	virtual~Tarot();
+    Tarot();
+    virtual ~Tarot();
 
-	//初期化処理
-	virtual void Initialize() override;
+    // チケット操作
+    void AddTicket();       // チケット+1
+    int GetTicket() const;  // チケット取得
 
-	//更新処理
-	//引数：1フレーム当たりの時間
-	//戻り値：次のシーンタイプ
-	virtual eSceneType Update(float delta_second) override;
+    void SetPlayer(Player* p);  // プレイヤーをセット
 
-	//描画処理
-	virtual void Draw() const override;
-
-	//終了時処理
-	virtual void Finalize() override;
-
-	//現在のシーンタイプ（オーバーライド必須）
-	virtual eSceneType GetNowSceneType() const override;
-
+    virtual void Initialize() override;
+    virtual eSceneType Update(float delta_second) override;
+    virtual void Draw() const override;
+    virtual void Finalize() override;
+    virtual eSceneType GetNowSceneType() const override;
 };
-
-
