@@ -2,7 +2,7 @@
 #include "DxLib.h"
 #include "../../Object/GameObjectManager.h"
 
-
+//—‘‚«
 Bullet::Bullet()
     : speed_(10), is_active_(false)
 {
