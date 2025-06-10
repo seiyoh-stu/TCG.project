@@ -10,6 +10,7 @@
 #include"../../Object/Bullet/BulletAim.h"
 #include "../../Utility/ScoreManager.h"
 #include "../../Utility/Vector2D.h"
+#include "../GameSub/TarotScene/TarotScene.h"
 
 #include <memory> // std::unique_ptr を使用するため
 
@@ -19,6 +20,8 @@ private:
     Player* player;
     BulletAim* bullet_aim;
     Castle* castle;
+    Tarot* tarot;//ーーーーーーーー追加0610
+
     ScoreManager* score;
     //std::unique_ptr<Player> player; // Playerクラスのインスタンスをスマートポインタで管理
     //// 他のプライベートメンバ変数

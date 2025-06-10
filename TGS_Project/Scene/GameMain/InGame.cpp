@@ -71,6 +71,8 @@ void InGame::Initialize()
     }
 
     score = ScoreManager::GetInstance();
+    tarot = new Tarot();  // インスタンス化------追加0610
+    tarot->SetPlayer(player);
 }
 
 
@@ -355,6 +357,14 @@ void InGame::StartNextWave()
         wave_in_progress = true;
         SpawnEnemiesForWave(current_wave);
         current_wave++;
+
+        // ★ Tarotのチケットを加算し、プレイヤーを強化
+        if (tarot != nullptr) {
+            tarot->AddTicket();
+            int level = tarot->GetTicket();
+            player->Player_LevelUp(level);
+            bullet_magazine = 5 + level;
+        }
 
     }
 }
