@@ -13,27 +13,44 @@ private:
     unsigned int color;
     int hp;                      // プレイヤーのHP（初期値10）
 
+    // スクロール管理
     bool scroll_end;
     bool scroll_start;
 
+
+
+    // 弾の発射位置オフセット
     int bullet_offset_x;
     int bullet_offset_y;
 
-    int player_image;//プレイヤー画像
-    int animation[10];  //アニメーション画像
-    int animation_index = 0;  // 現在のフレーム番号
-    int animation_count;//アニメーション時間
 
+
+
+    // プレイヤー画像およびアニメーション管理
+    int player_image;           //プレイヤー画像
+    int walk_animation[10];     // 歩行アニメーション
+    int idle_animation[11];     // 待機アニメーション
+    int walk_index;             // 歩行フレームインデックス
+    int idle_index;             // 待機フレームインデックス
+    int animation_count;        //アニメーション時間
+
+
+
+     // 弾発射管理
     int last_shot_time;
     const int kShotIntervalMs = 500; // 500msで2発/秒
+
+
 
     //プレイヤーレベルアップ変数ーーーー追加0610
     int power_level = 1;
     int bullet_damage = 10;
 
 
+
 public:
-    bool flip_flag;//反転
+
+    bool flip_flag;// 左右反転フラグ
 
 
 public:

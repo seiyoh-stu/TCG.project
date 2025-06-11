@@ -28,23 +28,30 @@ void Player::Initialize()
     Bullet* bullet;         //Bullet呼出処理
 
 
+    // ResourceManagerから画像取得（歩き・待機）
     ResourceManager* rm = ResourceManager::GetInstance();
+    std::vector<int> walk_frames = rm->GetImages("Resource/Images/GamePlayer/Walk.png", 10, 10, 1, 128, 128);//歩き
+    std::vector<int> idle_frames = rm->GetImages("Resource/Images/GamePlayer/Idle.png", 6, 6, 1, 128, 128);//待機
 
 
-    std::vector<int> frames = rm->GetImages("Resource/Images/GamePlayer/Walk.png", 10, 10, 1, 128, 128);
-
-    // アニメーションフレームの格納
+    // アニメーション格納
     for (int i = 0; i < 10; ++i) {
-        animation[i] = frames[i];
+        walk_animation[i] = walk_frames[i];
+    }
+    for (int i = 0; i < 6; ++i) {
+        idle_animation[i] = idle_frames[i];
     }
 
-    player_image = animation[0];
-    animation_index = 0;
+
+    // 初期表示画像を設定
+    player_image = idle_animation[0];
+    walk_index = 0;
+    idle_index = 0;
+    animation_count = 0;
     animation_count = 0;
 
-    // 最初の画像をセット
-    player_image = animation[0];
 
+    // プレイヤーの初期位置
     player_x = 200;
     player_y = 580;
 
@@ -73,6 +80,7 @@ void Player::Update(float delta_second)
     Shoot();
     AnimeControl();
 
+    // スクロール開始位置の判定
     if (!scroll_start && location.x >= 640) {
         scroll_start = true;
     }
@@ -80,37 +88,12 @@ void Player::Update(float delta_second)
 
 void Player::Draw(const Vector2D& screen_offset) const
 {
-    /*int draw_x = location.x - screen_offset.x;
-    int draw_y = location.y - screen_offset.y;*/
-
-
     if (!flip_flag) {
-        // 通常描画（右向き）
-        /*DrawExtendGraph(
-            draw_x - size_x / 2,
-            draw_y - size_y / 2,
-            draw_x + size_x / 2,
-            draw_y + size_y / 2,
-            player_image,
-            TRUE
-        );*/
-
-
-
-
+        
         DrawRotaGraph(location.x, location.y, 2.0f, 0.0f, player_image, flip_flag, FALSE);
 
     }
     else {
-        // 左右反転描画（左向き）
-        //DrawExtendGraph(
-        //    draw_x + size_x / 2,  // ← 左右の座標を反転させる
-        //    draw_y - size_y / 2,
-        //    draw_x - size_x / 2,
-        //    draw_y + size_y / 2,
-        //    player_image,
-        //    TRUE
-        //);
 
         DrawRotaGraph(location.x, location.y, 2.0f, 0.0f, player_image, flip_flag, TRUE);
     }
@@ -124,20 +107,12 @@ void Player::Finalize()
 
 void Player::OnHitCollision(GameBase* hit_object)
 {
-    /*if (hit_object->GetCollision().object_type == eEnemy)
-    {
-        GameBaseManager* gbmm = GameBaseManager::GetInstance();
-        gbmm->DestroyGameBase(this);
-
-        DecreaseHP(1);
-    }*/
+    
 }
 
 void Player::Shoot()
 {
     int now = GetNowCount();
-
-    // 発射間隔制御例（省略）
 
     // 弾生成例（仮にGameBaseManagerで生成）
     GameBaseManager* gbm = GameBaseManager::GetInstance();
@@ -185,7 +160,7 @@ void Player::Movement()
         location.y -= 5;
     }
 
-    //プレイヤーが歩ける縦軸
+    //プレイヤーが歩けるY座標
     if (location.y < 395.0f)
     {
         location.y = 395.0f;
@@ -201,29 +176,46 @@ void Player::Movement()
 
 void Player::AnimeControl()
 {
-    bool isMoving = CheckHitKey(KEY_INPUT_D) || CheckHitKey(KEY_INPUT_A);
+    InputControl* input = InputControl::GetInstance();
 
+
+    //ここのキー・ボタンを押すと歩きアニメーションを行う
+    bool isMoving = CheckHitKey(KEY_INPUT_D) || CheckHitKey(KEY_INPUT_A) || CheckHitKey(KEY_INPUT_S) || CheckHitKey(KEY_INPUT_W)
+        ||(input->GetPadButtonState(PAD_INPUT_UP) == eInputState::eHeld) || (input->GetPadButtonState(PAD_INPUT_DOWN) == eInputState::eHeld)
+        ||(input->GetPadButtonState(PAD_INPUT_LEFT) == eInputState::eHeld) || (input->GetPadButtonState(PAD_INPUT_RIGHT) == eInputState::eHeld);
+                  
+
+    animation_count++;
+
+
+    //歩き状態のアニメーション
     if (isMoving) {
-        animation_count++;
-
-        if (animation_count >= 7) {  // 5フレームで切り替え（速度は調整可能）
+        if (animation_count >= 8) {//ここで調整できる
             animation_count = 0;
 
-            animation_index++;
-            if (animation_index >= 10) {
-                animation_index = 0;
+            walk_index++;
+            if (walk_index >= 10) {//歩き画像の枚数
+                walk_index = 0;
             }
 
-            player_image = animation[animation_index];
+            player_image = walk_animation[walk_index];
         }
     }
+    //待機状態のアニメーション
     else {
-        // 静止時は1枚目を表示
-        animation_index = 0;
-        player_image = animation[animation_index];
-    }
+        if (animation_count >= 60) {//ここで調整できる
+            animation_count = 0;
 
+            idle_index++;
+            if (idle_index >= 6) {//歩き画像の枚数
+                idle_index = 0;
+            }
+
+            player_image = idle_animation[idle_index];
+        }
+    }
 }
+
 
 
 
