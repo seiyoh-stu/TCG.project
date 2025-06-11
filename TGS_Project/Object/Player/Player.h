@@ -16,8 +16,8 @@ private:
     // スクロール管理
     bool scroll_end;
     bool scroll_start;
-
-
+    int scroll_x;
+    const int WINDOW_WIDTH = 1280;
 
     // 弾の発射位置オフセット
     int bullet_offset_x;
@@ -28,8 +28,12 @@ private:
 
     // プレイヤー画像およびアニメーション管理
     int player_image;           //プレイヤー画像
-    int walk_animation[10];     // 歩行アニメーション
-    int idle_animation[11];     // 待機アニメーション
+
+    int walk_right_animation[10];
+    int walk_left_animation[10];
+    int idle_right_animation[6];
+    int idle_left_animation[6];
+
     int walk_index;             // 歩行フレームインデックス
     int idle_index;             // 待機フレームインデックス
     int animation_count;        //アニメーション時間

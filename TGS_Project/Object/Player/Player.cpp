@@ -30,26 +30,44 @@ void Player::Initialize()
 
     // ResourceManagerから画像取得（歩き・待機）
     ResourceManager* rm = ResourceManager::GetInstance();
-    std::vector<int> walk_frames = rm->GetImages("Resource/Images/GamePlayer/Walk.png", 10, 10, 1, 128, 128);//歩き
-    std::vector<int> idle_frames = rm->GetImages("Resource/Images/GamePlayer/Idle.png", 6, 6, 1, 128, 128);//待機
+
+    // 右向きの歩き
+    std::vector<int> walk_right_frames = rm->GetImages("Resource/Images/GamePlayer/Walk_Right.png", 10, 10, 1, 128, 128);//右歩き
+    std::vector<int> walk_left_frames = rm->GetImages("Resource/Images/GamePlayer/Walk_Left.png", 10, 10, 1, 128, 128);  //左歩き
+
+    // 待機画像を読み込み
+    std::vector<int> idle_right_frames = rm->GetImages("Resource/Images/GamePlayer/Idle_Right.png", 6, 6, 1, 128, 128);//待機右
+    std::vector<int> idle_left_frames = rm->GetImages("Resource/Images/GamePlayer/Idle_Left.png", 6, 6, 1, 128, 128);//待機左
+   
 
 
     // アニメーション格納
+    
+    //右歩き
     for (int i = 0; i < 10; ++i) {
-        walk_animation[i] = walk_frames[i];
+        walk_right_animation[i] = walk_right_frames[i];
     }
+
+    //左歩き
+    for (int i = 0; i < 10; ++i) {
+        walk_left_animation[i] = walk_left_frames[9 - i];
+    }
+
+
+    //待機状態
     for (int i = 0; i < 6; ++i) {
-        idle_animation[i] = idle_frames[i];
+        idle_right_animation[i] = idle_right_frames[i];
+        idle_left_animation[i] = idle_left_frames[i];
     }
 
+    // 初期画像は右向き待機の最初の画像
+    player_image = idle_right_animation[0];
 
-    // 初期表示画像を設定
-    player_image = idle_animation[0];
+
     walk_index = 0;
     idle_index = 0;
     animation_count = 0;
-    animation_count = 0;
-
+   
 
     // プレイヤーの初期位置
     player_x = 200;
@@ -69,6 +87,8 @@ void Player::Initialize()
     collision.box_size = 64;
     collision.hit_object_type.push_back(eEnemy);
 
+
+
     location.x = player_x;
     location.y = player_y;
 
@@ -84,21 +104,20 @@ void Player::Update(float delta_second)
     if (!scroll_start && location.x >= 640) {
         scroll_start = true;
     }
+
+    /*if (location.x > WINDOW_WIDTH / 2) {
+        scroll_x = static_cast<int>(location.x - WINDOW_WIDTH / 2);
+    }*/
+
 }
 
 void Player::Draw(const Vector2D& screen_offset) const
 {
-    if (!flip_flag) {
-        
-        DrawRotaGraph(location.x, location.y, 2.0f, 0.0f, player_image, flip_flag, FALSE);
+    int draw_x = static_cast<int>(location.x - scroll_x);
+    int draw_y = static_cast<int>(location.y);
 
-    }
-    else {
-
-        DrawRotaGraph(location.x, location.y, 2.0f, 0.0f, player_image, flip_flag, TRUE);
-    }
+    DrawRotaGraph(draw_x, draw_y, 2.0f, 0.0f, player_image, TRUE);
 }
-
 
 void Player::Finalize()
 {
@@ -161,14 +180,14 @@ void Player::Movement()
     }
 
     //プレイヤーが歩けるY座標
-    if (location.y < 395.0f)
+    if (location.y < 390.0f)
     {
-        location.y = 395.0f;
+        location.y = 390.0f;
     }
 
-    if (location.y > 590.0f)
+    if (location.y > 580.0f)
     {
-        location.y = 590.0f;
+        location.y = 580.0f;
     }
 
 }
@@ -178,43 +197,48 @@ void Player::AnimeControl()
 {
     InputControl* input = InputControl::GetInstance();
 
-
-    //ここのキー・ボタンを押すと歩きアニメーションを行う
     bool isMoving = CheckHitKey(KEY_INPUT_D) || CheckHitKey(KEY_INPUT_A) || CheckHitKey(KEY_INPUT_S) || CheckHitKey(KEY_INPUT_W)
-        ||(input->GetPadButtonState(PAD_INPUT_UP) == eInputState::eHeld) || (input->GetPadButtonState(PAD_INPUT_DOWN) == eInputState::eHeld)
-        ||(input->GetPadButtonState(PAD_INPUT_LEFT) == eInputState::eHeld) || (input->GetPadButtonState(PAD_INPUT_RIGHT) == eInputState::eHeld);
-                  
+        || (input->GetPadButtonState(PAD_INPUT_UP) == eInputState::eHeld)
+        || (input->GetPadButtonState(PAD_INPUT_DOWN) == eInputState::eHeld)
+        || (input->GetPadButtonState(PAD_INPUT_LEFT) == eInputState::eHeld)
+        || (input->GetPadButtonState(PAD_INPUT_RIGHT) == eInputState::eHeld);
 
     animation_count++;
 
-
-    //歩き状態のアニメーション
     if (isMoving) {
-        if (animation_count >= 8) {//ここで調整できる
+        if (animation_count >= 8) {
             animation_count = 0;
-
             walk_index++;
-            if (walk_index >= 10) {//歩き画像の枚数
+            if (walk_index >= 10) {
                 walk_index = 0;
             }
 
-            player_image = walk_animation[walk_index];
+            if (flip_flag) {
+                player_image = walk_left_animation[walk_index];
+            }
+            else {
+                player_image = walk_right_animation[walk_index];
+            }
         }
     }
-    //待機状態のアニメーション
     else {
-        if (animation_count >= 60) {//ここで調整できる
+        if (animation_count >= 60) {
             animation_count = 0;
-
             idle_index++;
-            if (idle_index >= 6) {//歩き画像の枚数
+            if (idle_index >= 6) {
                 idle_index = 0;
             }
 
-            player_image = idle_animation[idle_index];
+            if (flip_flag) {
+                player_image = idle_left_animation[idle_index];
+            }
+            else {
+                player_image = idle_right_animation[idle_index];
+            }
         }
     }
 }
+
 
 
 

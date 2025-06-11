@@ -274,7 +274,8 @@ eSceneType InGame::Update(float delta_second)
 
 void InGame::Draw() const
 {
-    DrawRotaGraph(1280 - scroll, 480, 1.0, 0.0, back_image, TRUE);
+   /* DrawRotaGraph(1280 - scroll, 480, 1.0, 0.0, back_image, TRUE);*/
+    DrawRotaGraph(1180 - scroll, 100, 1.5, 0.0, back_image, TRUE);
     Vector2D screen_offset(scroll, 0);
 
     GameBaseManager::GetInstance()->DrawWithOffset(screen_offset);
