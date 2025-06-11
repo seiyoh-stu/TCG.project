@@ -20,7 +20,8 @@ private:
     int bullet_offset_y;
 
     int player_image;//プレイヤー画像
-    int animation[2];  //アニメーション画像
+    int animation[10];  //アニメーション画像
+    int animation_index = 0;  // 現在のフレーム番号
     int animation_count;//アニメーション時間
 
     int last_shot_time;

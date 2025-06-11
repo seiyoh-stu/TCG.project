@@ -1,8 +1,9 @@
-#include "Player.h"
+ï»¿#include "Player.h"
 #include "../../Utility/InputControl.h"
 #include "../../Object/Bullet/Bullet.h"
 #include "../../Object/GameObjectManager.h"
 #include "DxLib.h"
+#include "../../Utility/ResourceManager.h"
 
 Player::Player()
     : player_x(200), player_y(580),
@@ -24,13 +25,25 @@ Player::~Player()
 
 void Player::Initialize()
 {
-    Bullet* bullet;         //BulletŒÄoˆ—
+    Bullet* bullet;         //Bulletå‘¼å‡ºå‡¦ç†
 
-    //ƒvƒŒƒCƒ„[‰æ‘œ“Ç‚İ‚İ
-    animation[0] = LoadGraph("Resource/Images/Run1.png");
-    animation[1] = LoadGraph("Resource/Images/Run2.png");
+
+    ResourceManager* rm = ResourceManager::GetInstance();
+
+
+    std::vector<int> frames = rm->GetImages("Resource/Images/GamePlayer/Walk.png", 10, 10, 1, 128, 128);
+
+    // ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ãƒ•ãƒ¬ãƒ¼ãƒ ã®æ ¼ç´
+    for (int i = 0; i < 10; ++i) {
+        animation[i] = frames[i];
+    }
+
     player_image = animation[0];
+    animation_index = 0;
+    animation_count = 0;
 
+    // æœ€åˆã®ç”»åƒã‚’ã‚»ãƒƒãƒˆ
+    player_image = animation[0];
 
     player_x = 200;
     player_y = 580;
@@ -38,16 +51,20 @@ void Player::Initialize()
     bullet_offset_x = size_x / 2;
     bullet_offset_y = 28;
 
-    //ƒvƒŒƒCƒ„[HP
+    //ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼HP
     hp = 10;
 
-    //ƒVƒ‡ƒbƒgƒ^ƒCƒ€
+    //ã‚·ãƒ§ãƒƒãƒˆã‚¿ã‚¤ãƒ 
     last_shot_time = 0;
 
-    //ƒRƒŠƒWƒ‡ƒ“
+    //ã‚³ãƒªã‚¸ãƒ§ãƒ³
     collision.object_type = ePlayer;
     collision.box_size = 64;
     collision.hit_object_type.push_back(eEnemy);
+
+    location.x = player_x;
+    location.y = player_y;
+
 }
 
 void Player::Update(float delta_second)
@@ -68,7 +85,7 @@ void Player::Draw(const Vector2D& screen_offset) const
 
 
     if (!flip_flag) {
-        // ’Êí•`‰æi‰EŒü‚«j
+        // é€šå¸¸æç”»ï¼ˆå³å‘ãï¼‰
         /*DrawExtendGraph(
             draw_x - size_x / 2,
             draw_y - size_y / 2,
@@ -78,12 +95,16 @@ void Player::Draw(const Vector2D& screen_offset) const
             TRUE
         );*/
 
-        DrawRotaGraph(location.x, location.y, 0.5f, 0.0f, player_image, flip_flag, FALSE);
+
+
+
+        DrawRotaGraph(location.x, location.y, 2.0f, 0.0f, player_image, flip_flag, FALSE);
+
     }
     else {
-        // ¶‰E”½“]•`‰æi¶Œü‚«j
+        // å·¦å³åè»¢æç”»ï¼ˆå·¦å‘ãï¼‰
         //DrawExtendGraph(
-        //    draw_x + size_x / 2,  // © ¶‰E‚ÌÀ•W‚ğ”½“]‚³‚¹‚é
+        //    draw_x + size_x / 2,  // â† å·¦å³ã®åº§æ¨™ã‚’åè»¢ã•ã›ã‚‹
         //    draw_y - size_y / 2,
         //    draw_x - size_x / 2,
         //    draw_y + size_y / 2,
@@ -91,16 +112,14 @@ void Player::Draw(const Vector2D& screen_offset) const
         //    TRUE
         //);
 
-        DrawRotaGraph(location.x, location.y, 0.5f, 0.0f, player_image, flip_flag, TRUE);
-
+        DrawRotaGraph(location.x, location.y, 2.0f, 0.0f, player_image, flip_flag, TRUE);
     }
-    //DrawBox(location.x - collision.box_size.x, location.y - collision.box_size.y, location.x + collision.box_size.x, location.y + collision.box_size.y, GetColor(100, 0, 255), TRUE);
 }
+
 
 void Player::Finalize()
 {
-    DeleteGraph(animation[0]);
-    DeleteGraph(animation[1]);
+    
 }
 
 void Player::OnHitCollision(GameBase* hit_object)
@@ -118,12 +137,12 @@ void Player::Shoot()
 {
     int now = GetNowCount();
 
-    // ”­ËŠÔŠu§Œä—áiÈ—ªj
+    // ç™ºå°„é–“éš”åˆ¶å¾¡ä¾‹ï¼ˆçœç•¥ï¼‰
 
-    // ’e¶¬—ái‰¼‚ÉGameBaseManager‚Å¶¬j
+    // å¼¾ç”Ÿæˆä¾‹ï¼ˆä»®ã«GameBaseManagerã§ç”Ÿæˆï¼‰
     GameBaseManager* gbm = GameBaseManager::GetInstance();
 
-    // ’e‚Ì‰ŠúˆÊ’u‚ÍƒvƒŒƒCƒ„[‚Ì’†S{ƒIƒtƒZƒbƒg
+    // å¼¾ã®åˆæœŸä½ç½®ã¯ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ä¸­å¿ƒï¼‹ã‚ªãƒ•ã‚»ãƒƒãƒˆ
     int bullet_x = location.x + (flip_flag ? -bullet_offset_x : bullet_offset_x);
     int bullet_y = location.y + bullet_offset_y;
 
@@ -134,66 +153,79 @@ void Player::Movement()
 {
     InputControl* input = InputControl::GetInstance();
 
-    // ¶ˆÚ“®iƒL[ƒ{[ƒh or ƒRƒ“ƒgƒ[ƒ‰[j
+    // å·¦ç§»å‹•ï¼ˆã‚­ãƒ¼ãƒœãƒ¼ãƒ‰ or ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼ï¼‰
     if (CheckHitKey(KEY_INPUT_A) || input->GetPadButtonState(PAD_INPUT_LEFT) == eInputState::eHeld)
     {
         if (location.x >= 250)
         {
             location.x -= 5;
-            flip_flag = TRUE;  // ¶Œü‚«
+            flip_flag = TRUE;  // å·¦å‘ã
         }
     }
 
-    // ‰EˆÚ“®iƒL[ƒ{[ƒh or ƒRƒ“ƒgƒ[ƒ‰[j
+    // å³ç§»å‹•ï¼ˆã‚­ãƒ¼ãƒœãƒ¼ãƒ‰ or ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼ï¼‰
     if (CheckHitKey(KEY_INPUT_D) || input->GetPadButtonState(PAD_INPUT_RIGHT) == eInputState::eHeld)
     {
         if (location.x < 650)
         {
             location.x += 5;
-            flip_flag = FALSE; // ‰EŒü‚«
+            flip_flag = FALSE; // å³å‘ã
         }
     }
 
-    // ‰ºˆÚ“®iƒL[ƒ{[ƒh or ƒRƒ“ƒgƒ[ƒ‰[j
+    // ä¸‹ç§»å‹•ï¼ˆã‚­ãƒ¼ãƒœãƒ¼ãƒ‰ or ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼ï¼‰
     if (CheckHitKey(KEY_INPUT_S) || input->GetPadButtonState(PAD_INPUT_DOWN) == eInputState::eHeld)
     {
         location.y += 5;
     }
 
-    // ãˆÚ“®iƒL[ƒ{[ƒh or ƒRƒ“ƒgƒ[ƒ‰[j
+    // ä¸Šç§»å‹•ï¼ˆã‚­ãƒ¼ãƒœãƒ¼ãƒ‰ or ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼ï¼‰
     if (CheckHitKey(KEY_INPUT_W) || input->GetPadButtonState(PAD_INPUT_UP) == eInputState::eHeld)
     {
         location.y -= 5;
     }
+
+    //ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒæ­©ã‘ã‚‹ç¸¦è»¸
+    if (location.y < 395.0f)
+    {
+        location.y = 395.0f;
+    }
+
+    if (location.y > 590.0f)
+    {
+        location.y = 590.0f;
+    }
+
 }
 
 
 void Player::AnimeControl()
 {
-    if (CheckHitKey(KEY_INPUT_D) || CheckHitKey(KEY_INPUT_A)) {
+    bool isMoving = CheckHitKey(KEY_INPUT_D) || CheckHitKey(KEY_INPUT_A);
 
-
-        //ƒtƒŒ[ƒ€ƒJƒEƒ“ƒg‚ğ‰ÁZ‚·‚é
+    if (isMoving) {
         animation_count++;
 
-        //60ƒtƒŒ[ƒ€–Ú‚É’B‚µ‚½‚ç
-        if (animation_count >= 40)
-        {
-            //ƒJƒEƒ“ƒg‚ÌƒŠƒZƒbƒg
+        if (animation_count >= 7) {  // 5ãƒ•ãƒ¬ãƒ¼ãƒ ã§åˆ‡ã‚Šæ›¿ãˆï¼ˆé€Ÿåº¦ã¯èª¿æ•´å¯èƒ½ï¼‰
             animation_count = 0;
 
-            //‰æ‘œ‚ÌØ‚è‘Ö‚¦
-            if (player_image == animation[0])
-            {
-                player_image = animation[1];
+            animation_index++;
+            if (animation_index >= 10) {
+                animation_index = 0;
             }
-            else
-            {
-                player_image = animation[0];
-            }
+
+            player_image = animation[animation_index];
         }
     }
+    else {
+        // é™æ­¢æ™‚ã¯1æšç›®ã‚’è¡¨ç¤º
+        animation_index = 0;
+        player_image = animation[animation_index];
+    }
+
 }
+
+
 
 void Player::DecreaseHP(int amount)
 {
