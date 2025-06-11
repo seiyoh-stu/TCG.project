@@ -19,6 +19,7 @@ public:
     // 終了処理
     void Finalize();
 
+    void SetScene(eSceneType type, SceneBase* scene);
 private:
     // 描画処理
     void Draw() const;

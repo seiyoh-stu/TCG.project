@@ -7,21 +7,6 @@ Tarot::Tarot() {}
 
 Tarot::~Tarot() {}
 
-void Tarot::AddTicket()
-{
-    ticket++;
-}
-
-int Tarot::GetTicket() const
-{
-    return ticket;
-}
-
-void Tarot::SetPlayer(Player* p)
-{
-    player = p;
-}
-
 void Tarot::Initialize()
 {
     cards.clear();
@@ -101,6 +86,28 @@ void Tarot::Draw() const
 void Tarot::Finalize()
 {
 }
+
+void Tarot::AddTicket()
+{
+    ticket++;
+}
+
+int Tarot::GetTicket() const
+{
+    return ticket;
+}
+
+void Tarot::SetPlayer(Player* p)
+{
+    player = p;
+}
+
+//‚O‚U‚P‚P
+void Tarot::SetTicket(int t)
+{
+    ticket = t;
+}
+
 
 eSceneType Tarot::GetNowSceneType() const
 {

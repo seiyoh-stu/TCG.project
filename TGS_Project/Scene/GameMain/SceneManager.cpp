@@ -6,11 +6,14 @@
 #include"../GameSub/Result/Result.h"
 #include"../GameSub/Help/Help.h"
 #include"../GameSub/TarotScene/TarotScene.h"
+#include <map>
 
 // グローバル変数定義
 LONGLONG old_time;        // 前回計測値
 LONGLONG now_time;        // 現在計測値
 float delta_second;        // １フレームあたりの時間
+
+std::map<eSceneType, SceneBase*> scene_map;
 
 SceneManager::SceneManager() : current_scene(nullptr)
 {
@@ -76,26 +79,6 @@ void SceneManager::Run()
 
         // フレームレート制御(バックバッファへの描画完了後に同期)
     }
-}
-
-/// <summary>
-/// 終了処理
-/// </summary>
-void SceneManager::Finalize()
-{
-    // 現在のシーンが存在する場合、終了処理を行い削除する
-    if (current_scene != nullptr)
-    {
-        current_scene->Finalize();
-        delete current_scene;
-        current_scene = nullptr;
-    }
-
-    // 入力制御インスタンスの削除
-    InputControl::DeleteInstance();
-
-    // DXライブラリの終了処理
-    DxLib_End();
 }
 
 /// <summary>
@@ -194,4 +177,30 @@ void SceneManager::FrameControl()
     {
         delta_second = (1.0f / refresh_rate);
     }
+}
+
+//シーンタイプ設定
+void SceneManager::SetScene(eSceneType type, SceneBase* scene)
+{
+    scene_map[type] = scene;
+}
+
+/// <summary>
+/// 終了処理
+/// </summary>
+void SceneManager::Finalize()
+{
+    // 現在のシーンが存在する場合、終了処理を行い削除する
+    if (current_scene != nullptr)
+    {
+        current_scene->Finalize();
+        delete current_scene;
+        current_scene = nullptr;
+    }
+
+    // 入力制御インスタンスの削除
+    InputControl::DeleteInstance();
+
+    // DXライブラリの終了処理
+    DxLib_End();
 }

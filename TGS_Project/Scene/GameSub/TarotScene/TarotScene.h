@@ -40,4 +40,7 @@ public:
     virtual void Draw() const override;
     virtual void Finalize() override;
     virtual eSceneType GetNowSceneType() const override;
+
+    //‚O‚U‚P‚P’Ç‰Á
+    void SetTicket(int t);
 };
