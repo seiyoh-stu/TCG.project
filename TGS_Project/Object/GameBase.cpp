@@ -109,3 +109,8 @@ void GameBase::SetDamageBoost(bool enable)
 {
 
 }
+
+void GameBase::SetEScroll(float scro)
+{
+	scroll = scro;
+}

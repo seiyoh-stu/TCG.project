@@ -4,7 +4,7 @@
 #include"../../Object/GameObjectManager.h"
 #include"../../Utility/ScoreManager.h"
 
-#define MAX_HP 1000  // 6‚È‚ç3”­‚ÅŽ€‚Ê
+#define MAX_HP 500  // 6‚È‚ç3”­‚ÅŽ€‚Ê
 
 Castle::Castle()
 {

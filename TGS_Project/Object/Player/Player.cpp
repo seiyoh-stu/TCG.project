@@ -237,6 +237,16 @@ void Player::AnimeControl()
             }
         }
     }
+
+
+    if (bulletaim->GetLocation().x < location.x)
+    {
+        flip_flag = true;
+    }
+    else
+    {
+        flip_flag = false;
+    }
 }
 
 
@@ -267,4 +277,9 @@ void Player::Player_LevelUp(int levelup)
 {
     power_level = levelup;
     bullet_damage = 10 + levelup * 5;
+}
+
+void Player::SetBulletAim(BulletAim* Aim)
+{
+    bulletaim = Aim;
 }

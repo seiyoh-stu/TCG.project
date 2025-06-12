@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../../Object/Bullet/Bullet.h"
+#include "../../Object/Bullet/BulletAim.h"
 #include "../GameBase.h"
 
 class Player : public GameBase
@@ -78,6 +79,10 @@ public:
     void Player_LevelUp(int levelup);
     int Get_Level() const { return power_level; }
     int GetBulletDamage() const { return bullet_damage; }
+
+    void SetBulletAim(class BulletAim* Aim);
+
+    class BulletAim* bulletaim;
 
 
 private:

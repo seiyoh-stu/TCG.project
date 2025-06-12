@@ -64,7 +64,8 @@ public:
 
     int back_image;
 
-    
+    float bullet_cooldown_timer = 0.0f;
+    const float bullet_cooldown_interval = 0.1f;  // 0.3秒間隔
 
 public:
     InGame();

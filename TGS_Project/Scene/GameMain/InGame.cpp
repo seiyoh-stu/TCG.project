@@ -14,7 +14,7 @@
 #include <memory>
 
 InGame::InGame() : bgmHandle(-1) , flip_flag(false),
- bullet_magazine(5), push_flg(true),reload(0)
+ bullet_magazine(20), push_flg(true),reload(0)
 {
 
 }
@@ -51,6 +51,11 @@ void InGame::Initialize()
     player = gbmm->CreateGameBase<Player>(Vector2D(200, 580));
     castle = gbmm->CreateGameBase<Castle>(Vector2D(100, 580));
     bullet_aim = gbmm->CreateGameBase<BulletAim>(Vector2D(100, 580));
+
+    if (player != nullptr && bullet_aim != nullptr)
+    {
+        player->SetBulletAim(bullet_aim);
+    }
 
     enemy_spawn_timer = 0.0f;
     enemy_spawn_interval = 3.0f; // 3秒ごとに敵を出現
@@ -101,7 +106,7 @@ eSceneType InGame::Update(float delta_second)
     // 2キーが押されたら弾数を5→8に変更ーーーーーーーーーーーーーーーーー
     if (input->GetKeyDown(KEY_INPUT_2))
     {
-        bullet_magazine = 8;
+        bullet_magazine = 40;
     }
 
 
@@ -134,7 +139,7 @@ eSceneType InGame::Update(float delta_second)
     b = true;
 
 	//リロード処理----------------
-    if (input->GetKeyDown(KEY_INPUT_K))
+    if (input->GetKeyDown(KEY_INPUT_K) || input->GetPadButtonState(PAD_INPUT_3) == eInputState::ePress)
     {
         a = true;
         bullet_magazine = 0;
@@ -147,7 +152,7 @@ eSceneType InGame::Update(float delta_second)
         reload++;
         if (reload >= 150)
         {
-            bullet_magazine = 5;
+            bullet_magazine = 20;
             a = false;
             reload = 0;
             
@@ -157,20 +162,18 @@ eSceneType InGame::Update(float delta_second)
     //----------------------------
 
     // ばれっと生成
-    if (input->GetKeyDown(KEY_INPUT_L) || input->GetPadButtonState(PAD_INPUT_6) == eInputState::ePress)
+    if ((input->GetKeyDown(KEY_INPUT_L) || input->GetPadButtonState(PAD_INPUT_6) == eInputState::eHeld)
+        && bullet_magazine > 0 && bullet_cooldown_timer >= bullet_cooldown_interval)
     {
-
-        if ((bullet_magazine > 0))
-        {
-            GameBaseManager* gbmm = GameBaseManager::GetInstance();
-            Bullet* bullet;
-            bullet = gbmm->CreateGameBase<Bullet>(player->GetLocation());
-            bullet->SetBalletAim(bullet_aim);
-            bullet_magazine--;//弾が減る
-
-        }
-
+        GameBaseManager* gbmm = GameBaseManager::GetInstance();
+        Bullet* bullet;
+        bullet = gbmm->CreateGameBase<Bullet>(Vector2D(player->GetLocation().x, player->GetLocation().y + 50));
+        bullet->SetBalletAim(bullet_aim);
+        bullet_magazine--;
+        bullet_cooldown_timer = 0.0f;  // クールタイムリセット
     }
+    // タイマー加算
+    bullet_cooldown_timer += delta_second;
 
     // たまが0になった時に強制的にreload
     if (bullet_magazine <= 0)
@@ -178,7 +181,7 @@ eSceneType InGame::Update(float delta_second)
         
         if (reload >= 150)
         {
-            bullet_magazine = 5;
+            bullet_magazine = 20;
             reload = 0;
         }
         reload++;
@@ -253,7 +256,15 @@ eSceneType InGame::Update(float delta_second)
     float scroll_delta = scroll - prev_scroll;
     castle->SetScroll(scroll_delta, delta_second);
 
-    
+    for (int i = 0; i < enemy_list.size(); i++)
+    {
+        // 生成されているかチェックして大丈夫だったらダメージをブースト
+        if (enemy_list[i] != nullptr)
+        {
+            enemy_list[i]->SetEScroll(scroll_delta);
+        }
+    }
+
 
     return GetNowSceneType();
 }
@@ -270,25 +281,25 @@ void InGame::Draw() const
     GameBaseManager::GetInstance()->DrawWithOffset(screen_offset);
 
     //城のHP描画
-    DrawFormatString(10, 60, GetColor(255, 128, 128), "Castle HP: %d", castle->GetHP());
+    DrawFormatString(10, 60, GetColor(255, 255, 255), "Castle HP: %d", castle->GetHP());
 
     //弾の残弾数表示
-    DrawFormatString(10, 100, GetColor(255, 128, 128), "弾の残弾数: %d", bullet_magazine);
+    DrawFormatString(10, 100, GetColor(255, 255, 255), "弾の残弾数: %d", bullet_magazine);
     if (bullet_magazine == 0)
     {
         // クールタイムの文
-        DrawFormatString(10, 120, GetColor(255, 128, 128), "reloadnow");
+        DrawFormatString(10, 120, GetColor(255, 50, 0), "reloadnow");
     }
 
 
     //スコア表示
     if (score != nullptr) 
     {
-        DrawFormatString(10, 80, GetColor(255, 128, 128), "Score: %d", score->GetScore());
+        DrawFormatString(10, 80, GetColor(255, 255, 255), "Score: %d", score->GetScore());
     }
 
     //ウェーブ表示
-    DrawFormatString(10, 140, GetColor(255, 255, 0), "Wave: %d", current_wave);
+    DrawFormatString(10, 140, GetColor(255, 200, 0), "Wave: %d", current_wave);
 }
 
 
@@ -374,21 +385,24 @@ void InGame::SpawnEnemiesForWave(int wave)
     // Waveごとに敵の数を変える
     switch (wave)
     {
-    case 1: num_enemies = 3; break;  // wave1: 敵2体
-    case 2: num_enemies = 7; break;  // wave2: 敵4体
+    case 1: num_enemies = 1; break;  // wave1: 敵2体
+    case 2: num_enemies = 5; break;  // wave2: 敵4体
     case 3: num_enemies = 10; break;  // wave3: 敵8体
+    case 4: num_enemies = 15; break;
+    case 5: num_enemies = 20; break;
+    case 6: num_enemies = 25; break;
     default:
-        num_enemies = 15; // wave4以降は固定で10体（例）
+        num_enemies = 30; // wave4以降は固定で10体（例）
         break;
     }
 
-    int e1 = GetRand(1000) + 500;  // 1500〜3000のランダムなX座標
+    int e1 = GetRand(800) + 200;  // 1500〜3000のランダムなX座標
 
-    int e2 = GetRand(1000) + 500;  // 1500〜3000のランダムなX座標
+    int e2 = GetRand(800) + 200;  // 1500〜3000のランダムなX座標
 
-    int e3 = GetRand(1000) + 500;  // 1500〜3000のランダムなX座標
+    int e3 = GetRand(800) + 200;  // 1500〜3000のランダムなX座標
 
-    int e4 = GetRand(1000) + 500;  // 1500〜3000のランダムなX座標
+    int e4 = GetRand(800) + 200;  // 1500〜3000のランダムなX座標
 
     for (int i = 0; i < num_enemies; i++)
     {

@@ -14,6 +14,10 @@ public:
 	void Finalize() override;
 	void OnHitCollision(GameBase* hit_object) override;
 
+	////ˆÚ“®‘¬“x
+	//int speed = -4;
+	////ˆÚ“®—Ê
+	//int move_x = 0;
 
 private:
 	void Movement();

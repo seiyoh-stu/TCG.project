@@ -3,7 +3,7 @@
 #include"../../Utility/ScoreManager.h"
 #include"DxLib.h"
 
-#define MAX_HP 2  // 6‚È‚ç3”­‚Å€‚Ê
+#define MAX_HP 10  // 6‚È‚ç3”­‚Å€‚Ê
 
 Enemy2::Enemy2() :
 	enemy2_x(600), // ‰ŠúˆÊ’uXÀ•W

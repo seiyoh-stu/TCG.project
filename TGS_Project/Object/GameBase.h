@@ -15,6 +15,12 @@ protected:
 	bool hit_flag;
 	class Player* player;
 
+    //移動速度
+    int speed = -4;
+    //移動量
+    int move_x = 0;
+
+
 public:
     bool is_dead_ = false;   //死亡フラグ
 
@@ -43,4 +49,8 @@ public:
     virtual void SetDamageBoost(bool enable);
 
     //までーーーーーーーーーーー
+
+    void SetEScroll(float scro);
+
+    float scroll;
 };

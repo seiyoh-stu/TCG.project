@@ -3,7 +3,7 @@
 #include"../../Utility/ScoreManager.h"
 #include"DxLib.h"
 
-#define MAX_HP 6  // 6なら3発で死ぬ
+#define MAX_HP 10  // 6なら3発で死ぬ
 
 
 
@@ -30,6 +30,7 @@ void Enemy::Initialize()
 	collision.object_type = eEnemy;
 	collision.box_size = 64;
 	collision.hit_object_type.push_back(eBullet);
+	collision.hit_object_type.push_back(eCastle);
 
 	is_dead_ = false; // 死亡フラグ初期化
 
@@ -97,6 +98,11 @@ void Enemy::OnHitCollision(GameBase* hit_object)
 			ScoreManager::GetInstance()->AddScore(200);
 		}
 	}
+
+	if (hit_object->GetCollision().object_type == eCastle)
+	{
+		speed = 0;
+	}
 }
 
 
@@ -105,18 +111,20 @@ void Enemy::OnHitCollision(GameBase* hit_object)
 //移動処理
 void Enemy::Movement()
 {
-	//移動速度
-	const int speed = 4;
-	//移動量
-	int move_x = 0;
+	////移動速度
+	//const int speed = 4;
+	////移動量
+	//int move_x = 0;
 
 	// 右の端っこに着くと、左の端っこに移動する
-	if (location.x >= 0)
-	{
-		move_x -= speed;
-	}
+	//if (location.x >= 0)
+	//{
+	//	move_x -= speed;
+	//}
 
-	location.x += move_x;
+
+
+	location.x += speed - scroll;
 } 
 
 void Enemy::AnimeControl()
