@@ -82,6 +82,8 @@ eSceneType InGame::Update(float delta_second)
 {
     InputControl* input = InputControl::GetInstance();
 
+
+    //プレイヤーが強化しているように見せる処理ーーーーーーーーーーー
     if (InputControl::GetInstance()->GetKey(KEY_INPUT_1))
     {
         for (int i = 0; i < enemy_list.size(); i++)
@@ -96,8 +98,12 @@ eSceneType InGame::Update(float delta_second)
 
 
 
-    // 1キーが押されている間、Enemyの被ダメージ量を増加させるーーー0612追加
-    //Enemy::SetDamageBoost(InputControl::GetInstance()->GetKey(KEY_INPUT_1));
+    // 2キーが押されたら弾数を5→8に変更ーーーーーーーーーーーーーーーーー
+    if (input->GetKeyDown(KEY_INPUT_2))
+    {
+        bullet_magazine = 8;
+    }
+
 
     // 全敵死亡なら次のwave開始準備へ
     if (wave_in_progress && enemy_list.empty())
@@ -134,6 +140,8 @@ eSceneType InGame::Update(float delta_second)
         bullet_magazine = 0;
     }
      
+
+
     if (a == true)
     {
         reload++;
@@ -149,7 +157,8 @@ eSceneType InGame::Update(float delta_second)
     //----------------------------
 
     // ばれっと生成
-    if (input->GetKeyDown(KEY_INPUT_L) || input->GetPadButtonState(PAD_INPUT_6) == eInputState::ePress){
+    if (input->GetKeyDown(KEY_INPUT_L) || input->GetPadButtonState(PAD_INPUT_6) == eInputState::ePress)
+    {
 
         if ((bullet_magazine > 0))
         {
@@ -157,16 +166,6 @@ eSceneType InGame::Update(float delta_second)
             Bullet* bullet;
             bullet = gbmm->CreateGameBase<Bullet>(player->GetLocation());
             bullet->SetBalletAim(bullet_aim);
-            /*if (player->flip_flag == TRUE)
-            {
-                bullet->GetFlipFlag(TRUE);
-
-            }
-            else
-            {
-                bullet->GetFlipFlag(FALSE);
-            }*/
-
             bullet_magazine--;//弾が減る
 
         }
