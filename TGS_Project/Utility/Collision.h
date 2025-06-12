@@ -7,7 +7,8 @@ enum eObjectType
 	eBullet,
 	eCastle,
 	ePlayer,
-	eEnemy
+	eEnemy,
+	eBulletAim
 };
 
 enum eSide

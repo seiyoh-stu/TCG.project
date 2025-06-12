@@ -104,7 +104,7 @@ void Enemy::Movement()
 	int move_x = 0;
 
 	// 右の端っこに着くと、左の端っこに移動する
-	if (location.x >= 250)
+	if (location.x >= 0)
 	{
 		move_x -= speed;
 	}
