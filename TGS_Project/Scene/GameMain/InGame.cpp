@@ -50,7 +50,7 @@ void InGame::Initialize()
     GameBaseManager* gbmm = GameBaseManager::GetInstance();
     player = gbmm->CreateGameBase<Player>(Vector2D(200, 580));
     castle = gbmm->CreateGameBase<Castle>(Vector2D(100, 580));
-    //bullet_aim = gbmm->CreateGameBase<BulletAim>(Vector2D(100, 580));
+    bullet_aim = gbmm->CreateGameBase<BulletAim>(Vector2D(100, 580));
 
     enemy_spawn_timer = 0.0f;
     enemy_spawn_interval = 3.0f; // 3秒ごとに敵を出現
