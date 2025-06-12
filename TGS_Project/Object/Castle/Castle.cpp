@@ -4,7 +4,7 @@
 #include"../../Object/GameObjectManager.h"
 #include"../../Utility/ScoreManager.h"
 
-#define MAX_HP 10  // 6なら3発で死ぬ
+#define MAX_HP 1000  // 6なら3発で死ぬ
 
 Castle::Castle()
 {
@@ -25,6 +25,11 @@ void Castle::Initialize()
     filp_flag = false;
     hit_flag = false;
     hit = false;
+
+    collision.object_type = eCastle;
+    collision.hit_object_type.push_back(eEnemy);
+
+    damage_cooldown = 1.0f;
 
     collision.box_size = 64;
 
@@ -60,14 +65,10 @@ void Castle::Draw(const Vector2D& screen_offset) const
 
 void Castle::Update(float delta_second) 
 { 
-    if (hit == true)
-    { 
+    // クールダウンを進める
+    if (damage_cooldown < DAMAGE_INTERVAL)
+    {
         damage_cooldown += delta_second;
-
-        if (damage_cooldown == 1.0f)
-        {
-            hit = false;
-        }
     }
 }
 
@@ -81,20 +82,20 @@ void Castle::OnHitCollision(GameBase* hit_object)
 
     if (hit_object->GetCollision().object_type == eEnemy)
     {
-        // HPを減らす
-        hp--;
-
-        //// スコア加算（当たった瞬間のみ）
-        //ScoreManager* score = ScoreManager::GetInstance();
-        //score->AddScore(100); // 弾1発につき100点（必要に応じて調整）
-
-        // HPが0以下ならオブジェクトを削除
-        if (hp <= 0)
+        if (damage_cooldown >= DAMAGE_INTERVAL)
         {
-            is_dead_ = true;
+            hp -= DAMAGE_AMOUNT;
+            damage_cooldown = 0.0f; // クールダウンリセット
 
-            GameBaseManager* gbmm = GameBaseManager::GetInstance();
-            gbmm->DestroyGameBase(this);
+            printf("Castle HP: %d\n", hp);
+
+            if (hp <= 0)
+            {
+                is_dead_ = true;
+
+                GameBaseManager* gbmm = GameBaseManager::GetInstance();
+                gbmm->DestroyGameBase(this);
+            }
         }
     }
 

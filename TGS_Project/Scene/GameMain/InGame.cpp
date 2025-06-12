@@ -50,7 +50,7 @@ void InGame::Initialize()
     GameBaseManager* gbmm = GameBaseManager::GetInstance();
     player = gbmm->CreateGameBase<Player>(Vector2D(200, 580));
     castle = gbmm->CreateGameBase<Castle>(Vector2D(100, 580));
-    bullet_aim = gbmm->CreateGameBase<BulletAim>(Vector2D(100, 580));
+    //bullet_aim = gbmm->CreateGameBase<BulletAim>(Vector2D(100, 580));
 
     enemy_spawn_timer = 0.0f;
     enemy_spawn_interval = 3.0f; // 3秒ごとに敵を出現
@@ -217,13 +217,13 @@ eSceneType InGame::Update(float delta_second)
     // 左スティックの入力取得
     // VECTOR stick;
     // GetJoypadAnalogInput(&stick, 0);  // 左スティック
-    float a = static_cast<float>(input->GetJoyStickLeft().x);
+    float sc = static_cast<float>(input->GetJoyStickLeft().x);
     // GetJoypadAnalogInput(&stick, 0);  // 左スティック
     const int DEAD_ZONE = 200;
 
     float stick_x = 0.0f;
-    if (abs(a) > DEAD_ZONE) {
-        stick_x = a / 1000.0f;  // -1.0f ～ 1.0f に正規化
+    if (abs(sc) > DEAD_ZONE) {
+        stick_x = sc / 1000.0f;  // -1.0f ～ 1.0f に正規化
     }
 
     // 右にスクロール（スティック or キーボード）

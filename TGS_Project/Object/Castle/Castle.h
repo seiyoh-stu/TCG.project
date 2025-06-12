@@ -7,7 +7,8 @@ private:
     int hp; // 初期値10
     bool hit;
     float damage_cooldown = 0.0f; // クールタイム時間
-    const float DAMAGE_INTERVAL = 1.0f; // ダメージ間隔（秒
+    const float DAMAGE_INTERVAL = 2.0f; // ダメージ間隔（秒
+    const int DAMAGE_AMOUNT = 10;       // 1回のダメージ量
 
 public:
 	Castle();

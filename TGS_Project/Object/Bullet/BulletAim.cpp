@@ -18,6 +18,8 @@ void BulletAim::Initialize()
 {
     Aim_Image = -1;  // ‰Šú‰»
     Aim_Image = LoadGraph("Resource/Images/AimMark.png");  // Aim ‰æ‘œ
+    collision.object_type = eBulletAim;
+
 
 }
 
