@@ -66,28 +66,29 @@ void Enemy2::Finalize()
 {
 
 }
+
+
 void Enemy2::OnHitCollision(GameBase* hit_object)
 {
+
 	if (hit_object->GetCollision().object_type == eBullet)
 	{
-		// HPを減らす
-		hp--;
+		int damage = 1;
+		if (damage_boost)
+		{
+			damage = 2;
+		}
 
-		// HPが0以下ならオブジェクトを削除
+		hp -= damage;
+
 		if (hp <= 0)
 		{
 			is_dead_ = true;
-
-			GameBaseManager* gbmm = GameBaseManager::GetInstance();
-			gbmm->DestroyGameBase(this);
-
-			// スコア加算（倒した瞬間のみ）
-			ScoreManager* score = ScoreManager::GetInstance();
-			score->AddScore(200); // 200点（必要に応じて調整）
+			GameBaseManager::GetInstance()->DestroyGameBase(this);
+			ScoreManager::GetInstance()->AddScore(200);
 		}
 	}
-}
-//移動処理
+}//移動処理
 void Enemy2::Movement()
 {
 	//移動速度
@@ -109,7 +110,10 @@ void Enemy2::AnimeControl()
 	// アニメーションに関する処理を記述 (今回は空)
 }
 
-//void OnHitCollision(GameBase* hit_object)
-//{
-//
-//}
+
+
+//０６１２
+void Enemy2::SetDamageBoost(bool enable)
+{
+	damage_boost = enable;
+}

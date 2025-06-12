@@ -3,7 +3,7 @@
 #include"../../Utility/ScoreManager.h"
 #include"DxLib.h"
 
-#define MAX_HP 26  // 6なら3発で死ぬ
+#define MAX_HP 26
 
 Enemy4::Enemy4() :
 	enemy4_x(700), // 初期位置X座標
@@ -36,6 +36,11 @@ void Enemy4::Update(float delta_second)
 
 }
 
+
+
+
+
+
 void Enemy4::Draw(const Vector2D& screen_offset) const
 {
 	//DrawBox(enemy_x, enemy_y, enemy_x + size_x_, enemy_y + size_y_, color_, TRUE);
@@ -67,43 +72,33 @@ void Enemy4::Finalize()
 {
 
 }
+
+
 void Enemy4::OnHitCollision(GameBase* hit_object)
 {
+
 	if (hit_object->GetCollision().object_type == eBullet)
 	{
+		int damage = 1;
+		if (damage_boost)
+		{
+			damage = 2;
+		}
 
-		// HPを減らす
-		hp--;
+		hp -= damage;
 
-		// HPが0以下ならオブジェクトを削除
 		if (hp <= 0)
 		{
 			is_dead_ = true;
-
-			GameBaseManager* gbmm = GameBaseManager::GetInstance();
-			gbmm->DestroyGameBase(this);
-
-			// スコア加算（倒した瞬間のみ）
-			ScoreManager* score = ScoreManager::GetInstance();
-			score->AddScore(600); // 600点（必要に応じて調整）
+			GameBaseManager::GetInstance()->DestroyGameBase(this);
+			ScoreManager::GetInstance()->AddScore(200);
 		}
-
-		//is_dead_ = true; // 死亡フラグ立てる
-
-		//static bool check_hit = false;
-
-		//if (check_hit == false)
-		//{
-		//	// スコアを加算する
-		//	ScoreManager* score = ScoreManager::GetInstance();
-		//	score->AddScore(200); // 敵を倒すと100点加算（適宜調整）
-		//	check_hit = true;
-		//}
-
-		//GameBaseManager* gbmm = GameBaseManager::GetInstance();
-		//gbmm->DestroyGameBase(this);
 	}
 }
+
+
+
+
 //移動処理
 void Enemy4::Movement()
 {
@@ -126,7 +121,13 @@ void Enemy4::AnimeControl()
 	// アニメーションに関する処理を記述 (今回は空)
 }
 
-//void OnHitCollision(GameBase* hit_object)
-//{
-//
-//}
+
+
+
+
+
+//０６１２
+void Enemy4::SetDamageBoost(bool enable)
+{
+	damage_boost = enable;
+}

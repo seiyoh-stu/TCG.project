@@ -18,6 +18,7 @@ class InGame : public SceneBase
 {
 private:
     Player* player;
+    //Enemy* enemy;
     BulletAim* bullet_aim;
     Castle* castle;
     Tarot* tarot;//ーーーーーーーー追加0610

@@ -25,5 +25,11 @@ private:
 	unsigned int color2_;
 
 	int hp;             //‰ŠúHPiD‚«‚È”‚É’²®j
+
+	//0612
+public:
+	void SetDamageBoost(bool enable) override;
+//private:
+	bool damage_boost;
 };
 

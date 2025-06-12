@@ -104,3 +104,8 @@ bool GameBase::IsDead() const
 {
 	return is_dead_;
 }
+
+void GameBase::SetDamageBoost(bool enable)
+{
+
+}

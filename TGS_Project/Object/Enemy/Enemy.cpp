@@ -5,6 +5,11 @@
 
 #define MAX_HP 6  // 6なら3発で死ぬ
 
+
+
+//0612
+//bool Enemy::damage_boost = false;
+
 Enemy::Enemy() :
 	enemy_x(550), // 初期位置X座標
 	enemy_y(580), // 初期位置Y座標
@@ -69,32 +74,34 @@ void Enemy::Finalize()
 {
 
 }
+
+
+
 void Enemy::OnHitCollision(GameBase* hit_object)
 {
 
 	if (hit_object->GetCollision().object_type == eBullet)
 	{
-		// HPを減らす
-		hp--;
+		int damage = 1;
+		if (damage_boost)
+		{
+			damage = 2;
+		}
 
-		// HPが0以下ならオブジェクトを削除
+		hp -= damage;
+
 		if (hp <= 0)
 		{
 			is_dead_ = true;
-
-			GameBaseManager* gbmm = GameBaseManager::GetInstance();
-			gbmm->DestroyGameBase(this);
-
-			// スコア加算（倒した瞬間のみ）
-			ScoreManager* score = ScoreManager::GetInstance();
-			score->AddScore(200); // 200点（必要に応じて調整）
+			GameBaseManager::GetInstance()->DestroyGameBase(this);
+			ScoreManager::GetInstance()->AddScore(200);
 		}
 	}
 }
-//bool Enemy::IsDead() const
-//{
-//	return is_dead_;
-//}
+
+
+
+
 //移動処理
 void Enemy::Movement()
 {
@@ -117,7 +124,7 @@ void Enemy::AnimeControl()
 	// アニメーションに関する処理を記述 (今回は空)
 }
 
-//void OnHitCollision(GameBase* hit_object)
-//{
-//
-//}
+void Enemy::SetDamageBoost(bool enable)
+{
+	damage_boost = enable;
+}

@@ -82,6 +82,23 @@ eSceneType InGame::Update(float delta_second)
 {
     InputControl* input = InputControl::GetInstance();
 
+    if (InputControl::GetInstance()->GetKey(KEY_INPUT_1))
+    {
+        for (int i = 0; i < enemy_list.size(); i++)
+        {
+            // 生成されているかチェックして大丈夫だったらダメージをブースト
+            if (enemy_list[i] != nullptr && enemy_list[i]->is_dead_ != true)
+            {
+                enemy_list[i]->SetDamageBoost(1);
+            }
+        }
+    }
+
+
+
+    // 1キーが押されている間、Enemyの被ダメージ量を増加させるーーー0612追加
+    //Enemy::SetDamageBoost(InputControl::GetInstance()->GetKey(KEY_INPUT_1));
+
     // 全敵死亡なら次のwave開始準備へ
     if (wave_in_progress && enemy_list.empty())
     {
@@ -192,33 +209,6 @@ eSceneType InGame::Update(float delta_second)
     GameBaseManager* gbmm = GameBaseManager::GetInstance();
     gbmm->Update(delta_second);
 
-
-    ////--------スクロール処理--------------
-    //float prev_scroll = scroll;
-
-    //// 右にスクロール
-    //if (player->GetLocation().x >= 640 && CheckHitKey(KEY_INPUT_D) || player->GetLocation().x >= 640 && input->GetPadButtonState(PAD_INPUT_9) == eInputState::eHeld)
-    //{
-    //    scroll += 5.0f;
-    //    
-    //}
-
-    //// 左にスクロール
-    //if (player->GetLocation().x < 250 && CheckHitKey(KEY_INPUT_A)|| player->GetLocation().x < 250 && input->GetPadButtonState(PAD_INPUT_9) == eInputState::eHeld)
-    //{
-    //    scroll -= 5.0f;
-    //    
-    //}
-
-    //if (scroll < 0) 
-    //{
-    //    scroll = 0;  // 左壁
-    //}
-    //if (scroll >1200)
-    //{
-    //    scroll = 1200;  //右壁
-    //} 
-
     //--------スクロール処理--------------
     float prev_scroll = scroll;
 
@@ -274,8 +264,8 @@ eSceneType InGame::Update(float delta_second)
 
 void InGame::Draw() const
 {
-    DrawRotaGraph(1280 - scroll, 480, 1.0, 0.0, back_image, TRUE);
-   
+    DrawRotaGraph(1180 - scroll, 100, 1.5, 0.0, back_image, TRUE);
+
     Vector2D screen_offset(scroll, 0);
 
     GameBaseManager::GetInstance()->DrawWithOffset(screen_offset);
@@ -326,12 +316,12 @@ void InGame::SpawnEnemy()
     {
         switch (random_e)
         {
-        case 0: gbmm->CreateGameBase<Enemy>(Vector2D(100, Y_b)); break;
-        case 1: gbmm->CreateGameBase<Enemy>(Vector2D(580, Y_b)); break;
-        case 2: gbmm->CreateGameBase<Enemy2>(Vector2D(100, Y_t)); break;
-        case 3: gbmm->CreateGameBase<Enemy2>(Vector2D(580, Y_t)); break;
-        case 4: gbmm->CreateGameBase<Enemy3>(Vector2D(100, Y_b)); break;
-        case 5: gbmm->CreateGameBase<Enemy3>(Vector2D(300, Y_b)); break;
+        case 0: enemy_list.push_back(gbmm->CreateGameBase<Enemy>(Vector2D(100, Y_b))); break;
+        case 1: enemy_list.push_back(gbmm->CreateGameBase<Enemy>(Vector2D(580, Y_b))); break;
+        case 2: enemy_list.push_back(gbmm->CreateGameBase<Enemy2>(Vector2D(100, Y_t)));  break;
+        case 3: enemy_list.push_back(gbmm->CreateGameBase<Enemy2>(Vector2D(580, Y_t)));  break;
+        case 4: enemy_list.push_back(gbmm->CreateGameBase<Enemy3>(Vector2D(100, Y_b))); break;
+        case 5: enemy_list.push_back(gbmm->CreateGameBase<Enemy3>(Vector2D(300, Y_b)));  break;
         }
     }
 
@@ -339,10 +329,10 @@ void InGame::SpawnEnemy()
     {
         switch (random_f)
         {
-        case 0: gbmm->CreateGameBase<Enemy2>(Vector2D(100, Y_b)); break;
-        case 1: gbmm->CreateGameBase<Enemy2>(Vector2D(580, Y_t)); break;
-        case 2: gbmm->CreateGameBase<Enemy4>(Vector2D(100, Y_b)); break;
-        case 3: gbmm->CreateGameBase<Enemy4>(Vector2D(580, Y_t)); break;
+        case 0: enemy_list.push_back(gbmm->CreateGameBase<Enemy2>(Vector2D(100, Y_b))); break;
+        case 1: enemy_list.push_back(gbmm->CreateGameBase<Enemy2>(Vector2D(580, Y_t))); break;
+        case 2: enemy_list.push_back(gbmm->CreateGameBase<Enemy4>(Vector2D(100, Y_b))); break;
+        case 3: enemy_list.push_back(gbmm->CreateGameBase<Enemy4>(Vector2D(580, Y_t))); break;
         }
     }
 }
@@ -361,13 +351,13 @@ void InGame::StartNextWave()
         SpawnEnemiesForWave(current_wave);
         current_wave++;
 
-        // ★ Tarotのチケットを加算し、プレイヤーを強化
-        if (tarot != nullptr) {
-            tarot->AddTicket();
-            int level = tarot->GetTicket();
-            player->Player_LevelUp(level);
-            bullet_magazine = 5 + level;
-        }
+        //// ★ Tarotのチケットを加算し、プレイヤーを強化
+        //if (tarot != nullptr) {
+        //    tarot->AddTicket();
+        //    int level = tarot->GetTicket();
+        //    player->Player_LevelUp(level);
+        //    bullet_magazine = 5 + level;
+        //}
 
     }
 }

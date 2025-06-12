@@ -14,6 +14,8 @@ protected:
 	bool filp_flag;
 	bool hit_flag;
 	class Player* player;
+
+public:
     bool is_dead_ = false;   //死亡フラグ
 
 
@@ -33,4 +35,12 @@ public:
     bool IsDead() const;
 
 
+    //追加0612ーーーーー
+private:
+    static bool damage_boost; // ★全体フラグとして追加
+
+public:
+    virtual void SetDamageBoost(bool enable);
+
+    //までーーーーーーーーーーー
 };

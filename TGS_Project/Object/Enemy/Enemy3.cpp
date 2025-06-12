@@ -3,7 +3,7 @@
 #include"../../Utility/ScoreManager.h"
 #include"DxLib.h"
 
-#define MAX_HP 2  // 6なら3発で死ぬ
+#define MAX_HP 2
 
 Enemy3::Enemy3() :
 	enemy3_x(650), // 初期位置X座標
@@ -66,25 +66,27 @@ void Enemy3::Finalize()
 {
 
 }
+
+
 void Enemy3::OnHitCollision(GameBase* hit_object)
 {
+
 	if (hit_object->GetCollision().object_type == eBullet)
 	{
-		// HPを減らす
-		hp--;
+		int damage = 1;
+		if (damage_boost)
+		{
+			damage = 2;
+		}
 
-		// HPが0以下ならオブジェクトを削除
+		hp -= damage;
+
 		if (hp <= 0)
 		{
 			is_dead_ = true;
-
-			GameBaseManager* gbmm = GameBaseManager::GetInstance();
-			gbmm->DestroyGameBase(this);
-
-			// スコア加算（倒した瞬間のみ）
-			ScoreManager* score = ScoreManager::GetInstance();
-			score->AddScore(200); // 200点（必要に応じて調整）
-		};
+			GameBaseManager::GetInstance()->DestroyGameBase(this);
+			ScoreManager::GetInstance()->AddScore(200);
+		}
 	}
 }
 //移動処理
@@ -109,7 +111,13 @@ void Enemy3::AnimeControl()
 	// アニメーションに関する処理を記述 (今回は空)
 }
 
-//void OnHitCollision(GameBase* hit_object)
-//{
-//
-//}
+
+
+
+
+
+//０６１２
+void Enemy3::SetDamageBoost(bool enable)
+{
+	damage_boost = enable;
+}
