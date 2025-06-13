@@ -16,9 +16,24 @@ protected:
 	class Player* player;
 
     //移動速度
-    int speed = -4;
+    int speed = -2;
     //移動量
     int move_x = 0;
+
+    //移動速度
+    int speed2 = -2;
+    //移動量
+    int move_x2 = 0;
+
+    //移動速度
+    int speed3 = -4;
+    //移動量
+    int move_x3 = 0;
+
+    //移動速度
+    int speed4 = -2;
+    //移動量
+    int move_x4 = 0;
 
 
 public:

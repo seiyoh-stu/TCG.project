@@ -396,26 +396,30 @@ void InGame::SpawnEnemiesForWave(int wave)
         break;
     }
 
-    int e1 = GetRand(800) + 200;  // 1500〜3000のランダムなX座標
+    int e1 = GetRand(900) + 300;  // 1500〜3000のランダムなX座標
 
-    int e2 = GetRand(800) + 200;  // 1500〜3000のランダムなX座標
+    int e2 = GetRand(900) + 300;  // 1500〜3000のランダムなX座標
 
-    int e3 = GetRand(800) + 200;  // 1500〜3000のランダムなX座標
+    int e3 = GetRand(900) + 300;  // 1500〜3000のランダムなX座標
 
-    int e4 = GetRand(800) + 200;  // 1500〜3000のランダムなX座標
+    int e4 = GetRand(900) + 300;  // 1500〜3000のランダムなX座標
 
     for (int i = 0; i < num_enemies; i++)
     {
         int enemy_type = GetRand(100);
 
+        int randY = GetRand(200) + 450;  // Y座標を300〜500の範囲にランダム化
+
+        int randY2 = GetRand(100) + 200;  // Y座標を300〜500の範囲にランダム化
+
         if (enemy_type < 40)
-            enemy_list.push_back(gbmm->CreateGameBase<Enemy>(Vector2D(1260 + (i * e1), 580)));
+            enemy_list.push_back(gbmm->CreateGameBase<Enemy>(Vector2D(1260 + (i * e1), randY)));
         else if (enemy_type < 75)
-            enemy_list.push_back(gbmm->CreateGameBase<Enemy2>(Vector2D(1260 + (i * e2), 580)));
+            enemy_list.push_back(gbmm->CreateGameBase<Enemy2>(Vector2D(1260 + (i * e2), randY)));
         else if (enemy_type < 90)
-            enemy_list.push_back(gbmm->CreateGameBase<Enemy3>(Vector2D(1260 + (i * e3), 300)));
+            enemy_list.push_back(gbmm->CreateGameBase<Enemy3>(Vector2D(1260 + (i * e3), randY2)));
         else
-            enemy_list.push_back(gbmm->CreateGameBase<Enemy4>(Vector2D(1260 + (i * e4), 580)));
+            enemy_list.push_back(gbmm->CreateGameBase<Enemy4>(Vector2D(1260 + (i * e4), randY)));
     }
 }
 

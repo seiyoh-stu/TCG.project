@@ -25,6 +25,7 @@ void Enemy3::Initialize()
 	collision.object_type = eEnemy;
 	collision.box_size = 64;
 	collision.hit_object_type.push_back(eBullet);
+	collision.hit_object_type.push_back(eCastle);
 
 	hp = MAX_HP;
 }
@@ -88,33 +89,24 @@ void Enemy3::OnHitCollision(GameBase* hit_object)
 			ScoreManager::GetInstance()->AddScore(200);
 		}
 	}
+
+	if (hit_object->GetCollision().object_type == eCastle)
+	{
+		speed3 = 0;
+	}
 }
+
+
 //移動処理
 void Enemy3::Movement()
 {
-	//移動速度
-	const int speed = 10;
-	//移動量
-	int move_x = 0;
-
-	// 右の端っこに着くと、左の端っこに移動する
-	if (location.x >= 10)
-	{
-		move_x -= speed;
-	}
-
-	location.x += move_x;
+	location.x += speed3 - scroll;
 }
 
 void Enemy3::AnimeControl()
 {
 	// アニメーションに関する処理を記述 (今回は空)
 }
-
-
-
-
-
 
 //０６１２
 void Enemy3::SetDamageBoost(bool enable)
