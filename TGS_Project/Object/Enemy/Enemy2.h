@@ -29,6 +29,17 @@ private:
 	//0612
 public:
 	void SetDamageBoost(bool enable) override;
+
+	// アニメーション関係
+	int zonbi_animation[12];
+	int zonbi_walk_index;
+	int animation_count;
+	int zonbi_image;
+	int attack_frames;
+
+	/*int zonbi_walk_animation[12];
+	int zonbi_attack_animation[10];*/
+
 //private:
 	bool damage_boost;
 };

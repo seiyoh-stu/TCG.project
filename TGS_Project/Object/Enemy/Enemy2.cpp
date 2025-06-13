@@ -2,6 +2,7 @@
 #include"../../Object/GameObjectManager.h"
 #include"../../Utility/ScoreManager.h"
 #include"DxLib.h"
+#include "../../Utility/ResourceManager.h"
 
 #define MAX_HP 10  // 6なら3発で死ぬ
 
@@ -10,7 +11,7 @@ Enemy2::Enemy2() :
 	enemy2_y(580), // 初期位置Y座標
 	size2_x_(64),  // 四角の幅
 	size2_y_(64),  // 四角の高さ
-	color2_(GetColor(255, 255, 0)) // 四角の色 (赤)
+	zonbi_walk_index(0), animation_count(0)
 {
 
 }
@@ -27,7 +28,43 @@ void Enemy2::Initialize()
 	collision.hit_object_type.push_back(eBullet);
 	collision.hit_object_type.push_back(eCastle);
 
+	is_dead_ = false; // 死亡フラグ初期化
+
 	hp = MAX_HP;
+
+	int zonbi_walk_animation[12];
+	int zonbi_attack_animation[10];
+
+	ResourceManager* rm = ResourceManager::GetInstance();
+	std::vector<int> walk_frames = rm->GetImages("Resource/Images/Enemy/Zombie_4/Walk.png", 12, 12, 1, 128, 128);
+	/*std::vector<int> attack_frames = rm->GetImages("Resource/Images/Enemy/Zombie_4/Attack.png", 10, 10, 1, 128, 128);*/
+
+	for (int i = 0; i < 10; ++i)
+	{
+		zonbi_animation[i] = walk_frames[i];
+	}
+
+	zonbi_image = zonbi_animation[0];  // 最初のアニメフレーム
+
+	location.x = enemy2_x;
+	location.y = enemy2_y;
+
+	//for (int i = 0; i < 12; ++i)
+	//{
+	//	zonbi_walk_animation[i] = walk_frames[i];
+	//}
+
+	//// 攻撃
+	//for (int i = 0; i < 10; ++i)
+	//{
+	//	zonbi_attack_animation[i] = attack_frames[i];
+	//}
+
+	//// 初期画像は歩き
+	//zonbi_image = zonbi_walk_animation[0];
+
+	//location.x = enemy2_x;
+	//location.y = enemy2_y;
 }
 
 void Enemy2::Update(float delta_second)
@@ -40,7 +77,7 @@ void Enemy2::Update(float delta_second)
 void Enemy2::Draw(const Vector2D& screen_offset) const
 {
 	//DrawBox(enemy_x, enemy_y, enemy_x + size_x_, enemy_y + size_y_, color_, TRUE);
-	DrawBox(location.x - collision.box_size.x, location.y - collision.box_size.y, location.x + collision.box_size.x, location.y + collision.box_size.y, color2_, TRUE);
+	DrawRotaGraph(location.x, location.y, 2.0f, 0.0f, zonbi_image, TRUE);
 
 	Vector2D hp_bar = location;
 	hp_bar -= Vector2D(25.0f, 60.0f);
@@ -105,7 +142,32 @@ void Enemy2::Movement()
 
 void Enemy2::AnimeControl()
 {
-	// アニメーションに関する処理を記述 (今回は空)
+
+	animation_count++;
+	if (animation_count >= 10)
+	{
+		animation_count = 0;
+		zonbi_walk_index = (zonbi_walk_index + 1) % 10;
+		zonbi_image = zonbi_animation[zonbi_walk_index];
+	}
+	//animation_count++;
+
+	//if (speed2 == 0) {
+	//	// 攻撃アニメ
+	//	if (animation_count >= 6) {
+	//		animation_count = 0;
+	//		zonbi_walk_index = (zonbi_walk_index + 1) % 10;
+	//		zonbi_image = zonbi_attack_animation[zonbi_walk_index];
+	//	}
+	//}
+	//else {
+	//	// 歩きアニメ
+	//	if (animation_count >= 6) {
+	//		animation_count = 0;
+	//		zonbi_walk_index = (zonbi_walk_index + 1) % 12;
+	//		zonbi_image = zonbi_walk_animation[zonbi_walk_index];
+	//	}
+	//}
 }
 
 //０６１２
