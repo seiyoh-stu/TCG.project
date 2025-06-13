@@ -110,15 +110,31 @@ eSceneType InGame::Update(float delta_second)
     }
 
 
+    // 敵が全滅した時間を記録するための変数（外部 or static 変数として宣言）
+    static int enemy_clear_time = -1;
+
     // 全敵死亡なら次のwave開始準備へ
     if (wave_in_progress && enemy_list.empty())
     {
         InputControl* input = InputControl::GetInstance();
 
-        if (input->GetKeyDown(KEY_INPUT_O))
+        // 敵が全滅した時刻を初回のみ記録
+        if (enemy_clear_time == -1)
         {
-            wave_in_progress = false;  // 次のwaveを起動可能にーーーーーーーーーーー
+            enemy_clear_time = GetNowCount();  // 現在のミリ秒を取得
         }
+
+        // Oキーが押された、または5秒（5000ミリ秒）経過したら次のwaveへ
+        if (input->GetKeyDown(KEY_INPUT_O) || GetNowCount() - enemy_clear_time >= 10000)
+        {
+            wave_in_progress = false;  // 次のwaveを起動可能に
+            enemy_clear_time = -1;     // リセットして次のwaveに備える
+        }
+    }
+    else
+    {
+        // 敵がまだいる、またはwaveが進行中でないならリセット
+        enemy_clear_time = -1;
     }
 
     if (input->GetKeyDown(KEY_INPUT_SPACE))
