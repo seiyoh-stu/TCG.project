@@ -26,10 +26,18 @@ private:
 
 	int hp;             //初期HP（好きな数に調整）
 
+
+
 	//0612
 public:
 	void SetDamageBoost(bool enable) override;
 //private:
 	bool damage_boost;
+
+	// アニメーション関係
+	int zonbi4_animation[10];
+	int zonbi4_walk_index;
+	int animation4_count;
+	int zonbi4_image;
 };
 
