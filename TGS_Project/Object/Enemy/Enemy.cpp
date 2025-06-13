@@ -2,6 +2,7 @@
 #include"../../Object/GameObjectManager.h"
 #include"../../Utility/ScoreManager.h"
 #include"DxLib.h"
+#include "../../Utility/ResourceManager.h"
 
 #define MAX_HP 10  // 6なら3発で死ぬ
 
@@ -15,7 +16,7 @@ Enemy::Enemy() :
 	enemy_y(580), // 初期位置Y座標
 	size_x_(64),  // 四角の幅
 	size_y_(64),  // 四角の高さ
-	color_(GetColor(255, 0, 0)) // 四角の色 (赤)
+	zonbi_walk_index(0), animation_count(0)
 {
 
 }
@@ -36,6 +37,19 @@ void Enemy::Initialize()
 
 	hp = MAX_HP;
 
+
+	ResourceManager* rm = ResourceManager::GetInstance();
+	std::vector<int> walk_frames = rm->GetImages("Resource/Images/Enemy/Zombie_1/Walk.png", 10, 10, 1, 128, 128);
+
+	for (int i = 0; i < 10; ++i) 
+	{
+		zonbi_animation[i] = walk_frames[i];
+	}
+
+	zonbi_image = zonbi_animation[0];  // 最初のアニメフレーム
+
+	location.x = enemy_x;
+	location.y = enemy_y;
 }
 
 void Enemy::Update(float delta_second)
@@ -47,8 +61,10 @@ void Enemy::Update(float delta_second)
 
 void Enemy::Draw(const Vector2D& screen_offset) const
 {
+
 	//DrawBox(enemy_x, enemy_y, enemy_x + size_x_, enemy_y + size_y_, color_, TRUE);
-	DrawBox(location.x - collision.box_size.x, location.y - collision.box_size.y, location.x + collision.box_size.x, location.y + collision.box_size.y, color_, TRUE);
+	/*DrawRotaGraph(location.x - collision.box_size.x, location.y - collision.box_size.y, location.x + collision.box_size.x, location.y + collision.box_size.y, zonbi_image, TRUE);*/
+	DrawRotaGraph(location.x, location.y, 2.0f, 0.0f, zonbi_image, TRUE);
 
 	Vector2D hp_bar = location;
 	hp_bar -= Vector2D(25.0f, 60.0f);
@@ -129,7 +145,14 @@ void Enemy::Movement()
 
 void Enemy::AnimeControl()
 {
-	// アニメーションに関する処理を記述 (今回は空)
+	animation_count++;
+	if (animation_count >= 10)
+	{
+		animation_count = 0;
+		zonbi_walk_index = (zonbi_walk_index + 1) % 10;
+		zonbi_image = zonbi_animation[zonbi_walk_index];
+	}
+
 }
 
 void Enemy::SetDamageBoost(bool enable)

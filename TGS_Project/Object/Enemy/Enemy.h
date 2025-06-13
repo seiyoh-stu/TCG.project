@@ -17,7 +17,7 @@ public:
 	////移動速度
 	//int speed = -4;
 	////移動量
-	//int move_x = 0;
+	//int move_x = 0
 
 private:
 	void Movement();
@@ -34,6 +34,13 @@ private:
 	//0612
 public:
 	void SetDamageBoost(bool enable) override;
+
+	// アニメーション関係
+	int zonbi_animation[10];
+	int zonbi_walk_index;
+	int animation_count;
+	int zonbi_image;
+
 //private:
 	bool damage_boost;
 };
