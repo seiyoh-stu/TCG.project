@@ -30,6 +30,13 @@ private:
 public:
 	void SetDamageBoost(bool enable) override;
 //private:
+
+	int zonbi3_animation[10];
+	int zonbi3_walk_index;
+	int animation3_count;
+	int zonbi3_image;
+
+
 	bool damage_boost;
 };
 

@@ -2,6 +2,7 @@
 #include"../../Object/GameObjectManager.h"
 #include"../../Utility/ScoreManager.h"
 #include"DxLib.h"
+#include "../../Utility/ResourceManager.h"
 
 #define MAX_HP 2
 
@@ -10,7 +11,7 @@ Enemy3::Enemy3() :
 	enemy3_y(300), // 初期位置Y座標
 	size3_x_(64),  // 四角の幅
 	size3_y_(64),  // 四角の高さ
-	color3_(GetColor(0, 0, 255)) // 四角の色 (赤)
+	zonbi3_walk_index(0), animation3_count(0)
 {
 
 }
@@ -27,6 +28,21 @@ void Enemy3::Initialize()
 	collision.hit_object_type.push_back(eBullet);
 	collision.hit_object_type.push_back(eCastle);
 
+	ResourceManager* rm = ResourceManager::GetInstance();
+	// std::vector<int> walk3_frames = rm->GetImages("Resource/Images/Enemy/Zombie_2/Walk.png", 10, 10, 1, 128, 128);
+	std::vector<int> walk3_frames = rm->GetImages("Resource/Images/Enemy/zombie_5/Walk.png", 10, 10, 1, 96, 96);
+
+
+	for (int i = 0; i < 10; ++i)
+	{
+		zonbi3_animation[i] = walk3_frames[i];
+	}
+
+	zonbi3_image = zonbi3_animation[0];  // 最初のアニメフレーム
+
+	location.x = enemy3_x;
+	location.y = enemy3_y;
+
 	hp = MAX_HP;
 }
 
@@ -40,7 +56,9 @@ void Enemy3::Update(float delta_second)
 void Enemy3::Draw(const Vector2D& screen_offset) const
 {
 	//DrawBox(enemy_x, enemy_y, enemy_x + size_x_, enemy_y + size_y_, color_, TRUE);
-	DrawBox(location.x - collision.box_size.x, location.y - collision.box_size.y, location.x + collision.box_size.x, location.y + collision.box_size.y, color3_, TRUE);
+	//DrawBox(location.x - collision.box_size.x, location.y - collision.box_size.y, location.x + collision.box_size.x, location.y + collision.box_size.y, color3_, TRUE);
+
+	DrawRotaGraph(location.x, location.y, 2.0f, 0.0f, zonbi3_image, TRUE);
 
 	Vector2D hp_bar = location;
 	hp_bar -= Vector2D(25.0f, 60.0f);
@@ -105,7 +123,13 @@ void Enemy3::Movement()
 
 void Enemy3::AnimeControl()
 {
-	// アニメーションに関する処理を記述 (今回は空)
+	animation3_count++;
+	if (animation3_count >= 10)
+	{
+		animation3_count = 0;
+		zonbi3_walk_index = (zonbi3_walk_index + 1) % 10;
+		zonbi3_image = zonbi3_animation[zonbi3_walk_index];
+	}
 }
 
 //０６１２
