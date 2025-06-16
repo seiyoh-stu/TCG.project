@@ -1,6 +1,7 @@
 ﻿#include "Player.h"
 #include "../../Utility/InputControl.h"
 #include "../../Object/Bullet/Bullet.h"
+#include "../../Object/Bullet/CBullet.h"
 #include "../../Object/GameObjectManager.h"
 #include "DxLib.h"
 #include "../../Utility/ResourceManager.h"
