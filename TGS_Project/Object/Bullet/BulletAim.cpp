@@ -4,7 +4,7 @@
 #include "DxLib.h"
 
 BulletAim::BulletAim()
-    : location(100, 100),
+    : location(640, 400),
     Aim_Image(-1)
 {
 }
