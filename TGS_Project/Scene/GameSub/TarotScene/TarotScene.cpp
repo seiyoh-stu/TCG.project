@@ -69,26 +69,26 @@ eSceneType Tarot::Update(float delta_second)
 
 
 
-    //プレイヤーが強化しているように見せる処理ーーーーーーーーーーー
-    if (InputControl::GetInstance()->GetKey(KEY_INPUT_1))
-    {
-        for (int i = 0; i < enemy_list.size(); i++)
-        {
-            // 生成されているかチェックして大丈夫だったらダメージをブースト
-            if (enemy_list[i] != nullptr && enemy_list[i]->is_dead_ != true)
-            {
-                enemy_list[i]->SetDamageBoost(1);
-            }
-        }
-    }
+    ////プレイヤーが強化しているように見せる処理ーーーーーーーーーーー
+    //if (InputControl::GetInstance()->GetKey(KEY_INPUT_1))
+    //{
+    //    for (int i = 0; i < enemy_list.size(); i++)
+    //    {
+    //        // 生成されているかチェックして大丈夫だったらダメージをブースト
+    //        if (enemy_list[i] != nullptr && enemy_list[i]->is_dead_ != true)
+    //        {
+    //            enemy_list[i]->SetDamageBoost(1);
+    //        }
+    //    }
+    //}
 
 
 
-    // 2キーが押されたら弾数を5→8に変更ーーーーーーーーーーーーーーーーー
-    if (input->GetKeyDown(KEY_INPUT_2))
-    {
-        bullet_magazine = 40;
-    }
+    //// 2キーが押されたら弾数を5→8に変更ーーーーーーーーーーーーーーーーー
+    //if (input->GetKeyDown(KEY_INPUT_2))
+    //{
+    //    bullet_magazine = 40;
+    //}
 
 
 
