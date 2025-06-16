@@ -36,12 +36,17 @@ public:
 	void SetDamageBoost(bool enable) override;
 
 	// アニメーション関係
-	int zonbi_animation[10];
+	int zonbi_walk[10];
+	int zonbi_attack[5];
+
+
 	int zonbi_walk_index;
+	int zonbi_attack_index;
 	int animation_count;
 	int zonbi_image;
 
 //private:
 	bool damage_boost;
+	bool is_attacking = false; // 攻撃中フラグを追加
 };
 
