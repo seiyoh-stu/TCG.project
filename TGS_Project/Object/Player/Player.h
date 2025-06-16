@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../../Object/Bullet/Bullet.h"
+#include "../../Object/Bullet/CBullet.h"
 #include "../../Object/Bullet/BulletAim.h"
 #include "../GameBase.h"
 

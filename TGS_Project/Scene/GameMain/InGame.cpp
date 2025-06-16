@@ -183,8 +183,11 @@ eSceneType InGame::Update(float delta_second)
     {
         GameBaseManager* gbmm = GameBaseManager::GetInstance();
         Bullet* bullet;
+        CBullet* cbullet;
         bullet = gbmm->CreateGameBase<Bullet>(Vector2D(player->GetLocation().x, player->GetLocation().y + 50));
+        cbullet = gbmm->CreateGameBase<CBullet>(Vector2D(castle->GetLocation().x, castle->GetLocation().y + 50));
         bullet->SetBalletAim(bullet_aim);
+        cbullet->SetBalletAim(bullet_aim);
         bullet_magazine--;
         bullet_cooldown_timer = 0.0f;  // クールタイムリセット
     }
