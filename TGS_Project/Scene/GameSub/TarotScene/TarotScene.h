@@ -22,16 +22,12 @@ private:
     bool keyRightPrev = false;
     bool keyEnterPrev = false;
 
-    int ticket = 0;         // チケット数
+    int ticket_tarot = 0;         // チケット数
     Player* player = nullptr;  // プレイヤー参照
 
 public:
     Tarot();
     virtual ~Tarot();
-
-    // チケット操作
-    void AddTicket();       // チケット+1
-    int GetTicket() const;  // チケット取得
 
     void SetPlayer(Player* p);  // プレイヤーをセット
 
@@ -43,4 +39,5 @@ public:
 
     //０６１１追加
     void SetTicket(int t);
+    int GetTicket() const { return ticket_tarot; }//0616
 };

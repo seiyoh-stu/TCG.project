@@ -13,6 +13,8 @@
 #include "DxLib.h"
 #include <memory>
 
+extern Tarot* g_sharedTarot;//ーーーーーーーー追加0610
+
 InGame::InGame() : bgmHandle(-1) , flip_flag(false),
  bullet_magazine(20), push_flg(true),reload(0)
 {
@@ -76,8 +78,10 @@ void InGame::Initialize()
     }
 
     score = ScoreManager::GetInstance();
-    tarot = new Tarot();  // インスタンス化------追加0610
-    tarot->SetPlayer(player);
+ 
+    g_sharedTarot->SetPlayer(player);
+
+    ticket = 0;
 }
 
 
@@ -316,6 +320,8 @@ void InGame::Draw() const
 
     //ウェーブ表示
     DrawFormatString(10, 140, GetColor(255, 200, 0), "Wave: %d", current_wave);
+    DrawFormatString(10, 160, GetColor(255, 200, 0), "Wave: %d", ticket);
+
 }
 
 
@@ -376,6 +382,8 @@ void InGame::StartNextWave()
         wave_in_progress = true;
         SpawnEnemiesForWave(current_wave);
         current_wave++;
+        ticket++;
+        g_sharedTarot->SetTicket(ticket);
 
         //// ★ Tarotのチケットを加算し、プレイヤーを強化
         //if (tarot != nullptr) {
@@ -401,9 +409,10 @@ void InGame::SpawnEnemiesForWave(int wave)
     // Waveごとに敵の数を変える
     switch (wave)
     {
-    case 1: num_enemies = 1; break;  // wave1: 敵2体
-    case 2: num_enemies = 5; break;  // wave2: 敵4体
-    case 3: num_enemies = 10; break;  // wave3: 敵8体
+    case 0: num_enemies = 0; break;
+    case 1: num_enemies = 1; break;  
+    case 2: num_enemies = 5; break;  
+    case 3: num_enemies = 10; break; 
     case 4: num_enemies = 15; break;
     case 5: num_enemies = 20; break;
     case 6: num_enemies = 25; break;

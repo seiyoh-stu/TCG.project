@@ -13,6 +13,7 @@ enum eSceneType
 class SceneBase {
 protected:
     // シングルトンインスタンス保持用
+    int ticket;
 
 public:
     SceneBase() {}

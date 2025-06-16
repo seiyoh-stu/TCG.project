@@ -1,5 +1,8 @@
 #include"DxLib.h"
 #include"Scene/GameMain/SceneManager.h"
+#include "../TGS_Project/Scene/GameSub/TarotScene/TarotScene.h"
+
+Tarot* g_sharedTarot = new Tarot();
 
 //メイン関数（プログラムスタート位置）
 int WINAPI WinMain(

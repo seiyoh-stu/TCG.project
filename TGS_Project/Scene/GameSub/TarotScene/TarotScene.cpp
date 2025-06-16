@@ -3,6 +3,8 @@
 #include "DxLib.h"
 #include <iostream>
 
+extern Tarot* g_sharedTarot;//ーーーーーーーー追加0610
+
 Tarot::Tarot() {}
 
 Tarot::~Tarot() {}
@@ -69,7 +71,7 @@ eSceneType Tarot::Update(float delta_second)
 void Tarot::Draw() const
 {
     DrawFormatString(50, 250, GetColor(255, 255, 255), "カードを選んでください (← → 決定:Enter)");
-    DrawFormatString(50, 220, GetColor(255, 255, 0), "チケット: %d", ticket);
+    DrawFormatString(50, 220, GetColor(255, 255, 0), "チケット: %d", g_sharedTarot->GetTicket());
 
     for (size_t i = 0; i < cards.size(); ++i) {
         const auto& card = cards[i];
@@ -87,16 +89,6 @@ void Tarot::Finalize()
 {
 }
 
-void Tarot::AddTicket()
-{
-    ticket++;
-}
-
-int Tarot::GetTicket() const
-{
-    return ticket;
-}
-
 void Tarot::SetPlayer(Player* p)
 {
     player = p;
@@ -105,7 +97,7 @@ void Tarot::SetPlayer(Player* p)
 //０６１１
 void Tarot::SetTicket(int t)
 {
-    ticket = t;
+    ticket_tarot = t;
 }
 
 
