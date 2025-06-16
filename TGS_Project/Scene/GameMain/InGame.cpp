@@ -91,6 +91,12 @@ eSceneType InGame::Update(float delta_second)
 {
     InputControl* input = InputControl::GetInstance();
 
+    if (input->GetKeyDown(KEY_INPUT_3))
+    {
+        castle->AddHp(100);
+    }
+
+
     // 敵が全滅した時間を記録するための変数（外部 or static 変数として宣言）
     static int enemy_clear_time = -1;
 

@@ -18,7 +18,6 @@ class InGame : public SceneBase
 {
 private:
     Player* player;
-    //Enemy* enemy;
     BulletAim* bullet_aim;
     Castle* castle;
 
@@ -46,7 +45,7 @@ private:
     float enemy_spawn_interval = 3.0f; // 3秒ごとにスポーン
     void SpawnEnemy(); // ランダム敵生成用関数
 
-    int current_wave = 0;
+    int current_wave =5;
     float wave_timer = 0.0f;
     float wave_interval = 1.0f; // 10秒ごとに次のウェーブ
     bool wave_in_progress = false;

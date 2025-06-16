@@ -4,7 +4,7 @@
 #include"../../Object/GameObjectManager.h"
 #include"../../Utility/ScoreManager.h"
 
-#define MAX_HP 500  // 6なら3発で死ぬ
+//#define MAX_HP 500
 
 Castle::Castle()
 {
@@ -34,7 +34,8 @@ void Castle::Initialize()
     collision.box_size = 64;
 
 
-    hp = MAX_HP;; // 初期化
+    hp = 500;// 初期化
+
     // サイズや当たり判定なども必要に応じてここで設定する
 }
 
@@ -116,4 +117,10 @@ void Castle::SetScroll(float scroll, float& delta_second)
 int Castle::GetHp() const
 {
     return hp;
+}
+
+void Castle::AddHp(int add)
+{
+    hp += add;
+    printf("Castle HP: %d\n", hp);
 }
