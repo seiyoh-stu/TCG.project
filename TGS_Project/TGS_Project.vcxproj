@@ -146,6 +146,7 @@
       <CreateHotpatchableImage Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</CreateHotpatchableImage>
     </ClCompile>
     <ClCompile Include="Object\Bullet\BulletAim.cpp" />
+    <ClCompile Include="Object\Bullet\CBullet.cpp" />
     <ClCompile Include="Object\Enemy\Enemy2.cpp" />
     <ClCompile Include="Object\Enemy\Enemy3.cpp" />
     <ClCompile Include="Object\Enemy\Enemy4.cpp" />
@@ -172,6 +173,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Object\Bullet\BulletAim.h" />
+    <ClInclude Include="Object\Bullet\CBullet.h" />
     <ClInclude Include="Object\Enemy\Enemy2.h" />
     <ClInclude Include="Object\Enemy\Enemy3.h" />
     <ClInclude Include="Object\Enemy\Enemy4.h" />
