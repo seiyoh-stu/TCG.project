@@ -23,6 +23,7 @@ public:
     void SetScroll(float scroll , float& delta_second);
 
     int GetHp() const;
+    void AddHp(int add); // ’Ç‰Á
   
 };
 
