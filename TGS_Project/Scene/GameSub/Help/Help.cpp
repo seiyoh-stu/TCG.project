@@ -4,6 +4,7 @@
 
 Help::Help()
 {
+
 }
 
 Help::~Help()
@@ -12,6 +13,7 @@ Help::~Help()
 
 void Help::Initialize()
 {
+    help_Image = LoadGraph("Resource/Images/help3.png");
 }
 
 eSceneType Help::Update(float delta_second)
@@ -31,10 +33,16 @@ eSceneType Help::Update(float delta_second)
 void Help::Draw() const
 {
     DrawFormatString(10, 10, GetColor(255, 255, 255), "ヘルプ画面です(Bで戻る)");
+    DrawExtendGraph(0, 0, 1280, 720, help_Image, TRUE);
 }
 
 void Help::Finalize()
 {
+    if(help_Image != -1)
+    {
+        DeleteGraph(help_Image);
+    }
+
 }
 
 eSceneType Help::GetNowSceneType() const

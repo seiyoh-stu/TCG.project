@@ -6,6 +6,8 @@ class Help :public SceneBase
 {
 private:
 
+	int help_Image;
+
 public:
 	Help();
 	virtual~Help();
