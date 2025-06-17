@@ -27,6 +27,9 @@ void Tarot::Initialize()
 
 eSceneType Tarot::Update(float delta_second)
 {
+
+    InputControl* input = InputControl::GetInstance();
+
     bool keyLeft = CheckHitKey(KEY_INPUT_LEFT) != 0;
     bool keyRight = CheckHitKey(KEY_INPUT_RIGHT) != 0;
     bool keyEnter = CheckHitKey(KEY_INPUT_RETURN) != 0;
@@ -62,6 +65,11 @@ eSceneType Tarot::Update(float delta_second)
     keyLeftPrev = keyLeft;
     keyRightPrev = keyRight;
     keyEnterPrev = keyEnter;
+
+    if (input->GetKeyDown(KEY_INPUT_SPACE))
+        return eSceneType::eInGame;
+
+
 
 
 
