@@ -29,16 +29,27 @@ void Enemy4::Initialize()
 	collision.hit_object_type.push_back(eCastle);
 
 	ResourceManager* rm = ResourceManager::GetInstance();
-	std::vector<int> walk4_frames = rm->GetImages("Resource/Images/Enemy/Zombie_3/Walk.png", 10, 10, 1, 128, 128);
+	std::vector<int> walk4_frames = rm->GetImages("Resource/Images/Enemy/Zombie_3/Walk.png", 10, 10, 1, 108, 108);
+	std::vector<int> attack4_frames = rm->GetImages("Resource/Images/Enemy/Zombie_3/Walk.png", 4, 4, 1, 108, 108);
 
 
 
 	for (int i = 0; i < 10; ++i)
 	{
-		zonbi4_animation[i] = walk4_frames[i];
+		zonbi4_walk[i] = walk4_frames[i];
 	}
 
-	zonbi4_image = zonbi4_animation[0];  // 最初のアニメフレーム
+	for (int i = 0; i < 4; ++i)
+	{
+		zonbi4_attack[i] = attack4_frames[i];
+	}
+
+
+	zonbi4_image = zonbi4_walk[0];  // 最初のアニメフレーム
+
+	zonbi4_walk_index = 0;
+	zonbi4_attack_index = 0;
+	animation4_count = 0;
 
 	location.x = enemy4_x;
 	location.y = enemy4_y;
@@ -118,6 +129,7 @@ void Enemy4::OnHitCollision(GameBase* hit_object)
 	if (hit_object->GetCollision().object_type == eCastle)
 	{
 		speed4 = 0;
+		is_attacking4 = true;
 	}
 }
 
@@ -131,11 +143,26 @@ void Enemy4::Movement()
 void Enemy4::AnimeControl()
 {
 	animation4_count++;
-	if (animation4_count >= 10)
+
+	if (is_attacking4) // 攻撃中の場合
 	{
-		animation4_count = 0;
-		zonbi4_walk_index = (zonbi4_walk_index + 1) % 10;
-		zonbi4_image = zonbi4_animation[zonbi4_walk_index];
+		if (animation4_count >= 10)
+		{
+			animation4_count = 0;
+			// 攻撃アニメーションフレームを1つ進める（5枚ループ）
+			zonbi4_attack_index = (zonbi4_attack_index + 1) % 4;
+			zonbi4_image = zonbi4_attack[zonbi4_attack_index]; // 現在の画像を攻撃用に更新
+		}
+	}
+	else // 通常の歩行状態
+	{
+		if (animation4_count >= 10)
+		{
+			animation4_count = 0;
+			// 歩行アニメーションフレームを1つ進める（10枚ループ）
+			zonbi4_walk_index = (zonbi4_walk_index + 1) % 10;
+			zonbi4_image = zonbi4_walk[zonbi4_walk_index]; // 現在の画像を歩行用に更新
+		}
 	}
 }
 

@@ -11,7 +11,7 @@ Enemy2::Enemy2() :
 	enemy2_y(580), // 初期位置Y座標
 	size2_x_(64),  // 四角の幅
 	size2_y_(64),  // 四角の高さ
-	zonbi_walk_index(0), animation_count(0)
+	zonbi2_walk_index(0), animation2_count(0)
 {
 
 }
@@ -37,34 +37,27 @@ void Enemy2::Initialize()
 
 	ResourceManager* rm = ResourceManager::GetInstance();
 	std::vector<int> walk_frames = rm->GetImages("Resource/Images/Enemy/Zombie_4/Walk.png", 12, 12, 1, 128, 128);
-	/*std::vector<int> attack_frames = rm->GetImages("Resource/Images/Enemy/Zombie_4/Attack.png", 10, 10, 1, 128, 128);*/
+	std::vector<int> attack_frames = rm->GetImages("Resource/Images/Enemy/Zombie_4/Attack.png", 10, 10, 1, 128, 128);
+
+	for (int i = 0; i < 12; ++i)
+	{
+		zonbi2_walk[i] = walk_frames[i];
+	}
 
 	for (int i = 0; i < 10; ++i)
 	{
-		zonbi_animation[i] = walk_frames[i];
+		zonbi2_attack[i] = attack_frames[i];
 	}
 
-	zonbi_image = zonbi_animation[0];  // 最初のアニメフレーム
+
+	zonbi2_image = zonbi2_walk[0];  // 最初のアニメフレーム
+
+	zonbi2_walk_index = 0;
+	zonbi2_attack_index = 0;
+	animation2_count = 0;
 
 	location.x = enemy2_x;
 	location.y = enemy2_y;
-
-	//for (int i = 0; i < 12; ++i)
-	//{
-	//	zonbi_walk_animation[i] = walk_frames[i];
-	//}
-
-	//// 攻撃
-	//for (int i = 0; i < 10; ++i)
-	//{
-	//	zonbi_attack_animation[i] = attack_frames[i];
-	//}
-
-	//// 初期画像は歩き
-	//zonbi_image = zonbi_walk_animation[0];
-
-	//location.x = enemy2_x;
-	//location.y = enemy2_y;
 }
 
 void Enemy2::Update(float delta_second)
@@ -77,7 +70,7 @@ void Enemy2::Update(float delta_second)
 void Enemy2::Draw(const Vector2D& screen_offset) const
 {
 	//DrawBox(enemy_x, enemy_y, enemy_x + size_x_, enemy_y + size_y_, color_, TRUE);
-	DrawRotaGraph(location.x, location.y, 2.0f, 0.0f, zonbi_image, TRUE);
+	DrawRotaGraph(location.x, location.y, 2.0f, 0.0f, zonbi2_image, TRUE);
 
 	Vector2D hp_bar = location;
 	hp_bar -= Vector2D(25.0f, 60.0f);
@@ -130,6 +123,7 @@ void Enemy2::OnHitCollision(GameBase* hit_object)
 	if (hit_object->GetCollision().object_type == eCastle)
 	{
 		speed2 = 0;
+		is_attacking2 = true;
 	}
 }
 
@@ -142,32 +136,28 @@ void Enemy2::Movement()
 
 void Enemy2::AnimeControl()
 {
+	animation2_count++;
 
-	animation_count++;
-	if (animation_count >= 10)
+	if (is_attacking2) // 攻撃中の場合
 	{
-		animation_count = 0;
-		zonbi_walk_index = (zonbi_walk_index + 1) % 10;
-		zonbi_image = zonbi_animation[zonbi_walk_index];
+		if (animation2_count >= 12)
+		{
+			animation2_count = 0;
+			// 攻撃アニメーションフレームを1つ進める（5枚ループ）
+			zonbi2_attack_index = (zonbi2_attack_index + 1) % 10;
+			zonbi2_image = zonbi2_attack[zonbi2_attack_index]; // 現在の画像を攻撃用に更新
+		}
 	}
-	//animation_count++;
-
-	//if (speed2 == 0) {
-	//	// 攻撃アニメ
-	//	if (animation_count >= 6) {
-	//		animation_count = 0;
-	//		zonbi_walk_index = (zonbi_walk_index + 1) % 10;
-	//		zonbi_image = zonbi_attack_animation[zonbi_walk_index];
-	//	}
-	//}
-	//else {
-	//	// 歩きアニメ
-	//	if (animation_count >= 6) {
-	//		animation_count = 0;
-	//		zonbi_walk_index = (zonbi_walk_index + 1) % 12;
-	//		zonbi_image = zonbi_walk_animation[zonbi_walk_index];
-	//	}
-	//}
+	else // 通常の歩行状態
+	{
+		if (animation2_count >= 12)
+		{
+			animation2_count = 0;
+			// 歩行アニメーションフレームを1つ進める（10枚ループ）
+			zonbi2_walk_index = (zonbi2_walk_index + 1) % 12;
+			zonbi2_image = zonbi2_walk[zonbi2_walk_index]; // 現在の画像を歩行用に更新
+		}
+	}
 }
 
 //０６１２
