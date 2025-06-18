@@ -29,8 +29,8 @@ void Enemy4::Initialize()
 	collision.hit_object_type.push_back(eCastle);
 
 	ResourceManager* rm = ResourceManager::GetInstance();
-	std::vector<int> walk4_frames = rm->GetImages("Resource/Images/Enemy/Zombie_3/Walk.png", 10, 10, 1, 108, 108);
-	std::vector<int> attack4_frames = rm->GetImages("Resource/Images/Enemy/Zombie_3/Walk.png", 4, 4, 1, 108, 108);
+	std::vector<int> walk4_frames = rm->GetImages("Resource/Images/Enemy/Zombie_3/Walk.png", 10, 10, 1, 128, 128);
+	std::vector<int> attack4_frames = rm->GetImages("Resource/Images/Enemy/Zombie_3/Walk.png", 4, 4, 1, 128, 128);
 
 
 
