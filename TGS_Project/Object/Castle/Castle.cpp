@@ -3,6 +3,8 @@
 #include "../../Object/Enemy/Enemy.h"
 #include"../../Object/GameObjectManager.h"
 #include"../../Utility/ScoreManager.h"
+#include <unordered_map>
+#include <memory>
 
 //#define MAX_HP 500
 
@@ -19,7 +21,7 @@ Castle::~Castle()
 void Castle::Initialize()
 {
     // 位置、当たり判定など初期値を設定（必要に応じて調整）
-    location = { 50, 300 };
+    location = { 50, 250 };
     z_layer = 1;
     is_mobility = false;
     filp_flag = false;
@@ -31,7 +33,7 @@ void Castle::Initialize()
 
     damage_cooldown = 1.0f;
 
-    collision.box_size = 64;
+    collision.box_size = { 64, 400 };  // 幅128px, 高さ128px
 
 
     hp = 500;// 初期化
@@ -52,7 +54,12 @@ void Castle::Draw(const Vector2D& screen_offset) const
     //int draw_x = location.x - screen_offset.x;
     //int draw_y = location.y - screen_offset.y;
         //DrawBox(enemy_x, enemy_y, enemy_x + size_x_, enemy_y + size_y_, color_, TRUE);
-    DrawBox(location.x - collision.box_size.x, location.y - collision.box_size.y, location.x + collision.box_size.x, location.y + collision.box_size.y, GetColor(255,0,255), TRUE);
+    /*DrawBox(location.x - collision.box_size.x, location.y - collision.box_size.y, location.x + collision.box_size.x, location.y + collision.box_size.y, GetColor(255,0,255), TRUE);*/
+
+    DrawBox(location.x - collision.box_size.x, location.y - collision.box_size.y,
+        location.x + collision.box_size.x, location.y + collision.box_size.y,
+        GetColor(255, 0, 255), TRUE);
+
 
     //DrawBox
     //(
@@ -66,6 +73,11 @@ void Castle::Draw(const Vector2D& screen_offset) const
 
 void Castle::Update(float delta_second) 
 { 
+    // 各敵のクールダウン時間を進める
+    for (auto& pair : enemy_cooldowns)
+    {
+        pair.second += delta_second;
+    }
     // クールダウンを進める
     if (damage_cooldown < DAMAGE_INTERVAL)
     {
@@ -83,19 +95,21 @@ void Castle::OnHitCollision(GameBase* hit_object)
 
     if (hit_object->GetCollision().object_type == eEnemy)
     {
-        if (damage_cooldown >= DAMAGE_INTERVAL)
+        float& cooldown = enemy_cooldowns[hit_object];  // 敵ごとのクールダウン
+
+        const float DAMAGE_INTERVAL = 1.0f; // 秒単位でのダメージ間隔（任意）
+
+        if (cooldown >= DAMAGE_INTERVAL)
         {
-            hp -= DAMAGE_AMOUNT;
-            damage_cooldown = 0.0f; // クールダウンリセット
+            hp -= hit_object->GetAttackPower();
+            cooldown = 0.0f;
 
             printf("Castle HP: %d\n", hp);
 
             if (hp <= 0)
             {
                 is_dead_ = true;
-
-                GameBaseManager* gbmm = GameBaseManager::GetInstance();
-                gbmm->DestroyGameBase(this);
+                GameBaseManager::GetInstance()->DestroyGameBase(this);
             }
         }
     }

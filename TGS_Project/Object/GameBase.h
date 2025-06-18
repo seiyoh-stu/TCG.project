@@ -39,6 +39,8 @@ protected:
 public:
     bool is_dead_ = false;   //死亡フラグ
 
+    virtual int GetAttackPower() const { return 0; } // デフォルトは攻撃力0
+
 
 public:
     virtual void Initialize();

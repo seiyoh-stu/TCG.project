@@ -44,5 +44,10 @@ public:
 
 	bool damage_boost;
 	bool is_attacking3 = false; // 攻撃中フラグを追加
+
+public:
+	int GetAttackPower() const { return attack_power_; }
+private:
+	int attack_power_ = 30;  // 例：デフォルト攻撃力
 };
 

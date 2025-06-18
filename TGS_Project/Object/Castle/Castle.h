@@ -1,6 +1,8 @@
 #pragma once
 #include "../GameBase.h"
 #include"../../Scene/GameMain/SceneManager.h"
+#include <unordered_map>
+
 class Castle : public GameBase
 {
 private:
@@ -9,6 +11,7 @@ private:
     float damage_cooldown = 0.0f; // クールタイム時間
     const float DAMAGE_INTERVAL = 1.0f; // ダメージ間隔（秒
     const int DAMAGE_AMOUNT = 10;       // 1回のダメージ量
+    
 
 public:
 	Castle();
@@ -24,6 +27,8 @@ public:
 
     int GetHp() const;
     void AddHp(int add); // 追加
+
+    std::unordered_map<GameBase*, float> enemy_cooldowns;
   
 };
 
