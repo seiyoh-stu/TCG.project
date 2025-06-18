@@ -27,7 +27,13 @@ private:
     //// 他のプライベートメンバ変数
     //std::unique_ptr<Enemy> enemy; // Enemyクラスのインスタンスをスマートポインタで管理
 
-    int bgmHandle;
+
+    //音源
+    int bgmHandle;//BGM
+    int bullet_Sound;//銃声
+    int Reload_Sound;//リロード
+
+
     bool flip_flag; // 画面反転フラぐ
     int bullet_magazine;
     int reload;

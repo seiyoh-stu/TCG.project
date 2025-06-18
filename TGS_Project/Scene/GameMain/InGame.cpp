@@ -15,7 +15,7 @@
 
 extern Tarot* g_sharedTarot;//ーーーーーーーー追加0610
 
-InGame::InGame() : bgmHandle(-1) , flip_flag(false),
+InGame::InGame() : bgmHandle(-1) ,bullet_Sound(-1) ,flip_flag(false),
  bullet_magazine(20), push_flg(true),reload(0)
 {
 
@@ -76,6 +76,15 @@ void InGame::Initialize()
     {
         PlaySoundMem(bgmHandle, DX_PLAYTYPE_LOOP, TRUE); // ループ再生
     }
+
+    //バレット発射SE
+    bullet_Sound= LoadSoundMem("Resource/Sounds/銃声6.mp3");
+    ChangeVolumeSoundMem(150, bullet_Sound);
+    //リロードSE
+    Reload_Sound= LoadSoundMem("Resource/Sounds/リロード.mp3");
+    ChangeVolumeSoundMem(200, Reload_Sound);
+
+
 
     score = ScoreManager::GetInstance();
  
@@ -176,6 +185,8 @@ eSceneType InGame::Update(float delta_second)
     {
         a = true;
         bullet_magazine = 0;
+
+        PlaySoundMem(Reload_Sound, DX_PLAYTYPE_BACK);
     }
      
 
@@ -188,7 +199,7 @@ eSceneType InGame::Update(float delta_second)
             bullet_magazine = 20;
             a = false;
             reload = 0;
-            
+            PlaySoundMem(Reload_Sound, DX_PLAYTYPE_BACK);
         }
 
     }
@@ -212,6 +223,9 @@ eSceneType InGame::Update(float delta_second)
 
         bullet_magazine--;
         bullet_cooldown_timer = 0.0f;
+
+
+        PlaySoundMem(bullet_Sound, DX_PLAYTYPE_BACK);
     }
     // タイマー加算
     bullet_cooldown_timer += delta_second;
@@ -479,6 +493,9 @@ void InGame::Finalize()
         StopSoundMem(bgmHandle);
         DeleteSoundMem(bgmHandle);
     }
+    
+    DeleteSoundMem(bullet_Sound);
+    DeleteSoundMem(Reload_Sound);
 
     GameBaseManager::GetInstance()->Finalize();
 }
