@@ -11,6 +11,8 @@ private:
     float damage_cooldown = 0.0f; // クールタイム時間
     const float DAMAGE_INTERVAL = 1.0f; // ダメージ間隔（秒
     const int DAMAGE_AMOUNT = 10;       // 1回のダメージ量
+
+    int castle_graph = -1;
     
 
 public:
@@ -24,6 +26,10 @@ public:
     void OnHitCollision(GameBase* hit_object) override;
     int GetHP() const { return hp; }
     void SetScroll(float scroll , float& delta_second);
+
+    /*int castle_graph;*/
+
+    
 
     int GetHp() const;
     void AddHp(int add); // 追加

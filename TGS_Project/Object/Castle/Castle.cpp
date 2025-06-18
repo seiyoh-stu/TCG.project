@@ -20,6 +20,10 @@ Castle::~Castle()
 
 void Castle::Initialize()
 {
+    castle_graph = LoadGraph("Resource/Images/tetugousi.png");
+
+    
+
     // 位置、当たり判定など初期値を設定（必要に応じて調整）
     location = { 50, 250 };
     z_layer = 1;
@@ -43,6 +47,45 @@ void Castle::Initialize()
 
 void Castle::Draw(const Vector2D& screen_offset) const
 {
+    Vector2D offset = { -200, -450 }; // 画像の位置調整用オフセット
+    Vector2D draw_pos = location - screen_offset + offset;
+
+    if (castle_graph != -1)
+    {
+        DrawExtendGraph(
+            draw_pos.x,
+            draw_pos.y,
+            draw_pos.x + 300,   // 幅128ピクセルに調整（例）
+            draw_pos.y + 600,   // 高さ400ピクセルに調整（例）
+            castle_graph,
+            TRUE);
+    }
+
+    //// スクロールの影響を受けない描画位置（例：画面の左下に固定）
+    //Vector2D fixed_screen_pos = { -200, -450 }; // 画面上の表示座標を直接指定
+
+    //if (castle_graph != -1)
+    //{
+    //    DrawExtendGraph(
+    //        fixed_screen_pos.x,
+    //        fixed_screen_pos.y,
+    //        fixed_screen_pos.x + 300,  // 幅
+    //        fixed_screen_pos.y + 600,  // 高さ
+    //        castle_graph,
+    //        TRUE);
+    //}
+
+    // ※ デバッグ用の当たり判定表示（必要なら）
+    // DrawBox(
+    //     draw_pos.x - collision.box_size.x,
+    //     draw_pos.y - collision.box_size.y,
+    //     draw_pos.x + collision.box_size.x,
+    //     draw_pos.y + collision.box_size.y,
+    //     GetColor(255, 0, 255), TRUE
+    // );
+
+
+
     //Vector2D draw_pos = location - screen_offset;
 
     //const int width = 200;
@@ -56,9 +99,9 @@ void Castle::Draw(const Vector2D& screen_offset) const
         //DrawBox(enemy_x, enemy_y, enemy_x + size_x_, enemy_y + size_y_, color_, TRUE);
     /*DrawBox(location.x - collision.box_size.x, location.y - collision.box_size.y, location.x + collision.box_size.x, location.y + collision.box_size.y, GetColor(255,0,255), TRUE);*/
 
-    DrawBox(location.x - collision.box_size.x, location.y - collision.box_size.y,
+    /*DrawBox(location.x - collision.box_size.x, location.y - collision.box_size.y,
         location.x + collision.box_size.x, location.y + collision.box_size.y,
-        GetColor(255, 0, 255), TRUE);
+        GetColor(255, 0, 255), TRUE);*/
 
 
     //DrawBox
