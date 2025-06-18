@@ -92,13 +92,7 @@ eSceneType InGame::Update(float delta_second)
     InputControl* input = InputControl::GetInstance();
 
 
-
-    if (input->GetKeyDown(KEY_INPUT_3))
-    {
-        castle->AddHp(100);
-    }
-
-    //プレイヤーが強化しているように見せる処理ーーーーーーーーーーー
+//プレイヤーが強化しているように見せる処理ーーーーーーーーーーー
     if (InputControl::GetInstance()->GetKey(KEY_INPUT_1))
     {
         for (int i = 0; i < enemy_list.size(); i++)
@@ -106,23 +100,46 @@ eSceneType InGame::Update(float delta_second)
             // 生成されているかチェックして大丈夫だったらダメージをブースト
             if (enemy_list[i] != nullptr && enemy_list[i]->is_dead_ != true)
             {
-                enemy_list[i]->SetDamageBoost(1);
+                if (ticket > 0)
+                {
+                    enemy_list[i]->SetDamageBoost(1);
+                    ticket--;
+                }
+                
             }
         }
     }
 
-
-
-    // 2キーが押されたら弾数を5→8に変更ーーーーーーーーーーーーーーーーー
     if (input->GetKeyDown(KEY_INPUT_2))
     {
-        bullet_magazine = 40;
+        if (ticket > 0)
+        {
+            bullet_magazine = 40;
+            ticket--;
+        }
+        
     }
 
+    if (input->GetKeyDown(KEY_INPUT_3))
+    {
+        if (ticket > 0)
+        {
+            castle->AddHp(100);
+            ticket--;
+        }
+        
+    }
+
+   
     // Update()の中、キー入力判定で追加
 // 4キーが押されたらサブショットモードON
-    if (input->GetKeyDown(KEY_INPUT_4)) {
-        cbullet_shot = true;
+    if (input->GetKeyDown(KEY_INPUT_4)) 
+    {
+        if (ticket > 0)
+        {
+            cbullet_shot = true;
+        }
+        
     }
 
 
@@ -157,11 +174,11 @@ eSceneType InGame::Update(float delta_second)
     if (input->GetKeyDown(KEY_INPUT_SPACE))
         return eSceneType::eResult;
 
-    //タロットシーン描画ーーーーーーーーーーーーーーーーーーーー
-    if (input->GetKeyDown(KEY_INPUT_P))
-    {
-        return eSceneType::eTarot;
-    }
+    ////タロットシーン描画ーーーーーーーーーーーーーーーーーーーー
+    //if (input->GetKeyDown(KEY_INPUT_P))
+    //{
+    //    return eSceneType::eTarot;
+    //}
 
     if (castle->GetHp() <= 0)
     {
@@ -341,7 +358,7 @@ void InGame::Draw() const
 
     //ウェーブ表示
     DrawFormatString(10, 140, GetColor(255, 200, 0), "Wave: %d", current_wave);
-    DrawFormatString(10, 160, GetColor(255, 200, 0), "Wave: %d", ticket);
+    DrawFormatString(10, 160, GetColor(255, 200, 0), "Power_Up_Ticket: %d", ticket);
 
 }
 
