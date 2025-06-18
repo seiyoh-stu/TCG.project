@@ -26,6 +26,31 @@ void BulletAim::Initialize()
 void BulletAim::Update(float delta_second)
 {
     Movement(delta_second);
+
+
+    //Aimマークを画面に出ないように
+
+    if (location.x < 0.0f)
+    {
+        location.x = 0.0f;
+    }
+
+    if (location.x > 1140.0f)
+    {
+        location.x = 1140.0f;
+    }
+
+
+    if (location.y < 0.0f)
+    {
+        location.y = 0.0f;
+    }
+
+    if (location.y > 720.0f)
+    {
+        location.y = 720.0f;
+    }
+
 }
 
 void BulletAim::Draw(const Vector2D& screen_offset) const
