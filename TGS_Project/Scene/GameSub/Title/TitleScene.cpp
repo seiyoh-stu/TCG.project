@@ -23,7 +23,16 @@ void TitleScene::Initialize()
 	if (bgmHandle != -1)
 	{
 		PlaySoundMem(bgmHandle, DX_PLAYTYPE_LOOP, TRUE); // ループ再生
+		ChangeVolumeSoundMem(130, bgmHandle);
 	}
+
+	//カーソル移動SE
+	cursorSE= LoadSoundMem("Resource/Sounds/カーソル移動8.mp3");
+	ChangeVolumeSoundMem(250, cursorSE);
+
+	//決定ボタン
+	kakutei= LoadSoundMem("Resource/Sounds/銃声6.mp3");
+	ChangeVolumeSoundMem(300, kakutei);
 }
 
 eSceneType TitleScene::Update(float delta_second)
@@ -36,6 +45,7 @@ eSceneType TitleScene::Update(float delta_second)
         cursor_number--;
         if (cursor_number < 0)
             cursor_number = 2; // 上からループ
+		PlaySoundMem(cursorSE, DX_PLAYTYPE_BACK);
     }
 
     // 下入力（キーボード or コントローラー）
@@ -43,11 +53,14 @@ eSceneType TitleScene::Update(float delta_second)
     {
         cursor_number++;
         cursor_number %= 3; // 下からループ
+		PlaySoundMem(cursorSE, DX_PLAYTYPE_BACK);
     }
 
     // 決定（スペース or Bボタン）
     if (input->GetKeyDown(KEY_INPUT_SPACE) || input->GetPadButtonState(PAD_INPUT_2) == eInputState::ePress)
     {
+		PlaySoundMem(kakutei, DX_PLAYTYPE_NORMAL);
+
         switch (cursor_number)
         {
         case 0: return eSceneType::eInGame;
@@ -99,6 +112,8 @@ void TitleScene::Finalize()
 		StopSoundMem(bgmHandle);
 		DeleteSoundMem(bgmHandle);
 	}
+	DeleteSoundMem(cursorSE);
+	DeleteSoundMem(kakutei);
 }
 
 eSceneType TitleScene::GetNowSceneType() const

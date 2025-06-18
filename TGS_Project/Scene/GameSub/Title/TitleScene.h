@@ -12,6 +12,8 @@ private:
 	int cursor_y; // カーソルの位置
 
 	int bgmHandle;
+	int cursorSE;
+	int kakutei;
 
 	
 	
