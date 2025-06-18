@@ -33,6 +33,8 @@ private:
     int reload;
     bool push_flg;
 
+    bool cbullet_shot = false;
+
     bool a;
 
     bool b;

@@ -91,10 +91,40 @@ eSceneType InGame::Update(float delta_second)
 {
     InputControl* input = InputControl::GetInstance();
 
+
+
     if (input->GetKeyDown(KEY_INPUT_3))
     {
         castle->AddHp(100);
     }
+
+    //プレイヤーが強化しているように見せる処理ーーーーーーーーーーー
+    if (InputControl::GetInstance()->GetKey(KEY_INPUT_1))
+    {
+        for (int i = 0; i < enemy_list.size(); i++)
+        {
+            // 生成されているかチェックして大丈夫だったらダメージをブースト
+            if (enemy_list[i] != nullptr && enemy_list[i]->is_dead_ != true)
+            {
+                enemy_list[i]->SetDamageBoost(1);
+            }
+        }
+    }
+
+
+
+    // 2キーが押されたら弾数を5→8に変更ーーーーーーーーーーーーーーーーー
+    if (input->GetKeyDown(KEY_INPUT_2))
+    {
+        bullet_magazine = 40;
+    }
+
+    // Update()の中、キー入力判定で追加
+// 4キーが押されたらサブショットモードON
+    if (input->GetKeyDown(KEY_INPUT_4)) {
+        cbullet_shot = true;
+    }
+
 
 
     // 敵が全滅した時間を記録するための変数（外部 or static 変数として宣言）
@@ -169,14 +199,19 @@ eSceneType InGame::Update(float delta_second)
         && bullet_magazine > 0 && bullet_cooldown_timer >= bullet_cooldown_interval)
     {
         GameBaseManager* gbmm = GameBaseManager::GetInstance();
-        Bullet* bullet;
-        CBullet* cbullet;
-        bullet = gbmm->CreateGameBase<Bullet>(Vector2D(player->GetLocation().x, player->GetLocation().y + 50));
-        cbullet = gbmm->CreateGameBase<CBullet>(Vector2D(castle->GetLocation().x, castle->GetLocation().y + 50));
+
+        // プレイヤー用の弾発射
+        Bullet* bullet = gbmm->CreateGameBase<Bullet>(Vector2D(player->GetLocation().x, player->GetLocation().y + 50));
         bullet->SetBalletAim(bullet_aim);
-        cbullet->SetBalletAim(bullet_aim);
+
+        // サブショットモードがONならCBulletも同時発射
+        if (cbullet_shot) {
+            CBullet* cbullet = gbmm->CreateGameBase<CBullet>(Vector2D(castle->GetLocation().x, castle->GetLocation().y + 50));
+            cbullet->SetBalletAim(bullet_aim);
+        }
+
         bullet_magazine--;
-        bullet_cooldown_timer = 0.0f;  // クールタイムリセット
+        bullet_cooldown_timer = 0.0f;
     }
     // タイマー加算
     bullet_cooldown_timer += delta_second;
