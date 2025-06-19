@@ -2,7 +2,7 @@
 
 #include"../../GameMain/SceneBase.h"
 
-class Result :public SceneBase
+class Result2 :public SceneBase
 {
 private:
 	int ResultImageHandle; // リザルト画像のハンドル
@@ -12,28 +12,10 @@ private:
 	int cursor_x; // カーソルの位置
 
 	int bgmHandle;
-	int cursorSE;
-	int kakutei;
-
-
-	//歩いてるzombieの描画
-	int mobu_walk[10];
-	int mobu_walk_index;
-	int animation_count;
-	int mobu_image;
-
-	float mobu_x;           // ゾンビのx座標
-	int mobu_y;           // ゾンビのy座標
-	float mobu_speed;       // 移動速度（±で左右移動）
-	bool mobu_flip;       // 左右反転描画用フラグ
-
-
-
-	void AnimeControl();
 
 public:
-	Result();
-	virtual~Result();
+	Result2();
+	virtual~Result2();
 
 	//初期化処理
 	virtual void Initialize() override;
@@ -53,5 +35,6 @@ public:
 	virtual eSceneType GetNowSceneType() const override;
 
 };
+
 
 

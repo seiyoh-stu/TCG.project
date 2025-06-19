@@ -152,6 +152,7 @@
     <ClCompile Include="Object\Enemy\Enemy4.cpp" />
     <ClCompile Include="Object\GameBase.cpp" />
     <ClCompile Include="Object\GameObjectManager.cpp" />
+    <ClCompile Include="Scene\GameSub\Result\Result2.cpp" />
     <ClCompile Include="Scene\GameSub\TarotScene\TarotScene.cpp" />
     <ClCompile Include="Utility\Collision.cpp" />
     <ClCompile Include="Object\Bullet\Bullet.cpp" />
@@ -177,6 +178,7 @@
     <ClInclude Include="Object\Enemy\Enemy2.h" />
     <ClInclude Include="Object\Enemy\Enemy3.h" />
     <ClInclude Include="Object\Enemy\Enemy4.h" />
+    <ClInclude Include="Scene\GameSub\Result\Result2.h" />
     <ClInclude Include="Scene\GameSub\TarotScene\TarotScene.h" />
     <ClInclude Include="Utility\Collision.h" />
     <ClInclude Include="Object\Bullet\Bullet.h" />

@@ -79,6 +79,13 @@ eSceneType TitleScene::Update(float delta_second)
 		}
 	}
 
+
+	//ゲームクリア画面　Test用
+	if (input->GetKeyDown(KEY_INPUT_E))
+	{
+		return eSceneType::eResult2;
+	}
+
     // カーソル位置更新
     cursor_y = 190 + cursor_number * 150;
 
