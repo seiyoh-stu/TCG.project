@@ -12,8 +12,10 @@ private:
 	int cursor_y; // カーソルの位置
 
 	int bgmHandle;
-
-	
+	int cursorSE;
+	int kakutei;
+	int Helpimage;
+	bool isHelpDisplayed;
 	
 public:
 	TitleScene();
