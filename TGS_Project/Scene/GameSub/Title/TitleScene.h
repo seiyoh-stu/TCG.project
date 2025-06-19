@@ -14,8 +14,8 @@ private:
 	int bgmHandle;
 	int cursorSE;
 	int kakutei;
-
-	
+	int Helpimage;
+	bool isHelpDisplayed;
 	
 public:
 	TitleScene();
