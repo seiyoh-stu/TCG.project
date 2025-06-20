@@ -34,6 +34,15 @@ private:
     int Reload_Sound;//リロード
 
 
+    //画像
+    int back_image;
+
+    int bullet_Frame;
+    int reload_image;
+    int dansuu_image;
+   /* int ticket_image;*/
+
+
     bool flip_flag; // 画面反転フラぐ
     int bullet_magazine;
     int reload;
@@ -68,9 +77,7 @@ public:
 
     float  scroll = 0.0f;
    
-
-    int back_image;
-
+  
     float bullet_cooldown_timer = 0.0f;
     const float bullet_cooldown_interval = 0.1f;  // 0.3秒間隔
 

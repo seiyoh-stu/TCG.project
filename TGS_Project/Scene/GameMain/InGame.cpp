@@ -68,6 +68,11 @@ void InGame::Initialize()
     //gbmm->CreateGameBase<Enemy4>(Vector2D(2500, 500));
 
     back_image = LoadGraph("Resource/Images/Ingame.png");
+    bullet_Frame = LoadGraph("Resource/Images/Frame1-preview.png");
+    reload_image= LoadGraph("Resource/Images/reload.png");
+    dansuu_image= LoadGraph("Resource/Images/Magazine.png");
+
+
     scroll = 0;
 
     // BGMの読み込みと再生
@@ -355,12 +360,27 @@ void InGame::Draw() const
     //城のHP描画
     DrawFormatString(10, 60, GetColor(255, 255, 255), "Castle HP: %d", castle->GetHP());
 
+
+    DrawGraph(870, 500, bullet_Frame, TRUE);
+
+
     //弾の残弾数表示
-    DrawFormatString(10, 100, GetColor(255, 255, 255), "弾の残弾数: %d", bullet_magazine);
-    if (bullet_magazine == 0)
+    //DrawFormatString(1100, 660, GetColor(255, 255, 255), "弾の残弾数: %d", bullet_magazine);
+    //if (bullet_magazine == 0)
+    //{
+    //    // クールタイムの文
+    //    DrawFormatString(1100, 660, GetColor(255, 50, 0), "リロード");
+    //}
+
+    if (a == true)  // リロード中かどうかのフラグ
     {
-        // クールタイムの文
-        DrawFormatString(10, 120, GetColor(255, 50, 0), "reloadnow");
+        DrawFormatString(1125, 670, GetColor(255, 255, 255), "リロード");
+        DrawRotaGraph(1050, 675, 0.1, 0.0,reload_image, TRUE);
+    }
+    else
+    {
+        DrawFormatString(1115, 670, GetColor(255, 255, 255), "弾の残弾数: %d", bullet_magazine);
+        DrawRotaGraph(1050, 675, 0.1, 0.0, dansuu_image, TRUE);
     }
 
 
