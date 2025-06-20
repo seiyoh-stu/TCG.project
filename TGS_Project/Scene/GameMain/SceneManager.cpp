@@ -4,6 +4,7 @@
 #include"../GameSub/Title/TitleScene.h"
 #include"../GameMain/InGame.h"
 #include"../GameSub/Result/Result.h"
+#include"../GameSub/Result/Result2.h"
 #include"../GameSub/Help/Help.h"
 #include"../GameSub/TarotScene/TarotScene.h"
 #include <map>
@@ -142,6 +143,9 @@ SceneBase* SceneManager::CreateScene(eSceneType type)
 
     case eSceneType::eResult:
         return dynamic_cast<SceneBase*>(new Result());
+
+    case eSceneType::eResult2:
+        return dynamic_cast<SceneBase*>(new Result2());
 
     case eSceneType::eHelp:
         return dynamic_cast<SceneBase*>(new Help());

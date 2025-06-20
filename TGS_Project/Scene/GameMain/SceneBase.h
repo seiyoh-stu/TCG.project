@@ -5,6 +5,7 @@ enum eSceneType
     eTitle,
     eInGame,
     eResult,
+    eResult2,
     eHelp,
     eEnd,
     eTarot
