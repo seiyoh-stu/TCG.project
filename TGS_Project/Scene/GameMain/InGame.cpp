@@ -534,7 +534,18 @@ void InGame::Finalize()
     DeleteSoundMem(bullet_Sound);
     DeleteSoundMem(Reload_Sound);
 
-    GameBaseManager::GetInstance()->Finalize();
+    //GameBaseManager::GetInstance()->Finalize();
+
+    // Result シーンへ切り替わる前に、既存の GameBase オブジェクトをすべて破棄
+    auto* manager = GameBaseManager::GetInstance(); // シングルトン取得
+    const auto& objects = manager->GetObjectsList(); // 現在のゲームオブジェクト一覧を取得 :contentReference[oaicite:0]{index=0}
+    for (auto obj : objects)
+    {
+        // プレイヤーをはじめ、すべてのオブジェクトを破棄キューに登録
+        manager->DestroyGameBase(obj);
+    }
+    // 実際に delete してリストから削除する
+    manager->CheckDestroyObject();
 }
 
 
