@@ -75,7 +75,7 @@ void Enemy4::Update(float delta_second)
 void Enemy4::Draw(const Vector2D& screen_offset) const
 {
 	//DrawBox(enemy_x, enemy_y, enemy_x + size_x_, enemy_y + size_y_, color_, TRUE);
-	DrawRotaGraph(location.x, location.y, 4.0f, 0.0f, zonbi4_image, TRUE);
+	DrawRotaGraph(location.x, location.y, 2.0f, 0.0f, zonbi4_image, TRUE);
 
 
 	Vector2D hp_bar = location;

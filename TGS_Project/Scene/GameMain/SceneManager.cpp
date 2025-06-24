@@ -7,6 +7,8 @@
 #include"../GameSub/Result/Result2.h"
 #include"../GameSub/Help/Help.h"
 #include"../GameSub/TarotScene/TarotScene.h"
+#include"../GameSub/Result/Ending.h"
+#include"../GameSub/End/End.h"
 #include <map>
 
 // グローバル変数定義
@@ -149,9 +151,12 @@ SceneBase* SceneManager::CreateScene(eSceneType type)
 
     case eSceneType::eHelp:
         return dynamic_cast<SceneBase*>(new Help());
+
     case eSceneType::eTarot:
         return dynamic_cast<SceneBase*>(new Tarot());
 
+    case eSceneType::eEnding:
+        return dynamic_cast<SceneBase*>(new Ending());
 
     case eSceneType::eEnd:
 

@@ -173,7 +173,7 @@ eSceneType InGame::Update(float delta_second)
         }
 
         // Oキーが押された、または5秒（5000ミリ秒）経過したら次のwaveへ
-        if (input->GetKeyDown(KEY_INPUT_O) || GetNowCount() - enemy_clear_time >= 10000)
+        if (input->GetKeyDown(KEY_INPUT_O) || input->GetPadButtonState(PAD_INPUT_4) == eInputState::ePress || GetNowCount() - enemy_clear_time >= 10000)
         {
             wave_in_progress = false;  // 次のwaveを起動可能に
             enemy_clear_time = -1;     // リセットして次のwaveに備える
@@ -343,6 +343,13 @@ eSceneType InGame::Update(float delta_second)
     }
 
 
+    // Waveが9になったら終了シーンへ
+    if (current_wave >= 9 && enemy_list.empty())
+    {
+        return eSceneType::eEnding;
+    }
+
+
     return GetNowSceneType();
 }
 
@@ -481,15 +488,15 @@ void InGame::SpawnEnemiesForWave(int wave)
     // Waveごとに敵の数を変える
     switch (wave)
     {
-    case 0: num_enemies = 0; break;
-    case 1: num_enemies = 1; break;  
-    case 2: num_enemies = 5; break;  
-    case 3: num_enemies = 10; break; 
-    case 4: num_enemies = 15; break;
-    case 5: num_enemies = 20; break;
-    case 6: num_enemies = 25; break;
+    case 0: num_enemies = 1; break;
+    case 1: num_enemies = 5; break;  
+    case 2: num_enemies = 10; break;  
+    case 3: num_enemies = 15; break; 
+    case 4: num_enemies = 20; break;
+    case 5: num_enemies = 25; break;
+    case 6: num_enemies = 30; break;
     default:
-        num_enemies = 30; // wave4以降は固定で10体（例）
+        num_enemies = 30; // wave8以降は固定で30体（例）
         break;
     }
 

@@ -7,6 +7,7 @@ enum eSceneType
     eResult,
     eResult2,
     eHelp,
+    eEnding,
     eEnd,
     eTarot
 };
