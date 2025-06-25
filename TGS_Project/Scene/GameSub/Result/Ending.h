@@ -13,9 +13,12 @@ private:
 
 	int bgmHandle;
 
+
 public:
 	Ending();
 	virtual~Ending();
+
+	int fontHandle;
 
 	//‰Šú‰»ˆ—
 	virtual void Initialize() override;

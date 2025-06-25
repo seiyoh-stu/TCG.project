@@ -1,4 +1,4 @@
-#include "Castle.h"
+ï»¿#include "Castle.h"
 #include "DxLib.h"
 #include "../../Object/Enemy/Enemy.h"
 #include"../../Object/GameObjectManager.h"
@@ -24,7 +24,7 @@ void Castle::Initialize()
 
     
 
-    // ˆÊ’uA“–‚½‚è”»’è‚È‚Ç‰Šú’l‚ğİ’èi•K—v‚É‰‚¶‚Ä’²®j
+    // ä½ç½®ã€å½“ãŸã‚Šåˆ¤å®šãªã©åˆæœŸå€¤ã‚’è¨­å®šï¼ˆå¿…è¦ã«å¿œã˜ã¦èª¿æ•´ï¼‰
     location = { 50, 250 };
     z_layer = 1;
     is_mobility = false;
@@ -37,17 +37,17 @@ void Castle::Initialize()
 
     damage_cooldown = 1.0f;
 
-    collision.box_size = { 64, 400 };  // •128px, ‚‚³128px
+    collision.box_size = { 64, 400 };  // å¹…128px, é«˜ã•128px
 
 
-    hp = 500;// ‰Šú‰»
+    hp = 500;// åˆæœŸåŒ–
 
-    // ƒTƒCƒY‚â“–‚½‚è”»’è‚È‚Ç‚à•K—v‚É‰‚¶‚Ä‚±‚±‚Åİ’è‚·‚é
+    // ã‚µã‚¤ã‚ºã‚„å½“ãŸã‚Šåˆ¤å®šãªã©ã‚‚å¿…è¦ã«å¿œã˜ã¦ã“ã“ã§è¨­å®šã™ã‚‹
 }
 
 void Castle::Draw(const Vector2D& screen_offset) const
 {
-    Vector2D offset = { -200, -450 }; // ‰æ‘œ‚ÌˆÊ’u’²®—pƒIƒtƒZƒbƒg
+    Vector2D offset = { -200, -450 }; // ç”»åƒã®ä½ç½®èª¿æ•´ç”¨ã‚ªãƒ•ã‚»ãƒƒãƒˆ
     Vector2D draw_pos = location - screen_offset + offset;
 
     if (castle_graph != -1)
@@ -55,27 +55,97 @@ void Castle::Draw(const Vector2D& screen_offset) const
         DrawExtendGraph(
             draw_pos.x,
             draw_pos.y,
-            draw_pos.x + 300,   // •128ƒsƒNƒZƒ‹‚É’²®i—áj
-            draw_pos.y + 600,   // ‚‚³400ƒsƒNƒZƒ‹‚É’²®i—áj
+            draw_pos.x + 300,   // å¹…128ãƒ”ã‚¯ã‚»ãƒ«ã«èª¿æ•´ï¼ˆä¾‹ï¼‰
+            draw_pos.y + 600,   // é«˜ã•400ãƒ”ã‚¯ã‚»ãƒ«ã«èª¿æ•´ï¼ˆä¾‹ï¼‰
             castle_graph,
             TRUE);
     }
 
-    //// ƒXƒNƒ[ƒ‹‚Ì‰e‹¿‚ğó‚¯‚È‚¢•`‰æˆÊ’ui—áF‰æ–Ê‚Ì¶‰º‚ÉŒÅ’èj
-    //Vector2D fixed_screen_pos = { -200, -450 }; // ‰æ–Êã‚Ì•\¦À•W‚ğ’¼Úw’è
+    //// HPå‰²åˆã‹ã‚‰è‰²ã‚’æ±ºå®šï¼ˆç·‘â†’é»„â†’èµ¤ï¼‰
+    //float hp_ratio = (float)hp / 500.0f;  // æœ€å¤§HPãŒ500ã®å ´åˆ
+    //int r, g, b;
+
+    //if (hp_ratio > 0.5f) {
+    //    // ç·‘ã€œé»„ï¼ˆå®‰å…¨ã‚¾ãƒ¼ãƒ³ï¼‰
+    //    r = (int)(255 * (1.0f - hp_ratio) * 2); // 0ã€œ255
+    //    g = 255;
+    //}
+    //else {
+    //    // é»„ã€œèµ¤ï¼ˆå±é™ºã‚¾ãƒ¼ãƒ³ï¼‰
+    //    r = 255;
+    //    g = (int)(255 * hp_ratio * 2); // 255ã€œ0
+    //}
+    //b = 0;
+
+    //unsigned int hpColor = GetColor(r, g, b);
+
+    //// æ–‡å­—åˆ—ä½œæˆ
+    //char hpText[64];
+    //sprintf_s(hpText, sizeof(hpText), "ãƒ•ã‚§ãƒ³ã‚¹ã®HP: %d", hp);
+
+    // æç”»ï¼ˆãƒ•ã‚©ãƒ³ãƒˆãƒãƒ³ãƒ‰ãƒ«ã‚’ä½¿ã†ãªã‚‰ã“ã¡ã‚‰ã‚’ä½¿ã†ï¼‰
+    // DrawStringToHandle(20, 20, hpText, hpColor, fontHandle);
+
+    // ãƒ•ã‚©ãƒ³ãƒˆãƒãƒ³ãƒ‰ãƒ«æœªä½¿ç”¨ã®å ´åˆã¯ã“ã¡ã‚‰
+    //DrawFormatString(20, 20, hpColor, hpText);
+
+
+    // === HPãƒãƒ¼æç”» ===
+
+// HPãƒãƒ¼ã®è¡¨ç¤ºä½ç½®ã¨ã‚µã‚¤ã‚º
+    const int bar_x = 20;
+    const int bar_y = 30;
+    const int bar_width = 1230;
+    const int bar_height = 30;
+
+    // HPå‰²åˆï¼ˆæœ€å¤§HPã¯500ã¨ã—ã¦è¨ˆç®—ï¼‰
+    float hp_ratio = (float)hp / 500.0f;
+    if (hp_ratio < 0.0f) hp_ratio = 0.0f;
+    if (hp_ratio > 1.0f) hp_ratio = 1.0f;
+
+    // èƒŒæ™¯ï¼ˆç°è‰²ï¼‰
+    DrawBox(bar_x, bar_y, bar_x + bar_width, bar_y + bar_height, GetColor(100, 100, 100), TRUE);
+
+    // ç¾åœ¨HPãƒãƒ¼ï¼ˆè‰²ã¯å‰²åˆã«å¿œã˜ã¦ç·‘â†’èµ¤ï¼‰
+    int r, g;
+    if (hp_ratio > 0.5f) {
+        r = (int)(255 * (1.0f - hp_ratio) * 2);
+        g = 255;
+    }
+    else {
+        r = 255;
+        g = (int)(255 * hp_ratio * 2);
+    }
+    unsigned int bar_color = GetColor(r, g, 0);
+
+    // å®Ÿéš›ã®HPãƒãƒ¼æç”»
+    int current_bar_width = (int)(bar_width * hp_ratio);
+    DrawBox(bar_x, bar_y, bar_x + current_bar_width, bar_y + bar_height, bar_color, TRUE);
+
+    // HPæ•°å€¤è¡¨ç¤ºï¼ˆã‚ªãƒ—ã‚·ãƒ§ãƒ³ï¼‰
+    char hpText[64];
+    sprintf_s(hpText, sizeof(hpText), "ãƒ•ã‚§ãƒ³ã‚¹ã®HP: %d / 500", hp);
+    DrawFormatString(bar_x, bar_y - 20, GetColor(255, 255, 255), hpText);
+
+
+
+
+
+    //// ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«ã®å½±éŸ¿ã‚’å—ã‘ãªã„æç”»ä½ç½®ï¼ˆä¾‹ï¼šç”»é¢ã®å·¦ä¸‹ã«å›ºå®šï¼‰
+    //Vector2D fixed_screen_pos = { -200, -450 }; // ç”»é¢ä¸Šã®è¡¨ç¤ºåº§æ¨™ã‚’ç›´æ¥æŒ‡å®š
 
     //if (castle_graph != -1)
     //{
     //    DrawExtendGraph(
     //        fixed_screen_pos.x,
     //        fixed_screen_pos.y,
-    //        fixed_screen_pos.x + 300,  // •
-    //        fixed_screen_pos.y + 600,  // ‚‚³
+    //        fixed_screen_pos.x + 300,  // å¹…
+    //        fixed_screen_pos.y + 600,  // é«˜ã•
     //        castle_graph,
     //        TRUE);
     //}
 
-    // ¦ ƒfƒoƒbƒO—p‚Ì“–‚½‚è”»’è•\¦i•K—v‚È‚çj
+    // â€» ãƒ‡ãƒãƒƒã‚°ç”¨ã®å½“ãŸã‚Šåˆ¤å®šè¡¨ç¤ºï¼ˆå¿…è¦ãªã‚‰ï¼‰
     // DrawBox(
     //     draw_pos.x - collision.box_size.x,
     //     draw_pos.y - collision.box_size.y,
@@ -90,7 +160,7 @@ void Castle::Draw(const Vector2D& screen_offset) const
 
     //const int width = 200;
     //const int height = 500;
-    //unsigned int color = GetColor(255, 0, 0); // ÔF
+    //unsigned int color = GetColor(255, 0, 0); // èµ¤è‰²
 
     //DrawBox(draw_pos.x, draw_pos.y, draw_pos.x + width, draw_pos.y + height, color, TRUE);
 
@@ -116,12 +186,12 @@ void Castle::Draw(const Vector2D& screen_offset) const
 
 void Castle::Update(float delta_second) 
 { 
-    // Še“G‚ÌƒN[ƒ‹ƒ_ƒEƒ“ŠÔ‚ği‚ß‚é
+    // å„æ•µã®ã‚¯ãƒ¼ãƒ«ãƒ€ã‚¦ãƒ³æ™‚é–“ã‚’é€²ã‚ã‚‹
     for (auto& pair : enemy_cooldowns)
     {
         pair.second += delta_second;
     }
-    // ƒN[ƒ‹ƒ_ƒEƒ“‚ği‚ß‚é
+    // ã‚¯ãƒ¼ãƒ«ãƒ€ã‚¦ãƒ³ã‚’é€²ã‚ã‚‹
     if (damage_cooldown < DAMAGE_INTERVAL)
     {
         damage_cooldown += delta_second;
@@ -138,9 +208,9 @@ void Castle::OnHitCollision(GameBase* hit_object)
 
     if (hit_object->GetCollision().object_type == eEnemy)
     {
-        float& cooldown = enemy_cooldowns[hit_object];  // “G‚²‚Æ‚ÌƒN[ƒ‹ƒ_ƒEƒ“
+        float& cooldown = enemy_cooldowns[hit_object];  // æ•µã”ã¨ã®ã‚¯ãƒ¼ãƒ«ãƒ€ã‚¦ãƒ³
 
-        const float DAMAGE_INTERVAL = 1.0f; // •b’PˆÊ‚Å‚Ìƒ_ƒ[ƒWŠÔŠui”CˆÓj
+        const float DAMAGE_INTERVAL = 1.0f; // ç§’å˜ä½ã§ã®ãƒ€ãƒ¡ãƒ¼ã‚¸é–“éš”ï¼ˆä»»æ„ï¼‰
 
         if (cooldown >= DAMAGE_INTERVAL)
         {
@@ -159,9 +229,9 @@ void Castle::OnHitCollision(GameBase* hit_object)
 
     //if (damage_cooldown <= 0.0f && hp > 0)
     //{
-    //    hp--; // HP‚ğ1Œ¸‚ç‚·
+    //    hp--; // HPã‚’1æ¸›ã‚‰ã™
     //    hit = true;
-    //    //damage_cooldown = DAMAGE_INTERVAL; // ƒ_ƒ[ƒW‚ğó‚¯‚½‚çƒN[ƒ‹ƒ^ƒCƒ€ŠJn
+    //    //damage_cooldown = DAMAGE_INTERVAL; // ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’å—ã‘ãŸã‚‰ã‚¯ãƒ¼ãƒ«ã‚¿ã‚¤ãƒ é–‹å§‹
     //    printf("Castle HP: %d\n", hp);
     //}
 }

@@ -20,6 +20,10 @@ void Ending::Initialize()
 	cursor_number = 0;
 	cursor_x = 100;  //カーソルの初期位置
 
+	// フォントサイズ32、太さ6、ゴシック体のフォントを作成
+	fontHandle = CreateFontToHandle("ＭＳ ゴシック", 32, 6, DX_FONTTYPE_ANTIALIASING);
+
+
 	// BGM 読み込みと再生
 	bgmHandle = LoadSoundMem("Resource/Sounds/オープニング.mp3");
 	if (bgmHandle != -1)
@@ -75,10 +79,15 @@ void Ending::Draw() const
 	{
 		DrawExtendGraph(0, 0, 1280, 720, EndImageHandle, TRUE);
 
-		// カーソル描画（x=100は仮、必要に応じて調整）
-		// DrawExtendGraph(1000, cursor_x, 900, cursor_x + 110, Result_arrow, TRUE);
-		DrawExtendGraph(cursor_x, 450, cursor_x + 100, 550, End_arrow, TRUE);
+		// メッセージ表示
+		const char* message = "すべてのウェーブを乗り越えた！";
+		int text_width = GetDrawStringWidthToHandle(message, strlen(message), fontHandle);
+		DrawStringToHandle((1280 - text_width) / 2, 90, message, GetColor(255, 255, 255), fontHandle);
 	}
+
+	// カーソル描画（x=100は仮、必要に応じて調整）
+		// DrawExtendGraph(1000, cursor_x, 900, cursor_x + 110, Result_arrow, TRUE);
+	DrawExtendGraph(cursor_x, 450, cursor_x + 100, 550, End_arrow, TRUE);
 
 	//DrawFormatString(10, 10, GetColor(255, 255, 255), "リザルト画面です");
 }
@@ -98,6 +107,10 @@ void Ending::Finalize()
 	{
 		StopSoundMem(bgmHandle);
 		DeleteSoundMem(bgmHandle);
+	}
+	if (fontHandle != -1)
+	{
+		DeleteFontToHandle(fontHandle);
 	}
 }
 
