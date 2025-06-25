@@ -96,6 +96,9 @@ void InGame::Initialize()
     g_sharedTarot->SetPlayer(player);
 
     ticket = 0;
+
+    large_font_handle = CreateFontToHandle(NULL, 48, 3); // フォント名 NULL ＝デフォルト, サイズ48px, 太さ3
+
 }
 
 
@@ -170,6 +173,12 @@ eSceneType InGame::Update(float delta_second)
         if (enemy_clear_time == -1)
         {
             enemy_clear_time = GetNowCount();  // 現在のミリ秒を取得
+            show_enemy_clear_message = true;
+            enemy_clear_display_start_time = enemy_clear_time; // 表示開始時刻を記録
+
+            // 待機演出を開始
+            waiting_for_next_wave = true;
+            wave_wait_start_time = enemy_clear_time;
         }
 
         // Oキーが押された、または5秒（5000ミリ秒）経過したら次のwaveへ
@@ -177,6 +186,7 @@ eSceneType InGame::Update(float delta_second)
         {
             wave_in_progress = false;  // 次のwaveを起動可能に
             enemy_clear_time = -1;     // リセットして次のwaveに備える
+            waiting_for_next_wave = false;
         }
     }
     else
@@ -401,6 +411,52 @@ void InGame::Draw() const
     DrawFormatString(10, 140, GetColor(255, 200, 0), "Wave: %d", current_wave);
     DrawFormatString(10, 160, GetColor(255, 200, 0), "Power_Up_Ticket: %d", ticket);
 
+
+    if (show_enemy_clear_message)
+    {
+        int elapsed = GetNowCount() - enemy_clear_display_start_time;
+        if (elapsed < ENEMY_CLEAR_DISPLAY_DURATION)
+        {
+            const char* message = "敵をすべて倒した！";
+            int text_width = GetDrawStringWidthToHandle(message, strlen(message), large_font_handle);
+            int x = (1300 - text_width) / 2;  // 画面幅1280の場合
+            int y = 160;
+
+            DrawStringToHandle(x, y, message, GetColor(255, 100, 100), large_font_handle);
+        }
+        else
+        {
+            show_enemy_clear_message = false;
+        }
+    }
+
+
+    if (waiting_for_next_wave)
+    {
+        int elapsed = GetNowCount() - wave_wait_start_time;
+        if (elapsed < WAVE_WAIT_DURATION)
+        {
+            const char* wait_msg = "ウェーブ開始まで待つかYボタンで開始";
+
+            const int blink_cycle_ms = 600;
+            bool should_draw = (GetNowCount() / (blink_cycle_ms / 2)) % 2 == 0;
+
+            if (should_draw)
+            {
+                int text_width = GetDrawStringWidth(wait_msg, strlen(wait_msg));
+                int screen_width = 1280;
+                int screen_height = 320;
+                DrawFormatString((screen_width - text_width) / 2, screen_height / 2 + 80, GetColor(255, 255, 0), wait_msg);
+            }
+        }
+        else
+        {
+            waiting_for_next_wave = false;  // 時間経過で非表示に
+        }
+    }
+
+
+
 }
 
 
@@ -553,6 +609,9 @@ void InGame::Finalize()
     }
     // 実際に delete してリストから削除する
     manager->CheckDestroyObject();
+
+    DeleteFontToHandle(large_font_handle);
+
 }
 
 

@@ -101,6 +101,25 @@ public:
     // 現在のシーンタイプを取得
     virtual eSceneType GetNowSceneType() const override;
 
+    mutable bool show_enemy_clear_message = false;
+    mutable int enemy_clear_display_start_time = 0;
+    const int ENEMY_CLEAR_DISPLAY_DURATION = 3000; // 表示時間（ミリ秒）
+
+    int large_font_handle = -1;
+
+    // 点滅周期（ミリ秒単位）
+    const int blink_cycle_ms = 800;  // 0.8秒周期
+
+    mutable bool waiting_for_next_wave = false;
+    mutable int wave_wait_start_time = 0;
+    const int WAVE_WAIT_DURATION = 3000; // 3秒待機
+
+    //// 現在時刻（ミリ秒）
+    //int now_time = GetNowCount();
+
+    //// 表示するかどうか（0.8秒周期でON/OFF）
+    //bool should_draw = (now_time / (blink_cycle_ms / 2)) % 2 == 0;
+
     //// Playerクラスのインスタンスへのアクセス (必要であれば)
     //Player* GetPlayer() const { return player.get(); }
 
