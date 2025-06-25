@@ -67,10 +67,11 @@ void InGame::Initialize()
     //gbmm->CreateGameBase<Enemy3>(Vector2D(2000, 500));
     //gbmm->CreateGameBase<Enemy4>(Vector2D(2500, 500));
 
-    back_image = LoadGraph("Resource/Images/Ingame.png");
+    back_image = LoadGraph("Resource/Images/Ingame2.png");
     bullet_Frame = LoadGraph("Resource/Images/Frame1-preview.png");
     reload_image= LoadGraph("Resource/Images/reload.png");
     dansuu_image= LoadGraph("Resource/Images/Magazine.png");
+    ticket_image= LoadGraph("Resource/Images/PowerUP.png");
 
 
     scroll = 0;
@@ -368,18 +369,17 @@ eSceneType InGame::Update(float delta_second)
 
 void InGame::Draw() const
 {
-    DrawRotaGraph(1180 - scroll, 100, 1.5, 0.0, back_image, TRUE);
+    DrawRotaGraph(1080 - scroll, 100, 1.5, 0.0, back_image, TRUE);
 
     Vector2D screen_offset(scroll, 0);
 
     GameBaseManager::GetInstance()->DrawWithOffset(screen_offset);
 
     //城のHP描画
-    DrawFormatString(10, 60, GetColor(255, 255, 255), "Castle HP: %d", castle->GetHP());
+    /*DrawFormatString(10, 60, GetColor(255, 255, 255), "Castle HP: %d", castle->GetHP());*/
 
 
-    DrawGraph(870, 500, bullet_Frame, TRUE);
-
+    DrawGraph(870, 500, bullet_Frame, TRUE);//バレット
 
     //弾の残弾数表示
     //DrawFormatString(1100, 660, GetColor(255, 255, 255), "弾の残弾数: %d", bullet_magazine);
@@ -404,12 +404,21 @@ void InGame::Draw() const
     //スコア表示
     if (score != nullptr) 
     {
-        DrawFormatString(10, 80, GetColor(255, 255, 255), "Score: %d", score->GetScore());
+       /* DrawFormatString(10, 80, GetColor(255, 255, 255), "Score: %d", score->GetScore());*/
+        DrawFormatString(1100, 80, GetColor(255, 255, 255), "Score: %d", score->GetScore());
     }
 
     //ウェーブ表示
-    DrawFormatString(10, 140, GetColor(255, 200, 0), "Wave: %d", current_wave);
-    DrawFormatString(10, 160, GetColor(255, 200, 0), "Power_Up_Ticket: %d", ticket);
+    if (wave_display_start_time != -1 &&
+        GetNowCount() - wave_display_start_time < WAVE_DISPLAY_DURATION)
+    {
+        DrawFormatStringToHandle(550, 140, GetColor(255, 255, 255), large_font_handle, "ステージ: %d", current_wave);
+    }
+
+    DrawGraph(-113, -70, bullet_Frame, TRUE);//チケット
+    DrawRotaGraph(65, 105, 0.1, 0.0, ticket_image, TRUE);
+    //チケット表示
+    DrawFormatString(123, 100, GetColor(255, 255, 255), "Power_Ticket: %d", ticket);
 
 
     if (show_enemy_clear_message)
@@ -515,6 +524,10 @@ void InGame::StartNextWave()
         defeated_enemies = 0;
         wave_timer = 0.0f;
         wave_in_progress = true;
+
+        // 表示用のタイムスタンプを記録
+        wave_display_start_time = GetNowCount();
+
         SpawnEnemiesForWave(current_wave);
         current_wave++;
         ticket++;
