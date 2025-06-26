@@ -397,7 +397,7 @@ void InGame::Draw() const
     }
     else
     {
-        DrawFormatString(1115, 670, GetColor(255, 255, 255), "弾の残弾数: %d", bullet_magazine);
+        DrawFormatString(1115, 670, GetColor(255, 255, 255), "弾の残弾数:%d", bullet_magazine);
         DrawRotaGraph(1050, 675, 0.1, 0.0, dansuu_image, TRUE);
     }
 
@@ -406,20 +406,20 @@ void InGame::Draw() const
     if (score != nullptr) 
     {
        /* DrawFormatString(10, 80, GetColor(255, 255, 255), "Score: %d", score->GetScore());*/
-        DrawFormatString(1100, 80, GetColor(255, 255, 255), "Score: %d", score->GetScore());
+        DrawFormatString(1100, 80, GetColor(255, 255, 255), "スコア:%d", score->GetScore());
     }
 
     //ウェーブ表示
     if (wave_display_start_time != -1 &&
         GetNowCount() - wave_display_start_time < WAVE_DISPLAY_DURATION)
     {
-        DrawFormatStringToHandle(550, 140, GetColor(255, 255, 255), large_font_handle, "ステージ: %d", current_wave);
+        DrawFormatStringToHandle(500, 180, GetColor(255, 255, 255), large_font_handle, "ウェーブ:%d", current_wave);
     }
 
     DrawGraph(-113, -70, bullet_Frame, TRUE);//チケット
     DrawRotaGraph(65, 105, 0.1, 0.0, ticket_image, TRUE);
     //チケット表示
-    DrawFormatString(123, 100, GetColor(255, 255, 255), "Power_Ticket: %d", ticket);
+    DrawFormatString(123, 100, GetColor(255, 255, 255), "強化チケット:%d", ticket);
 
 
     if (show_enemy_clear_message)
@@ -430,7 +430,7 @@ void InGame::Draw() const
             const char* message = "敵をすべて倒した！";
             int text_width = GetDrawStringWidthToHandle(message, strlen(message), large_font_handle);
             int x = (1300 - text_width) / 2;  // 画面幅1280の場合
-            int y = 160;
+            int y = 120;
 
             DrawStringToHandle(x, y, message, GetColor(255, 100, 100), large_font_handle);
         }
@@ -570,13 +570,13 @@ void InGame::SpawnEnemiesForWave(int wave)
         break;
     }
 
-    int e1 = GetRand(900) + 300;  // 1500〜3000のランダムなX座標
+    int e1 = GetRand(200) + 200;  // 1500〜3000のランダムなX座標
 
-    int e2 = GetRand(900) + 300;  // 1500〜3000のランダムなX座標
+    int e2 = GetRand(200) + 200;  // 1500〜3000のランダムなX座標
 
-    int e3 = GetRand(900) + 300;  // 1500〜3000のランダムなX座標
+    int e3 = GetRand(200) + 200;  // 1500〜3000のランダムなX座標
 
-    int e4 = GetRand(900) + 300;  // 1500〜3000のランダムなX座標
+    int e4 = GetRand(200) + 200;  // 1500〜3000のランダムなX座標
 
     for (int i = 0; i < num_enemies; i++)
     {
@@ -587,13 +587,13 @@ void InGame::SpawnEnemiesForWave(int wave)
         int randY2 = GetRand(100) + 200;  // Y座標を300〜500の範囲にランダム化
 
         if (enemy_type < 40)
-            enemy_list.push_back(gbmm->CreateGameBase<Enemy>(Vector2D(1260 + (i * e1), randY)));
+            enemy_list.push_back(gbmm->CreateGameBase<Enemy>(Vector2D(1300 + (i * e1), randY)));
         else if (enemy_type < 75)
-            enemy_list.push_back(gbmm->CreateGameBase<Enemy2>(Vector2D(1260 + (i * e2), randY)));
+            enemy_list.push_back(gbmm->CreateGameBase<Enemy2>(Vector2D(1300 + (i * e2), randY)));
         else if (enemy_type < 90)
-            enemy_list.push_back(gbmm->CreateGameBase<Enemy3>(Vector2D(1260 + (i * e3), randY2)));
+            enemy_list.push_back(gbmm->CreateGameBase<Enemy3>(Vector2D(1300 + (i * e3), randY2)));
         else
-            enemy_list.push_back(gbmm->CreateGameBase<Enemy4>(Vector2D(1260 + (i * e4), randY)));
+            enemy_list.push_back(gbmm->CreateGameBase<Enemy4>(Vector2D(1300 + (i * e4), randY)));
     }
 }
 
