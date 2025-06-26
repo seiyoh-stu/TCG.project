@@ -156,6 +156,7 @@ eSceneType InGame::Update(float delta_second)
         if (ticket > 0)
         {
             cbullet_shot = true;
+            ticket--;
         }
         
     }
@@ -383,10 +384,10 @@ void InGame::Draw() const
 
     //弾の残弾数表示
     //DrawFormatString(1100, 660, GetColor(255, 255, 255), "弾の残弾数: %d", bullet_magazine);
-    //if (bullet_magazine == 0)
+    //if (bullet_magazine == 0)a
     //{
     //    // クールタイムの文
-    //    DrawFormatString(1100, 660, GetColor(255, 50, 0), "リロード");
+    //    DrawFormatString(1100, 660, GetColor(255, 50, 0), "リロード")
     //}
 
     if (a == true)  // リロード中かどうかのフラグ
