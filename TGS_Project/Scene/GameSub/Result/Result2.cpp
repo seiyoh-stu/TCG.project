@@ -49,7 +49,7 @@ eSceneType Result2::Update(float delta_second)
 	}
 
 	// 決定（スペース or Bボタン）
-	if (input->GetKeyDown(KEY_INPUT_SPACE) || input->GetPadButtonState(PAD_INPUT_2) == eInputState::ePress)
+	if (input->GetKeyDown(KEY_INPUT_SPACE) || input->GetPadButtonState(PAD_INPUT_RTRIGGER) == eInputState::ePress)
 	{
 		switch (cursor_number)
 		{

@@ -31,6 +31,7 @@ void Enemy3::Initialize()
 	ResourceManager* rm = ResourceManager::GetInstance();
 	std::vector<int> walk3_frames = rm->GetImages("Resource/Images/Enemy/zombie_5/Walk.png", 10, 10, 1, 96, 96);
 	std::vector<int> attack3_frames = rm->GetImages("Resource/Images/Enemy/zombie_5/Attack_1.png", 4, 4, 1, 96, 96);
+	std::vector<int> die_frames = rm->GetImages("Resource/Images/Enemy/zombie_5/Dead.png", 5, 5, 1, 96, 96);
 
 
 	for (int i = 0; i < 10; ++i)
@@ -42,6 +43,12 @@ void Enemy3::Initialize()
 	{
 		zonbi3_attack[i] = attack3_frames[i];
 	}
+
+	for (int i = 0; i < 5; ++i)
+	{
+		zonbi_die[i] = die_frames[i];
+	}
+
 
 	zonbi3_image = zonbi3_walk[0];  // 最初のアニメフレーム
 
@@ -55,12 +62,7 @@ void Enemy3::Initialize()
 	hp = MAX_HP;
 
 	//0626
-	std::vector<int> die_frames = rm->GetImages("Resource/Images/Enemy/Zombie_5/Dead.png", 5, 5, 1, 128, 128);
-
-	for (int i = 0; i < 5; ++i)
-	{
-		zonbi_die[i] = die_frames[i];
-	}
+	
 
 	zonbi_die_index = 4;
 }
