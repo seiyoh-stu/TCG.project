@@ -38,10 +38,14 @@ public:
 	// アニメーション関係
 	int zonbi_walk[10];
 	int zonbi_attack[5];
-
-
+	
 	int zonbi_walk_index;
 	int zonbi_attack_index;
+
+	//0626
+	int zonbi_die_index;
+	int zonbi_die[5];
+
 	int animation_count;
 	int zonbi_image;
 

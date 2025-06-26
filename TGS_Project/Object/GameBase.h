@@ -38,6 +38,9 @@ protected:
 
 public:
     bool is_dead_ = false;   //死亡フラグ
+    float dead_timer_ = 0.0f;      // 死アニメ再生用タイマー
+    bool is_dead_anim_played_ = false; // 死アニメ再生中フラグ
+    bool is_reverse_anim_ = false;
 
     virtual int GetAttackPower() const { return 0; } // デフォルトは攻撃力0
 

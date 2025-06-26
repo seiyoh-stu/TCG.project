@@ -58,6 +58,16 @@ void Enemy2::Initialize()
 
 	location.x = enemy2_x;
 	location.y = enemy2_y;
+
+	//0626
+	std::vector<int> die_frames = rm->GetImages("Resource/Images/Enemy/Zombie_4/Dead.png", 5, 5, 1, 128, 128);
+
+	for (int i = 0; i < 5; ++i)
+	{
+		zonbi_die[i] = die_frames[i];
+	}
+
+	zonbi_die_index = 4;
 }
 
 void Enemy2::Update(float delta_second)
@@ -102,24 +112,26 @@ void Enemy2::Finalize()
 void Enemy2::OnHitCollision(GameBase* hit_object)
 {
 
+	// 死亡済みの場合は何も処理しない
+	if (is_dead_) return;
+
 	if (hit_object->GetCollision().object_type == eBullet)
 	{
 		int damage = 1;
-		if (damage_boost)
-		{
-			damage = 2;
-		}
-
+		if (damage_boost) damage = 2;
 		hp -= damage;
 
-		if (hp <= 0)
+		if (hp <= 0 && !is_dead_)
 		{
+			hp = 0;
 			is_dead_ = true;
-			GameBaseManager::GetInstance()->DestroyGameBase(this);
+			is_dead_anim_played_ = true;
+			zonbi_die_index = 4;
+			animation2_count = 0;
 			ScoreManager::GetInstance()->AddScore(200);
+			// Destroyはアニメ再生終了後に呼ぶ
 		}
 	}
-
 	if (hit_object->GetCollision().object_type == eCastle)
 	{
 		speed2 = 0;
@@ -137,6 +149,28 @@ void Enemy2::Movement()
 void Enemy2::AnimeControl()
 {
 	animation2_count++;
+
+
+	// 死亡アニメ再生中
+	if (is_dead_anim_played_)
+	{
+		if (animation2_count >= 10)
+		{
+			animation2_count = 0;
+			zonbi_die_index--;
+			if (zonbi_die_index < 0)
+			{
+				// 死アニメ5枚目が終わったら即Destroy
+				is_dead_anim_played_ = false;
+				GameBaseManager::GetInstance()->DestroyGameBase(this);
+				return;
+			}
+			zonbi2_image = zonbi_die[zonbi_die_index];
+		}
+		return;
+	}
+
+
 
 	if (is_attacking2) // 攻撃中の場合
 	{
