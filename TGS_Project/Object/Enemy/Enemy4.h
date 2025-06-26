@@ -36,6 +36,10 @@ public:
 	int zonbi4_walk[10];
 	int zonbi4_attack[4];
 
+	//0626
+	int zonbi_die_index;
+	int zonbi_die[5];
+
 
 	int zonbi4_walk_index;
 	int zonbi4_attack_index;
