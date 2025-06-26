@@ -5,6 +5,24 @@
 
 class Bullet : public GameBase
 {
+private:
+
+    int speed_;
+    bool is_active_;
+    bool move_left_;  // ← 追加、左向きかどうか
+    int damage = 1;
+
+
+    int bullet_image = -1;         // 通常弾の画像（一枚絵）
+    int explosion_frames[4];       // 爆発アニメーション画像
+    int explosion_index = 0;
+    int explosion_count = 0;
+    bool is_exploding = false;
+
+    void AnimeControl(); // 爆発時のみ使用
+
+    //Player* player;
+
 public:
     Bullet(); // デフォルトコンストラクタ
     void Initialize() override; // 使用しないなら削除してもOK
@@ -35,15 +53,5 @@ public:
 
     void SetDamage(int dmg) { damage = dmg; }
     int GetDamage() const { return damage; }
-
-
-private:
-
-    int speed_;
-    bool is_active_;
-    bool move_left_;  // ← 追加、左向きかどうか
-    int damage = 1;
-
-    //Player* player;
 };
 
