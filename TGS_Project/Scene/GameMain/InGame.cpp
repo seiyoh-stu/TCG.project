@@ -421,7 +421,14 @@ void InGame::Draw() const
         if (elapsed < WAVE_DISPLAY_DURATION)
         {
             char wave_text[64];
-            snprintf(wave_text, sizeof(wave_text), "ウェーブ:%d", current_wave);
+            if (current_wave >= 9)
+            {
+                snprintf(wave_text, sizeof(wave_text), "最終ウェーブ");
+            }
+            else
+            {
+                snprintf(wave_text, sizeof(wave_text), "ウェーブ:%d", current_wave);
+            }
 
             int text_width = GetDrawStringWidthToHandle(wave_text, strlen(wave_text), large_font_handle);
 
@@ -472,8 +479,18 @@ void InGame::Draw() const
     DrawRotaGraph(65, 105, 0.1, 0.0, ticket_image, TRUE);
     //チケット表示
     DrawFormatString(123, 100, GetColor(255, 255, 255), "強化チケット:%d", ticket);
+
     //ウェーブ表示
-    DrawFormatString(50, 150, GetColor(255, 255, 255), "現在のウェーブ:%d", current_wave);
+    //ウェーブ表示（左上の固定表示）
+    if (current_wave >= 9)
+    {
+        DrawFormatString(50, 150, GetColor(255, 255, 255), "現在のウェーブ: 最終ウェーブ");
+    }
+    else
+    {
+        DrawFormatString(50, 150, GetColor(255, 255, 255), "現在のウェーブ:%d", current_wave);
+    }
+
 
     if (show_enemy_clear_message)
     {
