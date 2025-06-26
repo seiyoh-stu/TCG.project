@@ -8,6 +8,11 @@
 #define KEYCODE_MAX 256
 #define DEADZONE 10000.0f
 
+#define PAD_INPUT_LB         0x0100  // LBボタン（左バンパー）
+#define PAD_INPUT_RB         0x0200  // RBボタン（右バンパー）
+#define PAD_INPUT_LTRIGGER   0x0400  // LTトリガー
+#define PAD_INPUT_RTRIGGER   0x0800  // RTトリガー
+
 class InputControl
 {
 private:

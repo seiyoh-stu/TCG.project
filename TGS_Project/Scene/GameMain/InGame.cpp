@@ -111,7 +111,7 @@ eSceneType InGame::Update(float delta_second)
 
 
 //プレイヤーが強化しているように見せる処理ーーーーーーーーーーー
-    if (InputControl::GetInstance()->GetKey(KEY_INPUT_1))
+    if (InputControl::GetInstance()->GetKey(KEY_INPUT_1)|| input->GetPadButtonState(PAD_INPUT_1) == eInputState::ePress)
     {
         for (int i = 0; i < enemy_list.size(); i++)
         {
@@ -128,7 +128,7 @@ eSceneType InGame::Update(float delta_second)
         }
     }
 
-    if (input->GetKeyDown(KEY_INPUT_2))
+    if (input->GetKeyDown(KEY_INPUT_2) ||input->GetPadButtonState(PAD_INPUT_2) == eInputState::ePress)
     {
         if (ticket > 0)
         {
@@ -138,7 +138,7 @@ eSceneType InGame::Update(float delta_second)
         
     }
 
-    if (input->GetKeyDown(KEY_INPUT_3))
+    if (input->GetKeyDown(KEY_INPUT_3)|| input->GetPadButtonState(PAD_INPUT_3) == eInputState::ePress)
     {
         if (ticket > 0)
         {
@@ -151,7 +151,7 @@ eSceneType InGame::Update(float delta_second)
    
     // Update()の中、キー入力判定で追加
 // 4キーが押されたらサブショットモードON
-    if (input->GetKeyDown(KEY_INPUT_4)) 
+    if (input->GetKeyDown(KEY_INPUT_4)|| input->GetPadButtonState(PAD_INPUT_4) == eInputState::ePress)
     {
         if (ticket > 0)
         {
@@ -184,7 +184,7 @@ eSceneType InGame::Update(float delta_second)
         }
 
         // Oキーが押された、または5秒（5000ミリ秒）経過したら次のwaveへ
-        if (input->GetKeyDown(KEY_INPUT_O) || input->GetPadButtonState(PAD_INPUT_4) == eInputState::ePress || GetNowCount() - enemy_clear_time >= 10000)
+        if (input->GetKeyDown(KEY_INPUT_O) || input->GetPadButtonState(PAD_INPUT_LB) == eInputState::ePress || GetNowCount() - enemy_clear_time >= 10000)
         {
             wave_in_progress = false;  // 次のwaveを起動可能に
             enemy_clear_time = -1;     // リセットして次のwaveに備える
@@ -215,7 +215,7 @@ eSceneType InGame::Update(float delta_second)
     b = true;
 
 	//リロード処理----------------
-    if (input->GetKeyDown(KEY_INPUT_K) || input->GetPadButtonState(PAD_INPUT_3) == eInputState::ePress)
+    if (input->GetKeyDown(KEY_INPUT_K) || input->GetPadButtonState(PAD_INPUT_LTRIGGER) == eInputState::ePress)
     {
         a = true;
         bullet_magazine = 0;
