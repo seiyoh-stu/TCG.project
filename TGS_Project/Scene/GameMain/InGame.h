@@ -75,7 +75,7 @@ private:
     // ウェーブ開始時刻
     int wave_display_start_time = -1;
     // ウェーブ表示の継続時間
-    static constexpr int WAVE_DISPLAY_DURATION = 3000;//今は三秒
+    static constexpr int WAVE_DISPLAY_DURATION = 6000;//今は三秒
     
 public:
 
@@ -107,7 +107,7 @@ public:
 
     mutable bool show_enemy_clear_message = false;
     mutable int enemy_clear_display_start_time = 0;
-    const int ENEMY_CLEAR_DISPLAY_DURATION = 3000; // 表示時間（ミリ秒）
+    const int ENEMY_CLEAR_DISPLAY_DURATION = 2000; // 表示時間（ミリ秒）
 
     int large_font_handle = -1;
     // 点滅周期（ミリ秒単位）

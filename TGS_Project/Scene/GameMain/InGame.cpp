@@ -354,6 +354,11 @@ eSceneType InGame::Update(float delta_second)
         }
     }
 
+    if (wave_display_start_time != -1 &&
+        GetNowCount() - wave_display_start_time >= WAVE_DISPLAY_DURATION)
+    {
+        wave_display_start_time = -1;
+    }
 
     // Waveが9になったら終了シーンへ
     if (current_wave >= 9 && enemy_list.empty())
@@ -406,21 +411,69 @@ void InGame::Draw() const
     if (score != nullptr) 
     {
        /* DrawFormatString(10, 80, GetColor(255, 255, 255), "Score: %d", score->GetScore());*/
-        DrawFormatString(1100, 80, GetColor(255, 255, 255), "スコア:%d", score->GetScore());
+        DrawFormatString(300, 80, GetColor(255, 255, 255), "スコア:%d", score->GetScore());
     }
 
     //ウェーブ表示
-    if (wave_display_start_time != -1 &&
-        GetNowCount() - wave_display_start_time < WAVE_DISPLAY_DURATION)
+    if (wave_display_start_time != -1)
     {
-        DrawFormatStringToHandle(500, 180, GetColor(255, 255, 255), large_font_handle, "ウェーブ:%d", current_wave);
+        int elapsed = GetNowCount() - wave_display_start_time;
+        if (elapsed < WAVE_DISPLAY_DURATION)
+        {
+            char wave_text[64];
+            snprintf(wave_text, sizeof(wave_text), "ウェーブ:%d", current_wave);
+
+            int text_width = GetDrawStringWidthToHandle(wave_text, strlen(wave_text), large_font_handle);
+
+            // 初期位置は右端 + 少し外（1280 + 50）、速度は1pxあたりの時間
+            // float scroll_speed = 0.2f; // 小さいほどゆっくり
+            /*int start_x = 1280;
+
+            int elapsed = GetNowCount() - wave_display_start_time;
+            float scroll_speed = 1.f;
+            int x = static_cast<int>(start_x - elapsed * scroll_speed);*/
+
+            // ----------- 位置と速度制御部分 -------------
+            float base_speed = 1.8f;
+            int start_x = 1280;
+            float x = (float)start_x;
+
+            // カスタムスクロール距離
+            float distance = 0.0f;
+
+            for (int t = 0; t < elapsed; ++t)
+            {
+                // 仮のx位置で速度決定
+                float temp_x = start_x - distance;
+
+                float speed = base_speed;
+
+                // 中央付近では速度を遅くする
+                if (temp_x < 600 && temp_x > 500)
+                {
+                    speed *= 0.05f;  // 60%遅くする
+                }
+
+                distance += speed;
+            }
+
+            x = start_x - distance;
+
+            // ----------- 描画 -------------
+            if (x + text_width > 0)  // 画面外に完全に出たら描画しない
+            {
+                DrawStringToHandle((int)x, 180, wave_text, GetColor(255, 255, 255), large_font_handle);
+            }
+        }
     }
+
 
     DrawGraph(-113, -70, bullet_Frame, TRUE);//チケット
     DrawRotaGraph(65, 105, 0.1, 0.0, ticket_image, TRUE);
     //チケット表示
     DrawFormatString(123, 100, GetColor(255, 255, 255), "強化チケット:%d", ticket);
-
+    //ウェーブ表示
+    DrawFormatString(50, 150, GetColor(255, 255, 255), "現在のウェーブ:%d", current_wave);
 
     if (show_enemy_clear_message)
     {
