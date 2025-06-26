@@ -50,7 +50,7 @@ void InGame::Initialize()
     int e_randomNumber4 = GetRand(1);  // 0〜1 の値
 
     GameBaseManager* gbmm = GameBaseManager::GetInstance();
-    player = gbmm->CreateGameBase<Player>(Vector2D(200, 580));
+    player = gbmm->CreateGameBase<Player>(Vector2D(250, 580));
     castle = gbmm->CreateGameBase<Castle>(Vector2D(100, 580));
     bullet_aim = gbmm->CreateGameBase<BulletAim>(Vector2D(100, 580));
 

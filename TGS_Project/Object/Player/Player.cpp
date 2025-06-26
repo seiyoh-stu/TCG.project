@@ -181,9 +181,9 @@ void Player::Movement()
     }
 
     //プレイヤーが歩けるY座標
-    if (location.y < 390.0f)
+    if (location.y < 440.0f)
     {
-        location.y = 390.0f;
+        location.y = 440.0f;
     }
 
     if (location.y > 580.0f)
