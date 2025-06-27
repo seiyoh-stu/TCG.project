@@ -13,6 +13,9 @@ private:
 
 	int bgmHandle;
 
+	int cursorSE;
+	int kakutei;
+
 
 public:
 	Ending();

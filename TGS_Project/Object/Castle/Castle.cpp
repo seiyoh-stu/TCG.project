@@ -30,6 +30,14 @@ void Castle::Initialize()
         ChangeVolumeSoundMem(200, damage_sound_handle);  // 音量200に設定
     }
 
+    // 死亡時の効果音
+    dead_sound_handle = LoadSoundMem("Resource/Sounds/HP0.mp3");
+
+    if (dead_sound_handle != -1)
+    {
+        ChangeVolumeSoundMem(250, dead_sound_handle);
+    }
+
     // 位置、当たり判定など初期値を設定（必要に応じて調整）
     location = { 50, 250 };
     z_layer = 1;
@@ -197,10 +205,30 @@ void Castle::Update(float delta_second)
     {
         pair.second += delta_second;
     }
+
     // クールダウンを進める
     if (damage_cooldown < DAMAGE_INTERVAL)
     {
         damage_cooldown += delta_second;
+    }
+
+    if (pending_destroy)
+    {
+        destroy_timer -= delta_second;
+        if (destroy_timer <= 0.0f)
+        {
+            GameBaseManager::GetInstance()->DestroyGameBase(this);
+        }
+    }
+
+    if (pending_finalize)
+    {
+        finalize_timer -= delta_second;
+        if (finalize_timer <= 0.0f)
+        {
+            GameBaseManager::GetInstance()->DestroyGameBase(this); // このとき Finalize が呼ばれる
+            pending_finalize = false;
+        }
     }
 }
 
@@ -225,10 +253,24 @@ void Castle::OnHitCollision(GameBase* hit_object)
 
             printf("Castle HP: %d\n", hp);
 
-            if (hp <= 0)
+            if (hp <= 0 && !is_dead_)
             {
                 is_dead_ = true;
-                GameBaseManager::GetInstance()->DestroyGameBase(this);
+                pending_destroy = true;
+                destroy_timer = 0.5f;  // 0.5秒後に破棄
+
+                // 死亡音を再生
+                if (dead_sound_handle != -1)
+                {
+                    PlaySoundMem(dead_sound_handle, DX_PLAYTYPE_BACK);
+                }
+
+                // Finalize を遅らせるためにフラグを立てる
+                pending_finalize = true;
+                finalize_timer = 1.0f;  // 1秒後にFinalizeを実行
+
+                // ※ DestroyGameBase(this); は後回しにする（今は呼ばない）
+                //GameBaseManager::GetInstance()->DestroyGameBase(this);
             }
         }
     }
@@ -263,5 +305,10 @@ void Castle::Finalize()
     if (damage_sound_handle != -1)
     {
         DeleteSoundMem(damage_sound_handle);
+    }
+
+    if (dead_sound_handle != -1)
+    {
+        DeleteSoundMem(dead_sound_handle);
     }
 }

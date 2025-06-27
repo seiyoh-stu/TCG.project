@@ -43,20 +43,24 @@ void Result::Initialize()
 	cursor_x = 100;  //カーソルの初期位置
 
 	// BGM 読み込みと再生
-	bgmHandle = LoadSoundMem("Resource/Sounds/オープニング.mp3");
+	bgmHandle = LoadSoundMem("Resource/Sounds/ゲームオーバー.mp3");
 	if (bgmHandle != -1)
 	{
 		PlaySoundMem(bgmHandle, DX_PLAYTYPE_LOOP, TRUE); // ループ再生
-		ChangeVolumeSoundMem(130, bgmHandle);//音源の大きさ
+		ChangeVolumeSoundMem(200, bgmHandle);//音源の大きさ
 	}
 
 	//カーソル移動SE
 	cursorSE = LoadSoundMem("Resource/Sounds/カーソル移動8.mp3");
-	ChangeVolumeSoundMem(250, cursorSE);//音源の大きさ
+	if (cursorSE != -1) {
+		ChangeVolumeSoundMem(250, cursorSE);//音源の大きさ
+	}
 
 	//決定ボタン
 	kakutei = LoadSoundMem("Resource/Sounds/銃声6.mp3");
-	ChangeVolumeSoundMem(300, kakutei);//音源の大きさ
+	if (kakutei != -1) {
+		ChangeVolumeSoundMem(300, kakutei);//音源の大きさ
+	}
 
 
 }
