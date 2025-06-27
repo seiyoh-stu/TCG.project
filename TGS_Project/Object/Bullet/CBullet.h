@@ -45,6 +45,8 @@ private:
     bool move_left_;  // © ’Ç‰ÁA¶Œü‚«‚©‚Ç‚¤‚©
     int damage = 1;
 
+    int bullet_image = -1;         // ’Êí’e‚Ì‰æ‘œiˆê–‡ŠGj
+
     //Player* player;
 };
 
