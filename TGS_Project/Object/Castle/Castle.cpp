@@ -22,7 +22,13 @@ void Castle::Initialize()
 {
     castle_graph = LoadGraph("Resource/Images/tetugousi.png");
 
-    
+    damage_sound_handle = LoadSoundMem("Resource/Sounds/破壊音_短い.mp3");
+
+    // 音量を設定（0～255）
+    if (damage_sound_handle != -1)
+    {
+        ChangeVolumeSoundMem(200, damage_sound_handle);  // 音量200に設定
+    }
 
     // 位置、当たり判定など初期値を設定（必要に応じて調整）
     location = { 50, 250 };
@@ -198,11 +204,6 @@ void Castle::Update(float delta_second)
     }
 }
 
-void Castle::Finalize()
-{
-
-}
-
 void Castle::OnHitCollision(GameBase* hit_object)
 {
 
@@ -216,6 +217,11 @@ void Castle::OnHitCollision(GameBase* hit_object)
         {
             hp -= hit_object->GetAttackPower();
             cooldown = 0.0f;
+
+            if (damage_sound_handle != -1)
+            {
+                PlaySoundMem(damage_sound_handle, DX_PLAYTYPE_BACK);
+            }
 
             printf("Castle HP: %d\n", hp);
 
@@ -250,4 +256,12 @@ void Castle::AddHp(int add)
 {
     hp += add;
     printf("Castle HP: %d\n", hp);
+}
+
+void Castle::Finalize()
+{
+    if (damage_sound_handle != -1)
+    {
+        DeleteSoundMem(damage_sound_handle);
+    }
 }
