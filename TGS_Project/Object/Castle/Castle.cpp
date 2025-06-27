@@ -20,7 +20,7 @@ Castle::~Castle()
 
 void Castle::Initialize()
 {
-    castle_graph = LoadGraph("Resource/Images/tetugousi.png");
+    /*castle_graph = LoadGraph("Resource/Images/tetugousi.png");*/
 
     damage_sound_handle = LoadSoundMem("Resource/Sounds/破壊音_短い.mp3");
 

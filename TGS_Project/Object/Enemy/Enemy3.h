@@ -45,7 +45,7 @@ public:
 	int animation3_count;
 	int zonbi3_image;
 
-	int deathSE = -1;  // Ž€–S‰¹
+	//int deathSE = -1;  // Ž€–S‰¹
 
 
 	bool damage_boost;

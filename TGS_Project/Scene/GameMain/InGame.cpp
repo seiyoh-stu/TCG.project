@@ -72,6 +72,8 @@ void InGame::Initialize()
     reload_image= LoadGraph("Resource/Images/reload.png");
     dansuu_image= LoadGraph("Resource/Images/Magazine.png");
     ticket_image= LoadGraph("Resource/Images/PowerUP.png");
+    castle_graph = LoadGraph("Resource/Images/tetugousi.png");
+    kijyuu_image = LoadGraph("Resource/Images/kijyuu.png");
 
 
     scroll = 0;
@@ -187,8 +189,8 @@ eSceneType InGame::Update(float delta_second)
             wave_wait_start_time = enemy_clear_time;
         }
 
-        // Oキーが押された、または5秒（5000ミリ秒）経過したら次のwaveへ
-        if (input->GetKeyDown(KEY_INPUT_O) || input->GetPadButtonState(PAD_INPUT_LB) == eInputState::ePress || GetNowCount() - enemy_clear_time >= 10000)
+        // OキーかBACKボタンが押された、または5秒（5000ミリ秒）経過したら次のwaveへ
+        if (input->GetKeyDown(KEY_INPUT_O) || input->GetPadButtonState(PAD_INPUT_LTRIGGER) == eInputState::ePress || GetNowCount() - enemy_clear_time >= 10000)
         {
             wave_in_progress = false;  // 次のwaveを起動可能に
             enemy_clear_time = -1;     // リセットして次のwaveに備える
@@ -219,7 +221,7 @@ eSceneType InGame::Update(float delta_second)
     b = true;
 
 	//リロード処理----------------
-    if (input->GetKeyDown(KEY_INPUT_K) || input->GetPadButtonState(PAD_INPUT_LTRIGGER) == eInputState::ePress)
+    if (input->GetKeyDown(KEY_INPUT_K) || input->GetPadButtonState(PAD_INPUT_LB) == eInputState::ePress)
     {
         a = true;
         bullet_magazine = 0;
@@ -381,6 +383,10 @@ void InGame::Draw() const
 {
     DrawRotaGraph(1080 - scroll, 100, 1.5, 0.0, back_image, TRUE);
 
+    DrawRotaGraph(55 - scroll, 435, 0.37, 0.0, castle_graph, TRUE);
+
+    DrawRotaGraph(70 - scroll, 655, 0.25, 0.0, kijyuu_image, TRUE);
+
     Vector2D screen_offset(scroll, 0);
 
     GameBaseManager::GetInstance()->DrawWithOffset(screen_offset);
@@ -520,7 +526,7 @@ void InGame::Draw() const
         int elapsed = GetNowCount() - wave_wait_start_time;
         if (elapsed < WAVE_WAIT_DURATION)
         {
-            const char* wait_msg = "ウェーブ開始まで待つかYボタンで開始";
+            const char* wait_msg = "ウェーブ開始まで待つかBACKボタンで開始";
 
             const int blink_cycle_ms = 600;
             bool should_draw = (GetNowCount() / (blink_cycle_ms / 2)) % 2 == 0;

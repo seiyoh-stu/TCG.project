@@ -42,6 +42,9 @@ private:
     int dansuu_image;
     int ticket_image;
 
+    int castle_graph;
+    int kijyuu_image;
+
 
     bool flip_flag; // 画面反転フラぐ
     int bullet_magazine;
@@ -53,6 +56,9 @@ private:
     bool a;
 
     bool b;
+
+    int enemy_clear_time = -1;       // 敵が全滅した時間を記録
+    bool wave_just_cleared = false;  // Wave終了直後の一時フラグ
 
 
     std::vector<GameBase*> enemy_list;

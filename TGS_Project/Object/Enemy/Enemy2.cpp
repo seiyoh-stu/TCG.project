@@ -69,11 +69,11 @@ void Enemy2::Initialize()
 
 	zonbi_die_index = 4;
 
-	deathSE = LoadSoundMem("Resource/Sounds/ゾンビ2.mp3");
+	/*deathSE = LoadSoundMem("Resource/Sounds/ゾンビ2.mp3");
 	if (deathSE != -1)
 	{
-		ChangeVolumeSoundMem(200, deathSE);
-	}
+		ChangeVolumeSoundMem(250, deathSE);
+	}*/
 }
 
 void Enemy2::Update(float delta_second)
@@ -111,10 +111,10 @@ void Enemy2::Draw(const Vector2D& screen_offset) const
 }
 void Enemy2::Finalize()
 {
-	if (deathSE != -1)
+	/*if (deathSE != -1)
 	{
 		DeleteSoundMem(deathSE);
-	}
+	}*/
 
 }
 
@@ -141,10 +141,10 @@ void Enemy2::OnHitCollision(GameBase* hit_object)
 			ScoreManager::GetInstance()->AddScore(200);
 			// Destroyはアニメ再生終了後に呼ぶ
 			// ここで効果音を鳴らす
-			if (deathSE != -1)
+			/*if (deathSE != -1)
 			{
 				PlaySoundMem(deathSE, DX_PLAYTYPE_BACK);
-			}
+			}*/
 		}
 	}
 	if (hit_object->GetCollision().object_type == eCastle)
