@@ -13,7 +13,7 @@ Help::~Help()
 
 void Help::Initialize()
 {
-    help_Image = LoadGraph("Resource/Images/help3.png");
+    help_Image = LoadGraph("Resource/Images/Help(2).PNG");
 }
 
 eSceneType Help::Update(float delta_second)
