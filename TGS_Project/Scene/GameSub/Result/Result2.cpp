@@ -21,11 +21,20 @@ void Result2::Initialize()
 	cursor_x = 100;  //カーソルの初期位置
 
 	// BGM 読み込みと再生
-	bgmHandle = LoadSoundMem("Resource/Sounds/オープニング.mp3");
+	bgmHandle = LoadSoundMem("Resource/Sounds/Title.mp3");
 	if (bgmHandle != -1)
 	{
 		PlaySoundMem(bgmHandle, DX_PLAYTYPE_LOOP, TRUE); // ループ再生
+		ChangeVolumeSoundMem(200, bgmHandle);
 	}
+	//カーソル移動SE
+	cursorSE = LoadSoundMem("Resource/Sounds/カーソル移動8.mp3");
+	ChangeVolumeSoundMem(250, cursorSE);//音源の大きさ
+
+	//決定ボタン
+	kakutei = LoadSoundMem("Resource/Sounds/銃声6.mp3");
+	ChangeVolumeSoundMem(300, kakutei);//音源の大きさ
+
 }
 
 eSceneType Result2::Update(float delta_second)
@@ -34,23 +43,31 @@ eSceneType Result2::Update(float delta_second)
 	InputControl* input = InputControl::GetInstance();
 
 	// 左入力（キーボード or コントローラー）
-	if (input->GetKeyDown(KEY_INPUT_LEFT) || input->GetPadButtonState(PAD_INPUT_UP) == eInputState::ePress)
+	if (input->GetKeyDown(KEY_INPUT_LEFT) || input->GetPadButtonState(PAD_INPUT_RIGHT) == eInputState::ePress)
 	{
 		cursor_number--;
 		if (cursor_number < 0)
 			cursor_number = 1; // 左からループ
+
+		PlaySoundMem(cursorSE, DX_PLAYTYPE_BACK);//選択SE
+
 	}
 
 	// 右入力（キーボード or コントローラー）
-	if (input->GetKeyDown(KEY_INPUT_RIGHT) || input->GetPadButtonState(PAD_INPUT_DOWN) == eInputState::ePress)
+	if (input->GetKeyDown(KEY_INPUT_RIGHT) || input->GetPadButtonState(PAD_INPUT_LEFT) == eInputState::ePress)
 	{
 		cursor_number++;
 		cursor_number %= 2; // 右からループ
+
+		PlaySoundMem(cursorSE, DX_PLAYTYPE_BACK);//選択SE
+
 	}
 
 	// 決定（スペース or Bボタン）
-	if (input->GetKeyDown(KEY_INPUT_SPACE) || input->GetPadButtonState(PAD_INPUT_RTRIGGER) == eInputState::ePress)
+	if (input->GetKeyDown(KEY_INPUT_SPACE) || input->GetPadButtonState(PAD_INPUT_B) == eInputState::ePress)
 	{
+		PlaySoundMem(kakutei, DX_PLAYTYPE_NORMAL);//決定ボタンSE
+
 		switch (cursor_number)
 		{
 		case 0: return eSceneType::eTitle;
@@ -95,6 +112,9 @@ void Result2::Finalize()
 		StopSoundMem(bgmHandle);
 		DeleteSoundMem(bgmHandle);
 	}
+	DeleteSoundMem(cursorSE);
+	DeleteSoundMem(kakutei);
+
 }
 
 eSceneType Result2::GetNowSceneType() const

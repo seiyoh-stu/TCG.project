@@ -67,7 +67,7 @@ eSceneType Result::Update(float delta_second)
 	InputControl* input = InputControl::GetInstance();
 
 	// 左入力（キーボード or コントローラー）
-	if (input->GetKeyDown(KEY_INPUT_LEFT) || input->GetPadButtonState(PAD_INPUT_UP) == eInputState::ePress)
+	if (input->GetKeyDown(KEY_INPUT_LEFT) || input->GetPadButtonState(PAD_INPUT_RIGHT) == eInputState::ePress)
 	{
 		cursor_number--;
 		if (cursor_number < 0)
@@ -77,7 +77,7 @@ eSceneType Result::Update(float delta_second)
 	}
 
 	// 右入力（キーボード or コントローラー）
-	if (input->GetKeyDown(KEY_INPUT_RIGHT) || input->GetPadButtonState(PAD_INPUT_DOWN) == eInputState::ePress)
+	if (input->GetKeyDown(KEY_INPUT_RIGHT) || input->GetPadButtonState(PAD_INPUT_LEFT) == eInputState::ePress)
 	{
 		cursor_number++;
 		cursor_number %= 2; // 右からループ
@@ -86,7 +86,7 @@ eSceneType Result::Update(float delta_second)
 	}
 
 	// 決定（スペース or Bボタン）
-	if (input->GetKeyDown(KEY_INPUT_SPACE) || input->GetPadButtonState(PAD_INPUT_RTRIGGER) == eInputState::ePress)
+	if (input->GetKeyDown(KEY_INPUT_SPACE) || input->GetPadButtonState(PAD_INPUT_B) == eInputState::ePress)
 	{
 		PlaySoundMem(kakutei, DX_PLAYTYPE_NORMAL);//決定ボタンSE
 
