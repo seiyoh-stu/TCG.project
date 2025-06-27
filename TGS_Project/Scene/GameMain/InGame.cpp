@@ -364,7 +364,7 @@ eSceneType InGame::Update(float delta_second)
         wave_display_start_time = -1;
     }
 
-    // Waveが9になったら終了シーンへ
+    // Wave9が終了でクリアシーンへ
     if (current_wave >= 9 && enemy_list.empty())
     {
         return eSceneType::eEnding;

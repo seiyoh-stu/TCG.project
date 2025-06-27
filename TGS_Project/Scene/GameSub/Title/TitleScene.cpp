@@ -25,16 +25,20 @@ void TitleScene::Initialize()
 	if (bgmHandle != -1)
 	{
 		PlaySoundMem(bgmHandle, DX_PLAYTYPE_LOOP, TRUE); // ループ再生
-		ChangeVolumeSoundMem(130, bgmHandle);
+		ChangeVolumeSoundMem(180, bgmHandle);
 	}
 
 	//カーソル移動SE
 	cursorSE= LoadSoundMem("Resource/Sounds/カーソル移動8.mp3");
-	ChangeVolumeSoundMem(250, cursorSE);
+	if (cursorSE != -1) {
+		ChangeVolumeSoundMem(250, cursorSE);
+	}
 
 	//決定ボタン
 	kakutei= LoadSoundMem("Resource/Sounds/銃声6.mp3");
-	ChangeVolumeSoundMem(300, kakutei);
+	if (kakutei != -1) {
+		ChangeVolumeSoundMem(300, kakutei);
+	}
 }
 
 eSceneType TitleScene::Update(float delta_second)

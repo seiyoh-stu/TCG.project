@@ -25,11 +25,26 @@ void Ending::Initialize()
 
 
 	// BGM 読み込みと再生
-	bgmHandle = LoadSoundMem("Resource/Sounds/オープニング.mp3");
+	bgmHandle = LoadSoundMem("Resource/Sounds/クリア用.mp3");
 	if (bgmHandle != -1)
 	{
+		ChangeVolumeSoundMem(200, bgmHandle); // 音量を200に設定（0?255）
 		PlaySoundMem(bgmHandle, DX_PLAYTYPE_LOOP, TRUE); // ループ再生
 	}
+
+	//カーソル移動SE
+	cursorSE = LoadSoundMem("Resource/Sounds/カーソル移動8.mp3");
+	if (cursorSE != -1) {
+		ChangeVolumeSoundMem(250, cursorSE);//音源の大きさ
+	}
+
+	//決定ボタン
+	kakutei = LoadSoundMem("Resource/Sounds/銃声6.mp3");
+	if (kakutei != -1) {
+		ChangeVolumeSoundMem(300, kakutei);//音源の大きさ
+	}
+
+
 
 	if (EndImageHandle == -1 || End_arrow == -1 || bgmHandle == -1) {
 		printfDx("Endシーンのリソース読み込みに失敗しました\n");
@@ -47,6 +62,8 @@ eSceneType Ending::Update(float delta_second)
 		cursor_number--;
 		if (cursor_number < 0)
 			cursor_number = 1; // 左からループ
+
+		PlaySoundMem(cursorSE, DX_PLAYTYPE_BACK);//選択SE
 	}
 
 	// 右入力（キーボード or コントローラー）
@@ -54,11 +71,15 @@ eSceneType Ending::Update(float delta_second)
 	{
 		cursor_number++;
 		cursor_number %= 2; // 右からループ
+
+		PlaySoundMem(cursorSE, DX_PLAYTYPE_BACK);//選択SE
 	}
 
 	// 決定（スペース or Bボタン）
 	if (input->GetKeyDown(KEY_INPUT_SPACE) || input->GetPadButtonState(PAD_INPUT_RTRIGGER) == eInputState::ePress)
 	{
+		PlaySoundMem(kakutei, DX_PLAYTYPE_NORMAL);//決定ボタンSE
+
 		switch (cursor_number)
 		{
 		case 0: return eSceneType::eTitle;
