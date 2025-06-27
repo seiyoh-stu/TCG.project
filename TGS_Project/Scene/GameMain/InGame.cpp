@@ -77,19 +77,23 @@ void InGame::Initialize()
     scroll = 0;
 
     // BGMの読み込みと再生
-    bgmHandle = LoadSoundMem("Resource/Sounds/InGameBGM.mp3");
+    bgmHandle = LoadSoundMem("Resource/Sounds/バトル.mp3");
     if (bgmHandle != -1)
     {
+        ChangeVolumeSoundMem(150, bgmHandle); // 音量を150（0〜255）に設定（128は中くらい）
         PlaySoundMem(bgmHandle, DX_PLAYTYPE_LOOP, TRUE); // ループ再生
     }
 
     //バレット発射SE
     bullet_Sound= LoadSoundMem("Resource/Sounds/銃声6.mp3");
-    ChangeVolumeSoundMem(150, bullet_Sound);
+    if (bullet_Sound != -1) {
+        ChangeVolumeSoundMem(220, bullet_Sound);  // 音量を200に設定（最大255）
+    }
     //リロードSE
     Reload_Sound= LoadSoundMem("Resource/Sounds/リロード.mp3");
-    ChangeVolumeSoundMem(200, Reload_Sound);
-
+    if (Reload_Sound != -1) {
+        ChangeVolumeSoundMem(240, Reload_Sound);
+    }
 
 
     score = ScoreManager::GetInstance();

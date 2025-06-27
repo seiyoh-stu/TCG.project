@@ -13,6 +13,8 @@ private:
     const int DAMAGE_AMOUNT = 10;       // 1‰ñ‚Ìƒ_ƒ[ƒW—Ê
 
     int castle_graph = -1;
+
+    int damage_sound_handle = -1;
     
 
 public:
