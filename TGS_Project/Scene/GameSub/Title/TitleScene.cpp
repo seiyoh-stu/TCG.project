@@ -45,6 +45,19 @@ eSceneType TitleScene::Update(float delta_second)
 {
     InputControl* input = InputControl::GetInstance();
 
+	// === Help画面表示中は Bボタン or スペースキー 以外を無視 ===
+	if (isHelpDisplayed)
+	{
+		if (input->GetKeyDown(KEY_INPUT_SPACE) || input->GetPadButtonState(PAD_INPUT_B) == eInputState::ePress)
+		{
+			PlaySoundMem(kakutei, DX_PLAYTYPE_NORMAL);
+			isHelpDisplayed = false; // ヘルプを閉じる
+		}
+
+		return eSceneType::eTitle; // 他の入力は無視
+	}
+
+
     // 上入力（キーボード or コントローラー）
     if (input->GetKeyDown(KEY_INPUT_UP) || input->GetPadButtonState(PAD_INPUT_UP) == eInputState::ePress)
     {
