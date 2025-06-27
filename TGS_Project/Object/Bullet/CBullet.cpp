@@ -14,6 +14,9 @@ void CBullet::Initialize()
 {
     // デフォルトの初期化（使用しない場合は削除可）
     Initialize(location, 0, false);
+
+    // 通常弾
+    bullet_image = LoadGraph("Resource/Images/tama.png");
 }
 
 void CBullet::Initialize(const Vector2D& start, const Vector2D& target, bool flip_flag)
@@ -97,12 +100,21 @@ void CBullet::Draw(const Vector2D& screen_offset) const
     int draw_x = location.x /*- screen_offset.x*/;      // 代用案　（バレットがスクロールでもついてくる）
     int draw_y = location.y /*- screen_offset.y*/;
 
-    DrawBox(
+   /* DrawBox(
         draw_x - collision.box_size.x,
         draw_y - collision.box_size.y,
         draw_x + collision.box_size.x,
         draw_y + collision.box_size.y,
         GetColor(255, 255, 0), TRUE
+    );*/
+
+    DrawRotaGraph(
+        draw_x,                 // 中心X
+        draw_y,                 // 中心Y
+        0.35f,                   // 拡大率（必要なら 0.5f など）
+        0.0f,                   // 回転なし
+        bullet_image,           // 弾画像
+        TRUE                    // 透過あり
     );
 }
 
