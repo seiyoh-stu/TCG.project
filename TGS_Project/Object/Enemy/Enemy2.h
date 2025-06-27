@@ -44,6 +44,8 @@ public:
 	int animation2_count;
 	int zonbi2_image;
 
+	int deathSE = -1;  // €–S‰¹
+
 //private:
 	bool damage_boost;
 	bool is_attacking2 = false; // UŒ‚’†ƒtƒ‰ƒO‚ğ’Ç‰Á
