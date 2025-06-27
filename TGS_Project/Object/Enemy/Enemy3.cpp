@@ -4,7 +4,7 @@
 #include"DxLib.h"
 #include "../../Utility/ResourceManager.h"
 
-#define MAX_HP 2
+#define MAX_HP 5
 
 Enemy3::Enemy3() :
 	enemy3_x(650), // ‰ŠúˆÊ’uXÀ•W
