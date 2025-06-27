@@ -14,7 +14,7 @@ void TitleScene::Initialize()
 {
 	titleImageHandle = LoadGraph("Resource/Images/Title_new.png");
 	title_arrow = LoadGraph("Resource/Images/AimMark.png");
-	Helpimage= LoadGraph("Resource/Images/IMG_0915.PNG");
+	Helpimage= LoadGraph("Resource/Images/help3.png");
 	isHelpDisplayed = false;
 
 	cursor_number = 0;
