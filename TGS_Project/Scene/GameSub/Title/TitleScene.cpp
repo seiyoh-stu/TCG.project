@@ -12,7 +12,7 @@ TitleScene::~TitleScene()
 
 void TitleScene::Initialize()
 {
-	titleImageHandle = LoadGraph("Resource/Images/Title2.png");
+	titleImageHandle = LoadGraph("Resource/Images/Title_new.png");
 	title_arrow = LoadGraph("Resource/Images/AimMark.png");
 	Helpimage= LoadGraph("Resource/Images/IMG_0914.PNG");
 	isHelpDisplayed = false;
