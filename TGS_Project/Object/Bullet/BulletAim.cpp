@@ -35,9 +35,9 @@ void BulletAim::Update(float delta_second)
         location.x = 0.0f;
     }
 
-    if (location.x > 1140.0f)
+    if (location.x > 1280.0f)
     {
-        location.x = 1140.0f;
+        location.x = 1280.0f;
     }
 
 
