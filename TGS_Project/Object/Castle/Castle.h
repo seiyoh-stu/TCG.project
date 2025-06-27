@@ -15,14 +15,6 @@ private:
     int castle_graph = -1;
 
     int damage_sound_handle = -1;
-
-    int dead_sound_handle = -1;
-
-    bool pending_destroy = false;
-    float destroy_timer = 0.0f;
-
-    bool pending_finalize = false;
-    float finalize_timer = 0.0f;
     
 
 public:
